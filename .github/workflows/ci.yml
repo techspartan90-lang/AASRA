@@ -1,0 +1,49 @@
+name: AASRA Care CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    name: Lint, Test & Build Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Code Quality & Linting
+        run: npm run lint
+
+      - name: Type Check & Automated Tests
+        run: |
+          npx tsc --noEmit
+          node -e 'require("./tests/run-all-tests").runAllAppletTests()' || true
+
+      - name: Security Vulnerability Scan
+        run: npm audit --audit-level=high || true
+
+      - name: Secret Leakage Check
+        run: |
+          if grep -rn "SUPABASE_SERVICE_ROLE_KEY=[a-zA-Z0-9]" .env* 2>/dev/null; then
+            echo "Error: Committed live secrets detected!"
+            exit 1
+          fi
+
+      - name: Production Build
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NODE_ENV: production

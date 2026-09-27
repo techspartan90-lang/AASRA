@@ -1,0 +1,6 @@
+{
+  "name": "AASRA Care - AI-Assisted Distress Early-Warning System",
+  "description": "Continuous, privacy-conscious mental health monitoring and distress early-warning system for victims of atrocities, assisting authorized counsellors and public welfare officers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
