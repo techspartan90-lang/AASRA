@@ -16,6 +16,7 @@ import { runMultilingualAccessibilityTests } from './multilingual-accessibility.
 import { runProductionBackendSecurityTests } from './production-backend-security.test';
 import { runFastApiAiServiceTests } from './fastapi-ai-service.test';
 import { runNotificationSystemTests } from './notification-system.test';
+import { runUiUxRefinementTests } from './ui-ux-refinement.test';
 
 export async function runAllAppletTests() {
   console.log('================================================================');
@@ -34,6 +35,7 @@ export async function runAllAppletTests() {
   await runProductionBackendSecurityTests();
   runFastApiAiServiceTests();
   await runNotificationSystemTests();
+  runUiUxRefinementTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;

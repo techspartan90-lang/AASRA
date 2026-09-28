@@ -69,7 +69,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
   const currentLangObj = SUPPORTED_LANGUAGES.find(l => l.code === language) || SUPPORTED_LANGUAGES[0];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95 transition-colors">
+    <header className="sticky top-0 z-40 w-full glass-header transition-colors">
       {/* Demonstration Banner */}
       <div className="bg-indigo-50/90 text-indigo-950 dark:bg-slate-950 dark:text-slate-300 px-4 py-1 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-indigo-200/70 dark:border-slate-800 transition-colors">
         <div className="flex items-center gap-2">

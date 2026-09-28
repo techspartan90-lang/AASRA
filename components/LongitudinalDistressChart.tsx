@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { TrendPoint, RiskLevel } from '@/types';
 import { Info, HelpCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { chartTransitionVariants } from '@/lib/design-system';
 
 interface LongitudinalDistressChartProps {
   trendHistory: TrendPoint[];
@@ -110,8 +112,13 @@ export function LongitudinalDistressChart({
         </div>
       </div>
 
-      {/* SVG Chart Container */}
-      <div className="relative rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 overflow-hidden shadow-xs">
+      {/* SVG Chart Container with Smooth Framer Motion Transition */}
+      <motion.div
+        variants={chartTransitionVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 overflow-hidden shadow-xs"
+      >
         {/* Risk Zones Indicators */}
         <div className="absolute right-4 top-4 flex flex-col gap-1 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
           <div className="flex items-center gap-1.5">
@@ -286,7 +293,7 @@ export function LongitudinalDistressChart({
             </button>
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* "Why did the indicator change?" Explanation Panel */}
       <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs">

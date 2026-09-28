@@ -12,6 +12,8 @@ import {
   Clock,
   UserCheck,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { modalBackdropVariants, modalDialogVariants } from '@/lib/design-system';
 
 export function EmergencyModal({ onClose }: { onClose: () => void }) {
   const { cases, submitVictimCheckIn } = useApp();
@@ -33,8 +35,24 @@ export function EmergencyModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4 overflow-y-auto">
-      <div className="relative w-full max-w-xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 space-y-6 animate-in fade-in zoom-in-95">
+    <AnimatePresence>
+      <motion.div
+        variants={modalBackdropVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4 overflow-y-auto"
+        onClick={e => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+      >
+        <motion.div
+          variants={modalDialogVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="relative w-full max-w-xl rounded-3xl glass-modal-panel border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 space-y-6"
+        >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-2.5">
@@ -148,7 +166,8 @@ export function EmergencyModal({ onClose }: { onClose: () => void }) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }

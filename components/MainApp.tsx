@@ -24,6 +24,8 @@ import { MultiChannelCheckInHub } from '@/components/MultiChannelCheckInHub';
 import { DynamicDistressDashboard } from '@/components/DynamicDistressDashboard';
 import { PredictiveRiskDashboard } from '@/components/PredictiveRiskDashboard';
 import { getTextDirection } from '@/lib/i18n-engine';
+import { motion, AnimatePresence } from 'framer-motion';
+import { pageTransitionVariants } from '@/lib/design-system';
 import {
   HeartPulse,
   Home,
@@ -183,73 +185,84 @@ export function MainApp() {
           </div>
         </nav>
 
-        {/* View Router */}
+        {/* View Router with Subtle Framer Motion Page Transitions */}
         <main id="main-content" tabIndex={-1} className="pb-16 outline-hidden">
-          {currentView === 'public' && (
-            <PublicLandingPage
-              onSelectAction={(targetView, targetRole) => {
-                if (targetRole) setRole(targetRole as any);
-                setCurrentView(targetView);
-              }}
-            />
-          )}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentView}
+              variants={pageTransitionVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="w-full"
+            >
+              {currentView === 'public' && (
+                <PublicLandingPage
+                  onSelectAction={(targetView, targetRole) => {
+                    if (targetRole) setRole(targetRole as any);
+                    setCurrentView(targetView);
+                  }}
+                />
+              )}
 
-          {currentView === 'dashboard' && <VictimDashboard />}
+              {currentView === 'dashboard' && <VictimDashboard />}
 
-          {currentView === 'distress_score' && (
-            <DynamicDistressDashboard
-              initialScore={47}
-              initialBaseline={28}
-              onOpenSupportModal={() => setIsEmergencyModalOpen(true)}
-            />
-          )}
+              {currentView === 'distress_score' && (
+                <DynamicDistressDashboard
+                  initialScore={47}
+                  initialBaseline={28}
+                  onOpenSupportModal={() => setIsEmergencyModalOpen(true)}
+                />
+              )}
 
-          {currentView === 'predictive_risk' && (
-            <PredictiveRiskDashboard
-              onOpenCaseworkerModal={() => setIsEmergencyModalOpen(true)}
-            />
-          )}
+              {currentView === 'predictive_risk' && (
+                <PredictiveRiskDashboard
+                  onOpenCaseworkerModal={() => setIsEmergencyModalOpen(true)}
+                />
+              )}
 
-          {currentView === 'checkin_wizard' && (
-            <div className="py-6">
-              <CheckInWizard
-                onComplete={() => setCurrentView('dashboard')}
-                onCancel={() => setCurrentView('dashboard')}
-              />
-            </div>
-          )}
+              {currentView === 'checkin_wizard' && (
+                <div className="py-6">
+                  <CheckInWizard
+                    onComplete={() => setCurrentView('dashboard')}
+                    onCancel={() => setCurrentView('dashboard')}
+                  />
+                </div>
+              )}
 
-          {currentView === 'support' && <VictimDashboard />}
+              {currentView === 'support' && <VictimDashboard />}
 
-          {currentView === 'cases' && (
-            <CounsellorWorkspace
-              onSelectCase={caseId => setActiveCaseModalId(caseId)}
-            />
-          )}
+              {currentView === 'cases' && (
+                <CounsellorWorkspace
+                  onSelectCase={caseId => setActiveCaseModalId(caseId)}
+                />
+              )}
 
-          {currentView === 'alerts' && (
-            <AlertCenter
-              onSelectCase={caseId => setActiveCaseModalId(caseId)}
-            />
-          )}
+              {currentView === 'alerts' && (
+                <AlertCenter
+                  onSelectCase={caseId => setActiveCaseModalId(caseId)}
+                />
+              )}
 
-          {currentView === 'prioritization' && (
-            <PrioritizationQueue
-              onSelectCase={caseId => setActiveCaseModalId(caseId)}
-            />
-          )}
+              {currentView === 'prioritization' && (
+                <PrioritizationQueue
+                  onSelectCase={caseId => setActiveCaseModalId(caseId)}
+                />
+              )}
 
-          {currentView === 'analytics' && (
-            <AdministrativeDashboard
-              onSelectCase={caseId => setActiveCaseModalId(caseId)}
-            />
-          )}
+              {currentView === 'analytics' && (
+                <AdministrativeDashboard
+                  onSelectCase={caseId => setActiveCaseModalId(caseId)}
+                />
+              )}
 
-          {currentView === 'ai_models' && <AiModelEvaluationHub />}
+              {currentView === 'ai_models' && <AiModelEvaluationHub />}
 
-          {currentView === 'channels' && <MultiChannelCheckInHub />}
+              {currentView === 'channels' && <MultiChannelCheckInHub />}
 
-          {currentView === 'privacy' && <PrivacyCenter />}
+              {currentView === 'privacy' && <PrivacyCenter />}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 

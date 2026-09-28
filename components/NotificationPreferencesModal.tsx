@@ -28,6 +28,8 @@ import {
   sanitizeNotificationPreview,
   getNotificationAuditLogs,
 } from '@/lib/notification-engine';
+import { motion, AnimatePresence } from 'framer-motion';
+import { modalBackdropVariants, modalDialogVariants } from '@/lib/design-system';
 
 interface NotificationPreferencesModalProps {
   isOpen: boolean;
@@ -134,13 +136,27 @@ export function NotificationPreferencesModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in">
-      <div
-        className="w-full max-w-3xl max-h-[90vh] flex flex-col bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-headline"
+    <AnimatePresence>
+      <motion.div
+        variants={modalBackdropVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs"
+        onClick={e => {
+          if (e.target === e.currentTarget) onClose();
+        }}
       >
+        <motion.div
+          variants={modalDialogVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="w-full max-w-3xl max-h-[90vh] flex flex-col glass-modal-panel rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/40">
           <div className="flex items-center gap-3">
@@ -472,7 +488,8 @@ export function NotificationPreferencesModal({
             </button>
           </div>
         </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }

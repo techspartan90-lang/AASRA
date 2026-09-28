@@ -23,6 +23,8 @@ import {
   Activity,
   Sparkles,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { modalBackdropVariants, modalDialogVariants } from '@/lib/design-system';
 
 interface CaseProfileModalProps {
   caseId: string;
@@ -81,8 +83,24 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto">
-      <div className="relative w-full max-w-5xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95">
+    <AnimatePresence>
+      <motion.div
+        variants={modalBackdropVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto"
+        onClick={e => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+      >
+        <motion.div
+          variants={modalDialogVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="relative w-full max-w-5xl rounded-3xl glass-modal-panel border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col"
+        >
         {/* Modal Top Header */}
         <div className="px-6 py-4 bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
@@ -460,14 +478,15 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
             Close Profile
           </button>
         </div>
-      </div>
+        </motion.div>
 
-      {isInterventionModalOpen && (
-        <InterventionModal
-          caseId={caseItem.id}
-          onClose={() => setIsInterventionModalOpen(false)}
-        />
-      )}
-    </div>
+        {isInterventionModalOpen && (
+          <InterventionModal
+            caseId={caseItem.id}
+            onClose={() => setIsInterventionModalOpen(false)}
+          />
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 }
