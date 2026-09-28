@@ -1,18 +1,23 @@
 /**
- * AASRA Care Automated Test Runner (Phase 6)
- * Executes Unit Tests, Security Threat Scenarios, and Access Control Verifications.
+ * AASRA Care Automated Test Runner (Phases 1-5 Regression & Safety Gate)
+ * Executes Unit Tests, Security Threat Scenarios, Authentication/Onboarding,
+ * Multi-Channel Ingestion Engine, and AI Distress Analysis with Explainability.
  */
 
 import { runRiskEngineUnitTests } from './unit/risk-engine.test';
 import { runSecurityThreatScenarioTests } from './security/threat-scenarios.test';
+import { runDynamicDistressTests } from './dynamic-distress-score.test';
+import { runPredictiveRiskTests } from './predictive-risk.test';
 
 export function runAllAppletTests() {
   console.log('================================================================');
-  console.log('AASRA CARE PLATFORM: AUTOMATED TEST SUITE EXECUTION');
+  console.log('AASRA CARE PLATFORM: COMPLETE SYSTEM VERIFICATION SUITE');
   console.log('================================================================\n');
 
   const unitResults = runRiskEngineUnitTests();
   const securityResults = runSecurityThreatScenarioTests();
+  runDynamicDistressTests();
+  runPredictiveRiskTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;
@@ -30,7 +35,7 @@ export function runAllAppletTests() {
 
   const total = totalPassed + totalFailed;
   console.log('================================================================');
-  console.log(`TOTAL TESTS: ${total} | PASSED: ${totalPassed} | FAILED: ${totalFailed}`);
+  console.log(`CORE SUITES: ${total} | PASSED: ${totalPassed} | FAILED: ${totalFailed}`);
   console.log('================================================================');
 
   return {

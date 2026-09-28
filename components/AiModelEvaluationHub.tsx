@@ -25,9 +25,10 @@ import {
 } from '@/lib/ai/evaluation';
 import { aiObservability, AIObservabilityMetrics } from '@/lib/ai/observability';
 import { performDataLeakageAudit } from '@/lib/ai/data-leakage-audit';
+import { AiDistressExplainabilityPanel } from '@/components/AiDistressExplainabilityPanel';
 
 export function AiModelEvaluationHub() {
-  const [activeTab, setActiveTab] = useState<'observability' | 'models' | 'leakage' | 'fairness' | 'limitations'>('observability');
+  const [activeTab, setActiveTab] = useState<'explainability' | 'observability' | 'models' | 'leakage' | 'fairness' | 'limitations'>('explainability');
   const [metrics, setMetrics] = useState<AIObservabilityMetrics>(aiObservability.getMetrics());
   const [selectedModelKey, setSelectedModelKey] = useState<string>('logistic');
 
@@ -61,7 +62,17 @@ export function AiModelEvaluationHub() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs shrink-0">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs shrink-0 overflow-x-auto">
+          <button
+            onClick={() => setActiveTab('explainability')}
+            className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
+              activeTab === 'explainability'
+                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
+                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Explainability &amp; Signals
+          </button>
           <button
             onClick={() => setActiveTab('observability')}
             className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
@@ -122,6 +133,13 @@ export function AiModelEvaluationHub() {
           <strong>Non-Diagnostic & Research Prototype Notice:</strong> The models described below operate strictly on synthetic demonstration test cases. They estimate the <em>likelihood of increased distress indicators</em> to assist human triage; they do NOT diagnose PTSD, anxiety, or psychological disorders.
         </div>
       </div>
+
+      {/* TAB 0: EXPLAINABILITY & SIGNALS */}
+      {activeTab === 'explainability' && (
+        <div className="space-y-6 animate-in fade-in">
+          <AiDistressExplainabilityPanel />
+        </div>
+      )}
 
       {/* TAB 1: OBSERVABILITY */}
       {activeTab === 'observability' && (

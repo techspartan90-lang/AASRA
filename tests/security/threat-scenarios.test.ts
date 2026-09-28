@@ -64,7 +64,7 @@ export function runSecurityThreatScenarioTests(): { suite: string; passed: numbe
     assignedCounsellor: 'Dr. Priya Nair',
     district: 'Kamrup Metropolitan',
     state: 'Assam',
-    stage: 'intake',
+    stage: 'complaint',
     registeredDate: '2026-01-01',
     currentScore: 45,
     previousScore: 40,
@@ -87,7 +87,7 @@ export function runSecurityThreatScenarioTests(): { suite: string; passed: numbe
     assignedCounsellor: 'Dr. Suresh Verma', // Different counsellor
     district: 'Jorhat',
     state: 'Assam',
-    stage: 'active_monitoring',
+    stage: 'investigation',
     registeredDate: '2026-01-01',
     currentScore: 71,
     previousScore: 65,

@@ -18,6 +18,11 @@ import { MultilingualVoiceModal } from '@/components/MultilingualVoiceModal';
 import { ReportModal } from '@/components/ReportModal';
 import { GuidedDemoModal } from '@/components/GuidedDemoModal';
 import { CommandPalette } from '@/components/CommandPalette';
+import { SecureLoginModal } from '@/components/SecureLoginModal';
+import { SurvivorOnboardingModal } from '@/components/SurvivorOnboardingModal';
+import { MultiChannelCheckInHub } from '@/components/MultiChannelCheckInHub';
+import { DynamicDistressDashboard } from '@/components/DynamicDistressDashboard';
+import { PredictiveRiskDashboard } from '@/components/PredictiveRiskDashboard';
 import {
   HeartPulse,
   Home,
@@ -35,6 +40,9 @@ import {
   PhoneCall,
   Search,
   Brain,
+  Radio,
+  Activity,
+  TrendingUp,
 } from 'lucide-react';
 
 export function MainApp() {
@@ -51,16 +59,44 @@ export function MainApp() {
     setIsReportModalOpen,
     isDemoModalOpen,
     setIsDemoModalOpen,
+    isLoginModalOpen,
+    setIsLoginModalOpen,
+    isOnboardingModalOpen,
+    setIsOnboardingModalOpen,
+    survivorOnboardingData,
+    setSurvivorOnboardingData,
   } = useApp();
 
   const [currentView, setCurrentView] = useState<string>('public');
   const [activeCaseModalId, setActiveCaseModalId] = useState<string | null>(null);
+
+  const handleLoginSuccess = (user: any, isSurvivor?: boolean) => {
+    if (isSurvivor) {
+      if (!survivorOnboardingData) {
+        setIsOnboardingModalOpen(true);
+      }
+      setCurrentView('dashboard');
+    } else {
+      if (user.role === 'counsellor') {
+        setCurrentView('cases');
+      } else if (user.role === 'district_officer' || user.role === 'state_admin') {
+        setCurrentView('analytics');
+      } else if (user.role === 'national_admin') {
+        setCurrentView('prioritization');
+      } else {
+        setCurrentView('cases');
+      }
+    }
+  };
 
   const isStaffRole = role !== 'victim';
 
   // Victim-specific simple navigation (Section 23)
   const victimNavItems = [
     { id: 'dashboard', label: 'Home', icon: <Home className="w-4 h-4" /> },
+    { id: 'distress_score', label: 'Distress Score', icon: <Activity className="w-4 h-4" /> },
+    { id: 'predictive_risk', label: 'Predictive Trajectory', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'channels', label: 'Multi-Channel Hub', icon: <Radio className="w-4 h-4" /> },
     { id: 'checkin_wizard', label: 'Check-In', icon: <HeartPulse className="w-4 h-4" /> },
     { id: 'support', label: 'Support & Counsellor', icon: <Users className="w-4 h-4" /> },
     { id: 'privacy', label: 'Privacy & Security', icon: <Lock className="w-4 h-4" /> },
@@ -70,6 +106,9 @@ export function MainApp() {
   // Administrative / Caseworker Navigation (Section 23)
   const staffNavItems = [
     { id: 'cases', label: 'Counsellor Workspace', icon: <Users className="w-4 h-4" /> },
+    { id: 'distress_score', label: 'Dynamic Distress Engine', icon: <Activity className="w-4 h-4" /> },
+    { id: 'predictive_risk', label: 'Predictive Risk Hub', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'channels', label: 'Multi-Channel Hub', icon: <Radio className="w-4 h-4" /> },
     { id: 'alerts', label: 'Alert Center', icon: <ShieldAlert className="w-4 h-4" /> },
     { id: 'prioritization', label: 'Prioritization Queue', icon: <Flame className="w-4 h-4" /> },
     { id: 'analytics', label: 'Administrative & Map', icon: <BarChart3 className="w-4 h-4" /> },
@@ -135,6 +174,20 @@ export function MainApp() {
 
           {currentView === 'dashboard' && <VictimDashboard />}
 
+          {currentView === 'distress_score' && (
+            <DynamicDistressDashboard
+              initialScore={47}
+              initialBaseline={28}
+              onOpenSupportModal={() => setIsEmergencyModalOpen(true)}
+            />
+          )}
+
+          {currentView === 'predictive_risk' && (
+            <PredictiveRiskDashboard
+              onOpenCaseworkerModal={() => setIsEmergencyModalOpen(true)}
+            />
+          )}
+
           {currentView === 'checkin_wizard' && (
             <div className="py-6">
               <CheckInWizard
@@ -171,6 +224,8 @@ export function MainApp() {
           )}
 
           {currentView === 'ai_models' && <AiModelEvaluationHub />}
+
+          {currentView === 'channels' && <MultiChannelCheckInHub />}
 
           {currentView === 'privacy' && <PrivacyCenter />}
         </main>
@@ -225,6 +280,23 @@ export function MainApp() {
           onNavigateToView={view => setCurrentView(view)}
         />
       )}
+
+      {/* Secure Authentication Modal */}
+      <SecureLoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSuccess={handleLoginSuccess}
+      />
+
+      {/* Trauma-Informed Survivor Onboarding Modal */}
+      <SurvivorOnboardingModal
+        isOpen={isOnboardingModalOpen}
+        onClose={() => setIsOnboardingModalOpen(false)}
+        onComplete={data => {
+          setSurvivorOnboardingData(data);
+          setCurrentView('dashboard');
+        }}
+      />
 
       <CommandPalette
         onSelectCase={caseId => setActiveCaseModalId(caseId)}

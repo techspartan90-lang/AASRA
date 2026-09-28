@@ -10,6 +10,7 @@ import {
   AuditLogItem,
   UserConsent,
   RiskLevel,
+  SurvivorOnboardingData,
 } from '@/types';
 import {
   INITIAL_CASES,
@@ -69,6 +70,12 @@ interface AppContextType {
   setIsDemoModalOpen: (open: boolean) => void;
   isVoiceAssistantOpen: boolean;
   setIsVoiceAssistantOpen: (open: boolean) => void;
+  isLoginModalOpen: boolean;
+  setIsLoginModalOpen: (open: boolean) => void;
+  isOnboardingModalOpen: boolean;
+  setIsOnboardingModalOpen: (open: boolean) => void;
+  survivorOnboardingData: SurvivorOnboardingData | null;
+  setSurvivorOnboardingData: (data: SurvivorOnboardingData | null) => void;
 
   submitVictimCheckIn: (input: AnalysisInput, targetCaseId?: string) => Promise<AnalysisResult>;
   resolveAlert: (alertId: string, status?: 'reviewed' | 'resolved') => void;
@@ -108,6 +115,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isVoiceAssistantOpen, setIsVoiceAssistantOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isOnboardingModalOpen, setIsOnboardingModalOpen] = useState(false);
+  const [survivorOnboardingData, setSurvivorOnboardingData] = useState<SurvivorOnboardingData | null>(null);
 
   const [demoStep, setDemoStep] = useState(0);
   const [demoActive, setDemoActive] = useState(false);
@@ -141,6 +151,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           if (parsed.notifications && Array.isArray(parsed.notifications)) setNotifications(parsed.notifications);
           if (parsed.auditLogs && Array.isArray(parsed.auditLogs)) setAuditLogs(parsed.auditLogs);
           if (parsed.consent) setConsent(parsed.consent);
+          if (parsed.survivorOnboardingData) setSurvivorOnboardingData(parsed.survivorOnboardingData);
         }
       } catch {
         // ignore JSON parse or storage errors
@@ -169,12 +180,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           theme,
           fontSize,
           language,
+          survivorOnboardingData,
         })
       );
     } catch {
       // storage quota or private browsing
     }
-  }, [isClientHydrated, role, cases, alerts, interventions, notifications, auditLogs, consent, theme, fontSize, language]);
+  }, [isClientHydrated, role, cases, alerts, interventions, notifications, auditLogs, consent, theme, fontSize, language, survivorOnboardingData]);
 
   // Apply theme class and data-theme to document root
   useEffect(() => {
@@ -613,6 +625,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setIsDemoModalOpen,
         isVoiceAssistantOpen,
         setIsVoiceAssistantOpen,
+        isLoginModalOpen,
+        setIsLoginModalOpen,
+        isOnboardingModalOpen,
+        setIsOnboardingModalOpen,
+        survivorOnboardingData,
+        setSurvivorOnboardingData,
         submitVictimCheckIn,
         resolveAlert,
         createIntervention,

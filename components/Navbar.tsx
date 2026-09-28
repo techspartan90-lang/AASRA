@@ -18,6 +18,8 @@ import {
   FileSpreadsheet,
   Play,
   RotateCcw,
+  LogIn,
+  Sparkles,
 } from 'lucide-react';
 import { NotificationDropdown } from '@/components/NotificationDropdown';
 
@@ -47,6 +49,9 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
     setIsReportModalOpen,
     setIsVoiceAssistantOpen,
     setIsDemoModalOpen,
+    setIsLoginModalOpen,
+    setIsOnboardingModalOpen,
+    survivorOnboardingData,
     resetDemoData,
     isClientHydrated,
   } = useApp();
@@ -156,6 +161,29 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
             <span className="hidden sm:inline">24/7 Helpline</span>
             <span className="sm:hidden">Help</span>
           </button>
+
+          {/* Secure Login Modal Trigger */}
+          <button
+            onClick={() => setIsLoginModalOpen(true)}
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 dark:bg-indigo-950/50 dark:text-indigo-200 dark:border-indigo-800 dark:hover:bg-indigo-900/50 transition shadow-xs cursor-pointer"
+            title="Authenticate with Email/Phone and Password or OTP"
+          >
+            <LogIn className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+            <span className="hidden md:inline">Secure Login</span>
+            <span className="md:hidden">Login</span>
+          </button>
+
+          {/* Survivor Onboarding Trigger for Victim role */}
+          {role === 'victim' && (
+            <button
+              onClick={() => setIsOnboardingModalOpen(true)}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition shadow-xs cursor-pointer"
+              title="Configure trauma-informed care & privacy preferences"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>{survivorOnboardingData ? 'Care Preferences' : 'Onboarding'}</span>
+            </button>
+          )}
 
           {/* 2. Role & Persona Switcher with Supabase/Demo Status */}
           <div className="relative">

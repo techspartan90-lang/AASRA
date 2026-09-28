@@ -293,3 +293,71 @@ export interface StateEntity {
   id: string;
   name: string;
 }
+
+export interface SurvivorOnboardingData {
+  consentGranted: boolean;
+  language: string;
+  preferredChannel: 'sms' | 'ivrs' | 'chatbot' | 'app' | 'web';
+  frequency: 'daily' | 'every_few_days' | 'weekly' | 'custom';
+  customFrequencyNote?: string;
+  trustedContact?: {
+    enabled: boolean;
+    name?: string;
+    relationship?: string;
+    phone?: string;
+    triggerCondition?: 'missed_checkins' | 'emergency_only' | 'explicit_confirm';
+  };
+  privacyControls: {
+    collectWellBeingScore: boolean;
+    collectSleepNotes: boolean;
+    collectVoiceAcoustics: boolean;
+    shareWithCounsellor: boolean;
+    shareAnonymizedDistrict: boolean;
+    blockPoliceProsecution: boolean;
+    preferredTime: 'morning' | 'afternoon' | 'evening';
+    discreetMode: boolean;
+  };
+  completedAt: string;
+}
+
+export type CheckInChannel = 'chatbot' | 'ivrs' | 'sms' | 'mobile_app' | 'web_portal';
+
+export interface VoiceResponseMetadata {
+  hasAudio: boolean;
+  durationSeconds?: number;
+  audioFormat?: string;
+  sampleRateHz?: number;
+  acousticFeatures?: {
+    pitchJitter?: number;
+    speechRateWpm?: number;
+    pauseDurationSeconds?: number;
+    intensityVariance?: number;
+  };
+}
+
+export interface EngagementMetadata {
+  latencyMs: number;
+  completionRate: number; // 0.0 to 1.0
+  retryCount?: number;
+  clientVersion: string;
+  deviceType?: string;
+  interactionDurationSeconds?: number;
+}
+
+export interface StandardCheckInRecord {
+  id: string;
+  survivor_id: string;
+  timestamp: string;
+  channel: CheckInChannel;
+  language: string;
+  mood_response: string; // 'Calm' | 'Okay' | 'Worried' | 'Overwhelmed' | 'Need support'
+  text_response?: string;
+  voice_response_metadata?: VoiceResponseMetadata;
+  engagement_metadata: EngagementMetadata;
+  consent_status: boolean;
+  ai_analysis_status: 'pending' | 'completed' | 'flagged' | 'bypassed';
+  distress_indicator: number; // 0-100
+  confidence: number; // 0.0 to 1.0
+  follow_up_status: 'none' | 'scheduled' | 'urgent_review' | 'resolved';
+}
+
