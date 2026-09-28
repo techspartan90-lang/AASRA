@@ -9,6 +9,7 @@ import { runSecurityThreatScenarioTests } from './security/threat-scenarios.test
 import { runDynamicDistressTests } from './dynamic-distress-score.test';
 import { runPredictiveRiskTests } from './predictive-risk.test';
 import { runAlertManagementTests } from './alert-management.test';
+import { runCounsellorWorkbenchTests } from './counsellor-workbench.test';
 
 export function runAllAppletTests() {
   console.log('================================================================');
@@ -20,6 +21,7 @@ export function runAllAppletTests() {
   runDynamicDistressTests();
   runPredictiveRiskTests();
   runAlertManagementTests();
+  runCounsellorWorkbenchTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;
