@@ -11,6 +11,8 @@ import { runPredictiveRiskTests } from './predictive-risk.test';
 import { runAlertManagementTests } from './alert-management.test';
 import { runCounsellorWorkbenchTests } from './counsellor-workbench.test';
 import { runDistrictStateAnalyticsTests } from './district-state-analytics.test';
+import { runPrivacyConsentTests } from './privacy-consent-center.test';
+import { runMultilingualAccessibilityTests } from './multilingual-accessibility.test';
 
 export function runAllAppletTests() {
   console.log('================================================================');
@@ -24,6 +26,8 @@ export function runAllAppletTests() {
   runAlertManagementTests();
   runCounsellorWorkbenchTests();
   runDistrictStateAnalyticsTests();
+  runPrivacyConsentTests();
+  runMultilingualAccessibilityTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;
@@ -58,5 +62,7 @@ if (typeof require !== 'undefined' && require.main === module) {
   const result = runAllAppletTests();
   if (result.totalFailed > 0) {
     process.exit(1);
+  } else {
+    process.exit(0);
   }
 }

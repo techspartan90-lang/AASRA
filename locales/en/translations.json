@@ -1,0 +1,71 @@
+{
+  "locale": "en",
+  "direction": "ltr",
+  "name": "English",
+  "nativeName": "English",
+  "nav": {
+    "home": "Home",
+    "distress_score": "Distress Score",
+    "predictive_risk": "Predictive Trajectory",
+    "channels": "Multi-Channel Hub",
+    "checkin_wizard": "Check-In",
+    "support": "Support & Counsellor",
+    "privacy": "Privacy & Security",
+    "about": "About Platform",
+    "counsellor_workspace": "Counsellor Workspace",
+    "alert_center": "Alert Center",
+    "prioritization": "Prioritization Queue",
+    "administrative_map": "Administrative & Map",
+    "ai_models": "AI & ML Hub",
+    "switch_language": "Change Language"
+  },
+  "checkin": {
+    "title": "How are you feeling today?",
+    "subtitle": "Your responses are confidential and help your counsellor provide timely support.",
+    "calm": "Calm",
+    "okay": "Okay",
+    "worried": "Worried",
+    "overwhelmed": "Overwhelmed",
+    "very_distressed": "Very distressed",
+    "step1_question": "How have you been feeling over the last few days?",
+    "step2_question": "How safe and supported do you feel in your current environment?",
+    "step3_question": "How has your sleep and physical rest been lately?",
+    "step4_question": "Have you been feeling unusually worried or tense?",
+    "step5_question": "Would you like to speak with your assigned counsellor soon?",
+    "speak_prompt": "Speak your response",
+    "read_aloud_prompt": "Read question aloud",
+    "optional_note": "Share anything else you want your care team to know (optional voice or text)",
+    "submit_checkin": "Submit Check-In",
+    "thank_you_title": "Thank you for checking in",
+    "thank_you_message": "Your responses have been recorded safely with complete privacy."
+  },
+  "alerts": {
+    "information": "Information",
+    "attention_required": "Attention Required",
+    "urgent_review": "Urgent Review",
+    "critical_review": "Critical Review",
+    "human_review_notice": "AI-assisted indicator — human review required for consequential action.",
+    "acknowledge": "Acknowledge",
+    "assign": "Assign",
+    "escalate": "Escalate",
+    "resolve": "Resolve",
+    "add_note": "Add Note"
+  },
+  "a11y": {
+    "skip_to_content": "Skip to main content",
+    "select_language": "Select language",
+    "close_dialog": "Close dialog",
+    "toggle_menu": "Toggle navigation menu",
+    "distress_chart_description": "Interactive longitudinal distress indicator chart comparing current score to personal baseline",
+    "emergency_quick_exit": "Emergency Quick Exit to neutral portal",
+    "increase_text_size": "Increase text size",
+    "decrease_text_size": "Decrease text size"
+  },
+  "common": {
+    "app_title": "Manas Suraksha",
+    "app_subtitle": "Continuous Survivor Well-Being & Early Distress Recognition",
+    "legal_notice": "Psychosocial accompaniment platform under Section 15A of the SC/ST (Prevention of Atrocities) Act. Not a psychiatric medical diagnosis.",
+    "privacy_guarantee": "Protected & Confidential Under DPDPA 2023",
+    "emergency_helpline": "24/7 Emergency: 112 | Tele-MANAS: 14416"
+  }
+}

@@ -23,6 +23,7 @@ import { SurvivorOnboardingModal } from '@/components/SurvivorOnboardingModal';
 import { MultiChannelCheckInHub } from '@/components/MultiChannelCheckInHub';
 import { DynamicDistressDashboard } from '@/components/DynamicDistressDashboard';
 import { PredictiveRiskDashboard } from '@/components/PredictiveRiskDashboard';
+import { getTextDirection } from '@/lib/i18n-engine';
 import {
   HeartPulse,
   Home,
@@ -65,10 +66,20 @@ export function MainApp() {
     setIsOnboardingModalOpen,
     survivorOnboardingData,
     setSurvivorOnboardingData,
+    language,
   } = useApp();
 
   const [currentView, setCurrentView] = useState<string>('public');
   const [activeCaseModalId, setActiveCaseModalId] = useState<string | null>(null);
+
+  // Synchronize document direction and lang for RTL support (WCAG 3.1.2)
+  React.useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const dir = getTextDirection(language);
+      document.documentElement.setAttribute('dir', dir);
+      document.documentElement.setAttribute('lang', language);
+    }
+  }, [language]);
 
   const handleLoginSuccess = (user: any, isSurvivor?: boolean) => {
     if (isSurvivor) {
@@ -118,7 +129,18 @@ export function MainApp() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+    <div
+      dir={getTextDirection(language)}
+      className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors"
+    >
+      {/* Skip to Main Content Link (WCAG 2.4.1) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:font-bold focus:rounded-xl focus:shadow-lg focus:outline-hidden"
+      >
+        Skip to main content
+      </a>
+
       {/* Global Accessible Navbar */}
       <Navbar
         onNavigate={view => {
@@ -162,7 +184,7 @@ export function MainApp() {
         </nav>
 
         {/* View Router */}
-        <main className="pb-16">
+        <main id="main-content" tabIndex={-1} className="pb-16 outline-hidden">
           {currentView === 'public' && (
             <PublicLandingPage
               onSelectAction={(targetView, targetRole) => {

@@ -20,8 +20,10 @@ import {
   RotateCcw,
   LogIn,
   Sparkles,
+  Eye,
 } from 'lucide-react';
 import { NotificationDropdown } from '@/components/NotificationDropdown';
+import { AccessibilitySettingsModal } from '@/components/AccessibilitySettingsModal';
 
 const ROLE_LABELS: Record<UserRole, string> = {
   victim: 'Victim / Complainant',
@@ -59,6 +61,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [isFontMenuOpen, setIsFontMenuOpen] = useState(false);
+  const [isA11yModalOpen, setIsA11yModalOpen] = useState(false);
 
   const t = TRANSLATIONS[language] || TRANSLATIONS.en;
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -307,6 +310,18 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
                     </span>
                   </button>
                 ))}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsA11yModalOpen(true);
+                    setIsFontMenuOpen(false);
+                  }}
+                  className="mt-1.5 flex w-full items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 transition cursor-pointer"
+                >
+                  <Eye className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>All Accessibility & Language</span>
+                </button>
               </div>
             )}
           </div>
@@ -375,6 +390,12 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
           </div>
         </div>
       </div>
+
+      {/* Global WCAG 2.2 AA Accessibility Modal */}
+      <AccessibilitySettingsModal
+        isOpen={isA11yModalOpen}
+        onClose={() => setIsA11yModalOpen(false)}
+      />
     </header>
   );
 }
