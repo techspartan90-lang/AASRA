@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '@/lib/store';
-import { Bell, CheckCheck, ExternalLink, ShieldAlert, HeartPulse, Calendar, LifeBuoy } from 'lucide-react';
+import { Bell, CheckCheck, ExternalLink, ShieldAlert, HeartPulse, Calendar, LifeBuoy, Sliders } from 'lucide-react';
+import { NotificationPreferencesModal } from './NotificationPreferencesModal';
 
 export function NotificationDropdown({
   onClose,
@@ -12,6 +13,7 @@ export function NotificationDropdown({
   onSelectCase: (caseId: string) => void;
 }) {
   const { notifications, markNotificationAsRead, markAllNotificationsAsRead, setSelectedCaseId } = useApp();
+  const [isPrefsOpen, setIsPrefsOpen] = useState(false);
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -88,6 +90,23 @@ export function NotificationDropdown({
           ))
         )}
       </div>
+
+      <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+        <span className="text-slate-400">Lock-screen previews sanitized</span>
+        <button
+          onClick={() => setIsPrefsOpen(true)}
+          className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 font-semibold hover:underline"
+        >
+          Notification Preferences →
+        </button>
+      </div>
+
+      {isPrefsOpen && (
+        <NotificationPreferencesModal
+          isOpen={isPrefsOpen}
+          onClose={() => setIsPrefsOpen(false)}
+        />
+      )}
     </div>
   );
 }

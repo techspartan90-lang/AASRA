@@ -15,6 +15,7 @@ import { runPrivacyConsentTests } from './privacy-consent-center.test';
 import { runMultilingualAccessibilityTests } from './multilingual-accessibility.test';
 import { runProductionBackendSecurityTests } from './production-backend-security.test';
 import { runFastApiAiServiceTests } from './fastapi-ai-service.test';
+import { runNotificationSystemTests } from './notification-system.test';
 
 export async function runAllAppletTests() {
   console.log('================================================================');
@@ -32,6 +33,7 @@ export async function runAllAppletTests() {
   runMultilingualAccessibilityTests();
   await runProductionBackendSecurityTests();
   runFastApiAiServiceTests();
+  await runNotificationSystemTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;
