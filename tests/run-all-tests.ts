@@ -8,6 +8,7 @@ import { runRiskEngineUnitTests } from './unit/risk-engine.test';
 import { runSecurityThreatScenarioTests } from './security/threat-scenarios.test';
 import { runDynamicDistressTests } from './dynamic-distress-score.test';
 import { runPredictiveRiskTests } from './predictive-risk.test';
+import { runAlertManagementTests } from './alert-management.test';
 
 export function runAllAppletTests() {
   console.log('================================================================');
@@ -18,6 +19,7 @@ export function runAllAppletTests() {
   const securityResults = runSecurityThreatScenarioTests();
   runDynamicDistressTests();
   runPredictiveRiskTests();
+  runAlertManagementTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;
