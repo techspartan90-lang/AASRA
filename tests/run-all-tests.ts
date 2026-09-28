@@ -10,6 +10,7 @@ import { runDynamicDistressTests } from './dynamic-distress-score.test';
 import { runPredictiveRiskTests } from './predictive-risk.test';
 import { runAlertManagementTests } from './alert-management.test';
 import { runCounsellorWorkbenchTests } from './counsellor-workbench.test';
+import { runDistrictStateAnalyticsTests } from './district-state-analytics.test';
 
 export function runAllAppletTests() {
   console.log('================================================================');
@@ -22,6 +23,7 @@ export function runAllAppletTests() {
   runPredictiveRiskTests();
   runAlertManagementTests();
   runCounsellorWorkbenchTests();
+  runDistrictStateAnalyticsTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;
