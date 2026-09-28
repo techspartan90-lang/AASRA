@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { runAllAppletTests } from '@/tests/run-all-tests';
 
 export async function GET() {
-  const result = runAllAppletTests();
+  const result = await runAllAppletTests();
   return NextResponse.json(
     {
       ...result,

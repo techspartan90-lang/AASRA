@@ -53,26 +53,36 @@ export function AiExplanationPanel({
 
   const getRiskLabel = (level: RiskLevel) => {
     switch (level) {
+      case 'critical':
+        return 'Critical Concern';
       case 'high':
         return 'High Concern';
       case 'elevated':
         return 'Elevated Concern';
+      case 'moderate':
+        return 'Moderate Concern';
       case 'mild':
         return 'Mild Concern';
       case 'stable':
+      default:
         return 'Stable';
     }
   };
 
   const getRiskBadgeColor = (level: RiskLevel) => {
     switch (level) {
+      case 'critical':
+        return 'bg-rose-200 text-rose-900 dark:bg-rose-950 dark:text-rose-200 border-rose-300 dark:border-rose-800';
       case 'high':
         return 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-900';
       case 'elevated':
         return 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-900';
+      case 'moderate':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950/60 dark:text-yellow-300 border-yellow-200 dark:border-yellow-900';
       case 'mild':
         return 'bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300 border-sky-200 dark:border-sky-900';
       case 'stable':
+      default:
         return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900';
     }
   };

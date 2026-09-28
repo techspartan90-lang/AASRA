@@ -13,7 +13,7 @@ export type CaseStage =
   | 'compensation'
   | 'protection';
 
-export type RiskLevel = 'stable' | 'mild' | 'elevated' | 'high';
+export type RiskLevel = 'stable' | 'mild' | 'moderate' | 'elevated' | 'high' | 'critical';
 
 export interface TrendPoint {
   date: string;

@@ -13,8 +13,9 @@ import { runCounsellorWorkbenchTests } from './counsellor-workbench.test';
 import { runDistrictStateAnalyticsTests } from './district-state-analytics.test';
 import { runPrivacyConsentTests } from './privacy-consent-center.test';
 import { runMultilingualAccessibilityTests } from './multilingual-accessibility.test';
+import { runProductionBackendSecurityTests } from './production-backend-security.test';
 
-export function runAllAppletTests() {
+export async function runAllAppletTests() {
   console.log('================================================================');
   console.log('AASRA CARE PLATFORM: COMPLETE SYSTEM VERIFICATION SUITE');
   console.log('================================================================\n');
@@ -28,6 +29,7 @@ export function runAllAppletTests() {
   runDistrictStateAnalyticsTests();
   runPrivacyConsentTests();
   runMultilingualAccessibilityTests();
+  await runProductionBackendSecurityTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;
@@ -59,10 +61,16 @@ export function runAllAppletTests() {
 
 // Allow direct CLI execution via tsx / node if run directly
 if (typeof require !== 'undefined' && require.main === module) {
-  const result = runAllAppletTests();
-  if (result.totalFailed > 0) {
-    process.exit(1);
-  } else {
-    process.exit(0);
-  }
+  runAllAppletTests()
+    .then(result => {
+      if (result.totalFailed > 0) {
+        process.exit(1);
+      } else {
+        process.exit(0);
+      }
+    })
+    .catch(err => {
+      console.error('Test execution failed:', err);
+      process.exit(1);
+    });
 }

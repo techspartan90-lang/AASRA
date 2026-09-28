@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useApp } from '@/lib/store';
-import { CaseRecord } from '@/types';
+import { CaseRecord, RiskLevel } from '@/types';
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -27,8 +27,8 @@ export function PrioritizationQueue({ onSelectCase }: PrioritizationQueueProps) 
 
   // Sort cases by urgency (high first, then elevated, then missed check-ins, then current score)
   const prioritizedCases = [...authorizedCases].sort((a, b) => {
-    const riskWeight = { high: 4, elevated: 3, mild: 2, stable: 1 };
-    const diff = riskWeight[b.riskLevel] - riskWeight[a.riskLevel];
+    const riskWeight: Record<RiskLevel, number> = { critical: 5, high: 4, elevated: 3, moderate: 2.5, mild: 2, stable: 1 };
+    const diff = (riskWeight[b.riskLevel] || 1) - (riskWeight[a.riskLevel] || 1);
     if (diff !== 0) return diff;
     return b.currentScore - a.currentScore;
   });

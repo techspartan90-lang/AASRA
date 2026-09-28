@@ -48,6 +48,15 @@ export interface MultiModalStatus {
 }
 
 export const MULTI_MODAL_RISK_STATES: Record<RiskLevel, MultiModalStatus> = {
+  stable: {
+    level: 'stable',
+    iconSymbol: '🟢',
+    label: 'Low Risk',
+    colorClass: 'text-emerald-700 dark:text-emerald-300',
+    badgeClass: 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-200 dark:border-emerald-800',
+    accessibleDescription: 'Stable operational distress indicator. Normal routine monitoring.',
+    ariaLive: 'polite',
+  },
   mild: {
     level: 'mild',
     iconSymbol: '🟢',
@@ -68,6 +77,15 @@ export const MULTI_MODAL_RISK_STATES: Record<RiskLevel, MultiModalStatus> = {
   },
   elevated: {
     level: 'elevated',
+    iconSymbol: '🟠',
+    label: 'High Risk',
+    colorClass: 'text-orange-700 dark:text-orange-300',
+    badgeClass: 'bg-orange-100 text-orange-900 border-orange-300 dark:bg-orange-950 dark:text-orange-200 dark:border-orange-800',
+    accessibleDescription: 'High distress indicator. Urgent review assigned to counsellor within 24 hours.',
+    ariaLive: 'assertive',
+  },
+  high: {
+    level: 'high',
     iconSymbol: '🟠',
     label: 'High Risk',
     colorClass: 'text-orange-700 dark:text-orange-300',
