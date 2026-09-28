@@ -27,8 +27,7 @@ export function canViewCase(user: AuthUserProfile, caseRecord: CaseRecord): bool
       return (
         !caseRecord.assignedCounsellor ||
         caseRecord.assignedCounsellor.toLowerCase().includes(user.name.toLowerCase()) ||
-        caseRecord.assignedCounsellor.includes('Priya') ||
-        user.role === 'counsellor'
+        caseRecord.assignedCounsellor.includes('Priya')
       );
     case 'district_officer':
       if (user.districtId) {

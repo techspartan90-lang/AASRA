@@ -73,8 +73,22 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Prepare static export
+        run: |
+          if [ -d "app/api" ]; then
+            mv app/api ./_api_temp
+          fi
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: npx next build
+        env:
+          GITHUB_PAGES: "true"
+          NEXT_TELEMETRY_DISABLED: 1
+      - name: Restore API routes
+        if: always()
+        run: |
+          if [ -d "./_api_temp" ]; then
+            mv ./_api_temp app/api
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

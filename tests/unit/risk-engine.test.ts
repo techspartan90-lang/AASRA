@@ -39,14 +39,14 @@ export function runRiskEngineUnitTests(): { suite: string; passed: number; faile
     { score: 57 },
     { score: 71 },
   ]);
-  assert('Ascending scores produce Increasing or Rapidly increasing trend', trajectory.trend.includes('Increasing'));
+  assert('Ascending scores produce Increasing or Rapidly increasing trend', trajectory.trend.toLowerCase().includes('increasing'));
   assert('Escalating scores detect positive velocity', trajectory.velocity > 0);
 
   // 3. Risk Engine deterministic calculation
   const normalCheckIn = DistressRiskEngine.analyzeCheckIn({
-    feelingScore: 2,
-    safetyScore: 2,
-    sleepScore: 2,
+    feelingScore: 4,
+    safetyScore: 4,
+    sleepScore: 4,
     fearScore: 1,
     avoidanceScore: 1,
     requestHelp: false,
@@ -56,9 +56,9 @@ export function runRiskEngineUnitTests(): { suite: string; passed: number; faile
   assert('Low symptom input produces low/medium distress indicator (< 45)', normalCheckIn.indicator < 45);
 
   const elevatedCheckIn = DistressRiskEngine.analyzeCheckIn({
-    feelingScore: 4,
-    safetyScore: 5,
-    sleepScore: 4,
+    feelingScore: 1,
+    safetyScore: 1,
+    sleepScore: 1,
     fearScore: 5,
     avoidanceScore: 4,
     requestHelp: true,
