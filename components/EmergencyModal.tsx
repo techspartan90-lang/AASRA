@@ -45,21 +45,21 @@ export function EmergencyModal({ onClose }: { onClose: () => void }) {
               <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 Immediate Help & Support Directory
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">
                 Non-alarming, triaged contact points for different support needs
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            className="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Clear Distinction Banner (Section 14) */}
-        <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-[11px] text-slate-600 dark:text-slate-300">
+        <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-[11px] text-slate-700 dark:text-slate-300 font-medium">
           The system distinguishes between <strong>Emergency Support</strong> (immediate danger/crisis), <strong>Routine Counselling</strong>, and <strong>Administrative Assistance</strong>.
         </div>
 
@@ -106,9 +106,9 @@ export function EmergencyModal({ onClose }: { onClose: () => void }) {
                   Dedicated Case Worker Contact
                 </h4>
               </div>
-              <span className="text-[10px] text-slate-500">Same-Day Response</span>
+              <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">Same-Day Response</span>
             </div>
-            <p className="text-xs text-slate-600 dark:text-slate-300">
+            <p className="text-xs text-slate-700 dark:text-slate-300 font-medium">
               Assigned Caseworker: <strong>{currentCase.assignedCounsellor}</strong>
             </p>
 
@@ -135,16 +135,16 @@ export function EmergencyModal({ onClose }: { onClose: () => void }) {
                   Administrative / Legal Assistance
                 </h4>
               </div>
-              <span className="text-[10px] text-slate-500">Business Hours</span>
+              <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">Business Hours</span>
             </div>
-            <p className="text-xs text-slate-600 dark:text-slate-400">
+            <p className="text-xs text-slate-700 dark:text-slate-300 font-medium">
               For inquiry regarding victim compensation grants, witness deposition scheduling, or legal aid:
             </p>
             <div className="flex items-center justify-between text-xs pt-1">
-              <span className="text-slate-700 dark:text-slate-300 font-medium">
+              <span className="text-slate-800 dark:text-slate-200 font-medium">
                 District Legal Services Authority (DLSA)
               </span>
-              <span className="font-mono text-slate-500">Helpdesk: 15100</span>
+              <span className="font-mono text-slate-700 dark:text-slate-300 font-semibold">Helpdesk: 15100</span>
             </div>
           </div>
         </div>

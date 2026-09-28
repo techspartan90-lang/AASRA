@@ -176,20 +176,29 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isClientHydrated, role, cases, alerts, interventions, notifications, auditLogs, consent, theme, fontSize, language]);
 
-  // Apply theme class to document
+  // Apply theme class and data-theme to document root
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
+      root.setAttribute('data-theme', 'dark');
     } else if (theme === 'light') {
       root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
     } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (prefersDark) {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const applySystemTheme = () => {
+        if (mediaQuery.matches) {
+          root.classList.add('dark');
+          root.setAttribute('data-theme', 'dark');
+        } else {
+          root.classList.remove('dark');
+          root.setAttribute('data-theme', 'light');
+        }
+      };
+      applySystemTheme();
+      mediaQuery.addEventListener('change', applySystemTheme);
+      return () => mediaQuery.removeEventListener('change', applySystemTheme);
     }
   }, [theme]);
 

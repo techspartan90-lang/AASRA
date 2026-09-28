@@ -68,12 +68,12 @@ export function NotificationDropdown({
                 <div className="mt-0.5 shrink-0">{getIcon(item.type)}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
-                    <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">
+                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
                       {item.title}
                     </p>
-                    <span className="text-[10px] text-slate-400 shrink-0">{item.timestamp}</span>
+                    <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium shrink-0">{item.timestamp}</span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 mt-0.5">
+                  <p className="text-xs text-slate-700 dark:text-slate-300 font-medium line-clamp-2 mt-0.5">
                     {item.message}
                   </p>
                   {item.linkCaseId && (

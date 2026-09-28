@@ -99,12 +99,12 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
                   {caseItem.id}
                 </span>
                 <span className="text-xs text-slate-400">·</span>
-                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Pseudonym: {caseItem.anonymizedCode}
                 </span>
                 {getStageBadge(caseItem.stage)}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
                 {caseItem.district}, {caseItem.state} · Registered {caseItem.registeredDate}
               </p>
             </div>
@@ -116,7 +116,7 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
             {canCreateIntervention(caseItem) && (
               <button
                 onClick={() => setIsInterventionModalOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition cursor-pointer min-h-[36px]"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white text-xs font-semibold transition cursor-pointer min-h-[36px]"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Schedule Intervention</span>
@@ -125,7 +125,7 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-750 transition"
+              className="p-2 rounded-xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-750 transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -136,40 +136,40 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
         <div className="px-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center gap-4 text-xs font-semibold shrink-0">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`py-3 border-b-2 transition ${
+            className={`py-3 border-b-2 transition cursor-pointer ${
               activeTab === 'overview'
-                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
-                : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                ? 'border-indigo-600 text-indigo-700 dark:border-emerald-500 dark:text-emerald-400 font-bold'
+                : 'border-transparent text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             Case Overview & AI Flag
           </button>
           <button
             onClick={() => setActiveTab('trend')}
-            className={`py-3 border-b-2 transition ${
+            className={`py-3 border-b-2 transition cursor-pointer ${
               activeTab === 'trend'
-                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
-                : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                ? 'border-indigo-600 text-indigo-700 dark:border-emerald-500 dark:text-emerald-400 font-bold'
+                : 'border-transparent text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             Longitudinal Distress Chart
           </button>
           <button
             onClick={() => setActiveTab('timeline')}
-            className={`py-3 border-b-2 transition ${
+            className={`py-3 border-b-2 transition cursor-pointer ${
               activeTab === 'timeline'
-                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
-                : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                ? 'border-indigo-600 text-indigo-700 dark:border-emerald-500 dark:text-emerald-400 font-bold'
+                : 'border-transparent text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             Lifecycle Timeline
           </button>
           <button
             onClick={() => setActiveTab('interventions')}
-            className={`py-3 border-b-2 transition ${
+            className={`py-3 border-b-2 transition cursor-pointer ${
               activeTab === 'interventions'
-                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
-                : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                ? 'border-indigo-600 text-indigo-700 dark:border-emerald-500 dark:text-emerald-400 font-bold'
+                : 'border-transparent text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             Intervention History ({caseInterventions.length})
@@ -182,29 +182,29 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
             <div className="space-y-6">
               {/* Case Overview Grid (Section 9) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                  <p className="text-[11px] font-medium text-slate-400">Assigned Caseworker</p>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 shadow-xs">
+                  <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Assigned Caseworker</p>
                   <p className="text-xs font-bold text-slate-900 dark:text-white mt-1 truncate">
                     {caseItem.assignedCounsellor}
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                  <p className="text-[11px] font-medium text-slate-400">Last Well-Being Check-in</p>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 shadow-xs">
+                  <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Last Well-Being Check-in</p>
                   <p className="text-xs font-bold text-slate-900 dark:text-white mt-1">
                     {caseItem.lastCheckInDate}
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                  <p className="text-[11px] font-medium text-slate-400">Next Scheduled Follow-up</p>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 shadow-xs">
+                  <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Next Scheduled Follow-up</p>
                   <p className="text-xs font-bold text-slate-900 dark:text-white mt-1">
                     {caseItem.nextFollowUpDate}
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                  <p className="text-[11px] font-medium text-slate-400">Baseline Score</p>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 shadow-xs">
+                  <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Baseline Score</p>
                   <p className="text-xs font-bold text-slate-900 dark:text-white mt-1">
                     {caseItem.baselineScore}/100 (Intake)
                   </p>
@@ -396,9 +396,9 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
                   No interventions scheduled yet. Click &apos;New Intervention&apos; to schedule support.
                 </div>
               ) : (
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-50 dark:bg-slate-850 text-slate-500 font-semibold border-b border-slate-200 dark:border-slate-800">
+                    <thead className="bg-slate-100 dark:bg-slate-850 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-300 dark:border-slate-800 uppercase tracking-wider">
                       <tr>
                         <th className="py-2.5 px-4">Date</th>
                         <th className="py-2.5 px-4">Category</th>
@@ -408,34 +408,34 @@ export function CaseProfileModal({ caseId, onClose }: CaseProfileModalProps) {
                         <th className="py-2.5 px-4">Outcome</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                       {caseInterventions.map(item => (
                         <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-850/50">
-                          <td className="py-3 px-4 font-mono whitespace-nowrap text-slate-600 dark:text-slate-400">
+                          <td className="py-3 px-4 font-mono whitespace-nowrap font-medium text-slate-800 dark:text-slate-200">
                             {item.scheduledDate}
                           </td>
-                          <td className="py-3 px-4 uppercase font-semibold text-[10px] text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
+                          <td className="py-3 px-4 uppercase font-bold text-[10px] text-indigo-700 dark:text-emerald-400 whitespace-nowrap">
                             {item.category}
                           </td>
                           <td className="py-3 px-4">
-                            <p className="font-semibold text-slate-900 dark:text-white">{item.title}</p>
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400">{item.description}</p>
+                            <p className="font-bold text-slate-900 dark:text-white">{item.title}</p>
+                            <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">{item.description}</p>
                           </td>
-                          <td className="py-3 px-4 whitespace-nowrap text-slate-700 dark:text-slate-300">
+                          <td className="py-3 px-4 whitespace-nowrap font-medium text-slate-800 dark:text-slate-200">
                             {item.assignedProfessional}
                           </td>
                           <td className="py-3 px-4 whitespace-nowrap">
                             <span
-                              className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${
+                              className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                                 item.status === 'completed'
-                                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                                  : 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                                  ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                                  : 'bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-300 border border-sky-200 dark:border-sky-800'
                               }`}
                             >
                               {item.status}
                             </span>
                           </td>
-                          <td className="py-3 px-4 text-[11px] text-slate-600 dark:text-slate-400">
+                          <td className="py-3 px-4 text-[11px] text-slate-700 dark:text-slate-300 font-medium">
                             {item.outcomeNotes || 'Pending'}
                           </td>
                         </tr>

@@ -30,25 +30,25 @@ export function PublicLandingPage({
   return (
     <div className="space-y-16 py-8 sm:py-12">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-linear-to-b from-slate-900 via-slate-850 to-slate-900 text-white p-8 sm:p-14 lg:p-16 shadow-xl border border-slate-800">
-        <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
+      <section className="relative overflow-hidden rounded-3xl bg-linear-to-b from-indigo-50/70 via-white to-slate-50 text-slate-900 dark:from-slate-900 dark:via-slate-850 dark:to-slate-900 dark:text-white p-8 sm:p-14 lg:p-16 shadow-xl border border-slate-200 dark:border-slate-800 transition-colors">
+        <div className="absolute inset-0 bg-[radial-gradient(#4f46e5_1px,transparent_1px)] dark:bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs font-medium text-emerald-300">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-indigo-900 dark:text-emerald-300 shadow-xs">
+            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-emerald-400" />
             <span>National Atrocity Victim Welfare & Support Framework</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
             AI-Assisted Victim Well-Being Monitoring & Early Support
           </h1>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed font-medium">
             Continuous, privacy-conscious monitoring that helps authorized professionals identify changing distress indicators and connect vulnerable individuals with timely human support.
           </p>
 
           {/* Ethical Disclaimer Kicker */}
-          <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/80 max-w-2xl mx-auto text-xs text-slate-300 flex items-center justify-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+          <div className="p-3 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/80 max-w-2xl mx-auto text-xs text-slate-800 dark:text-slate-300 flex items-center justify-center gap-2 shadow-xs font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0" />
             <span>
               <strong>Ethical Safeguard:</strong> This platform is an early-warning screening tool, not a clinical diagnostic replacement. All interventions require authorized human review.
             </span>
@@ -61,7 +61,7 @@ export function PublicLandingPage({
                 setRole('victim');
                 onSelectAction('dashboard');
               }}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-sm transition shadow-lg shadow-emerald-500/20 cursor-pointer min-h-[44px]"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-slate-950 font-semibold text-sm transition shadow-lg shadow-indigo-500/20 dark:shadow-emerald-500/20 cursor-pointer min-h-[44px]"
             >
               <HeartPulse className="w-4 h-4" />
               <span>Access Support Check-In</span>
@@ -73,9 +73,9 @@ export function PublicLandingPage({
                 setRole('counsellor');
                 onSelectAction('counsellor');
               }}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm border border-slate-700 transition cursor-pointer min-h-[44px]"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white dark:border-slate-700 font-semibold text-sm transition cursor-pointer min-h-[44px] shadow-xs"
             >
-              <Users className="w-4 h-4 text-sky-400" />
+              <Users className="w-4 h-4 text-indigo-600 dark:text-sky-400" />
               <span>Authorized Caseworker Login</span>
             </button>
 
@@ -84,7 +84,7 @@ export function PublicLandingPage({
                 const el = document.getElementById('how-it-works');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl text-slate-300 hover:text-white font-medium text-sm transition cursor-pointer min-h-[44px]"
+              className="flex items-center gap-2 px-5 py-3 rounded-xl text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white font-medium text-sm transition cursor-pointer min-h-[44px]"
             >
               <Compass className="w-4 h-4" />
               <span>Learn How It Works</span>
@@ -290,55 +290,55 @@ export function PublicLandingPage({
 
           <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-850 text-slate-600 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800">
+              <thead className="bg-slate-100 dark:bg-slate-850 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-300 dark:border-slate-800">
                 <tr>
                   <th className="py-3.5 px-4 sm:px-6">Dimension</th>
-                  <th className="py-3.5 px-4 sm:px-6 text-slate-500">Traditional Grievance Portal</th>
-                  <th className="py-3.5 px-4 sm:px-6 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold">
+                  <th className="py-3.5 px-4 sm:px-6 text-slate-700 dark:text-slate-300">Traditional Grievance Portal</th>
+                  <th className="py-3.5 px-4 sm:px-6 bg-emerald-500/10 text-emerald-900 dark:text-emerald-300 font-bold">
                     AASRA Care Dynamic Platform
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                 <tr>
-                  <td className="py-3 px-4 sm:px-6 font-semibold text-slate-900 dark:text-white">Engagement Nature</td>
-                  <td className="py-3 px-4 sm:px-6 text-slate-500">Passive: Citizen must initiate and check back</td>
-                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-medium text-emerald-950 dark:text-emerald-200">
+                  <td className="py-3 px-4 sm:px-6 font-bold text-slate-900 dark:text-white">Engagement Nature</td>
+                  <td className="py-3 px-4 sm:px-6 text-slate-700 dark:text-slate-300 font-medium">Passive: Citizen must initiate and check back</td>
+                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-semibold text-emerald-950 dark:text-emerald-200">
                     Proactive: Structured periodic micro check-ins via app, IVRS, and SMS
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3 px-4 sm:px-6 font-semibold text-slate-900 dark:text-white">Focus Area</td>
-                  <td className="py-3 px-4 sm:px-6 text-slate-500">Procedural docket / file movement status</td>
-                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-medium text-emerald-950 dark:text-emerald-200">
+                  <td className="py-3 px-4 sm:px-6 font-bold text-slate-900 dark:text-white">Focus Area</td>
+                  <td className="py-3 px-4 sm:px-6 text-slate-700 dark:text-slate-300 font-medium">Procedural docket / file movement status</td>
+                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-semibold text-emerald-950 dark:text-emerald-200">
                     Human Well-Being: Sleep, perceived safety, acute distress, isolation
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3 px-4 sm:px-6 font-semibold text-slate-900 dark:text-white">Risk Detection</td>
-                  <td className="py-3 px-4 sm:px-6 text-slate-500">Post-facto escalation when crisis has occurred</td>
-                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-medium text-emerald-950 dark:text-emerald-200">
+                  <td className="py-3 px-4 sm:px-6 font-bold text-slate-900 dark:text-white">Risk Detection</td>
+                  <td className="py-3 px-4 sm:px-6 text-slate-700 dark:text-slate-300 font-medium">Post-facto escalation when crisis has occurred</td>
+                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-semibold text-emerald-950 dark:text-emerald-200">
                     Early Warning: Multi-signal trend analysis flagging distress shifts
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3 px-4 sm:px-6 font-semibold text-slate-900 dark:text-white">Accessibility</td>
-                  <td className="py-3 px-4 sm:px-6 text-slate-500">Complex bureaucratic text, English/Hindi only</td>
-                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-medium text-emerald-950 dark:text-emerald-200">
+                  <td className="py-3 px-4 sm:px-6 font-bold text-slate-900 dark:text-white">Accessibility</td>
+                  <td className="py-3 px-4 sm:px-6 text-slate-700 dark:text-slate-300 font-medium">Complex bureaucratic text, English/Hindi only</td>
+                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-semibold text-emerald-950 dark:text-emerald-200">
                     Voice-first, 10 regional languages, 5-point pictorial scale, IVRS call-in
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3 px-4 sm:px-6 font-semibold text-slate-900 dark:text-white">Role of AI</td>
-                  <td className="py-3 px-4 sm:px-6 text-slate-500">Unused or automated canned email responses</td>
-                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-medium text-emerald-950 dark:text-emerald-200">
+                  <td className="py-3 px-4 sm:px-6 font-bold text-slate-900 dark:text-white">Role of AI</td>
+                  <td className="py-3 px-4 sm:px-6 text-slate-700 dark:text-slate-300 font-medium">Unused or automated canned email responses</td>
+                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-semibold text-emerald-950 dark:text-emerald-200">
                     Explainable screening assistant aiding human caseworkers to triage cases
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3 px-4 sm:px-6 font-semibold text-slate-900 dark:text-white">Privacy Safeguards</td>
-                  <td className="py-3 px-4 sm:px-6 text-slate-500">Public rosters often leaking sensitive details</td>
-                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-medium text-emerald-950 dark:text-emerald-200">
+                  <td className="py-3 px-4 sm:px-6 font-bold text-slate-900 dark:text-white">Privacy Safeguards</td>
+                  <td className="py-3 px-4 sm:px-6 text-slate-700 dark:text-slate-300 font-medium">Public rosters often leaking sensitive details</td>
+                  <td className="py-3 px-4 sm:px-6 bg-emerald-500/5 font-semibold text-emerald-950 dark:text-emerald-200">
                     Strict pseudonymization, RBAC, aggregate-only maps, consent controls
                   </td>
                 </tr>
@@ -350,16 +350,16 @@ export function PublicLandingPage({
 
       {/* Privacy & Security Architecture */}
       <section className="max-w-6xl mx-auto px-4">
-        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-white border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="p-8 sm:p-10 rounded-3xl bg-indigo-50/70 dark:bg-slate-900 text-slate-900 dark:text-white border border-indigo-200 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-8 transition-colors shadow-xs">
           <div className="space-y-3 max-w-xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-sky-400 border border-slate-700">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 text-xs font-semibold text-indigo-700 dark:text-sky-400 border border-indigo-200 dark:border-slate-700 shadow-xs">
               <Lock className="w-3.5 h-3.5" />
               <span>Government-Grade Privacy Guarantees</span>
             </div>
-            <h3 className="text-2xl font-bold tracking-tight text-white">
+            <h3 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
               Data Minimization & Pseudonymization
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               Identities are shielded behind encrypted pseudonyms (e.g. BEN-7821). Precise geographic locations and home addresses are never plotted on spatial maps; district dashboards display only privacy-preserving aggregate metrics.
             </p>
           </div>
@@ -367,13 +367,13 @@ export function PublicLandingPage({
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             <button
               onClick={() => onSelectAction('privacy')}
-              className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition cursor-pointer min-h-[44px]"
+              className="px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white text-xs font-semibold dark:border-slate-700 transition cursor-pointer min-h-[44px] shadow-xs"
             >
               Review Privacy Center
             </button>
             <button
               onClick={() => setIsEmergencyModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold transition cursor-pointer min-h-[44px]"
+              className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold transition cursor-pointer min-h-[44px] shadow-xs"
             >
               Emergency Helpline (24/7)
             </button>

@@ -116,14 +116,14 @@ export function GuidedDemoModal({ onClose, onNavigateToView }: GuidedDemoModalPr
               <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 Interactive Guided Demonstration Scenario
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">
                 End-to-End Walkthrough of the 10-Step Distress Early-Warning Lifecycle
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            className="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           >
             <X className="w-5 h-5" />
           </button>
@@ -149,11 +149,11 @@ export function GuidedDemoModal({ onClose, onNavigateToView }: GuidedDemoModalPr
                     <h4 className="text-xs font-bold text-slate-900 dark:text-white">
                       {s.title}
                     </h4>
-                    <span className="text-[10px] font-semibold text-slate-500 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
+                    <span className="text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
                       {s.role}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pl-7">
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed pl-7 font-medium">
                     {s.description}
                   </p>
                 </div>
@@ -181,7 +181,7 @@ export function GuidedDemoModal({ onClose, onNavigateToView }: GuidedDemoModalPr
               resetDemoData();
               setCurrentStepIndex(0);
             }}
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer"
+            className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset Demo to Initial State</span>

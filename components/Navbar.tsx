@@ -63,13 +63,13 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95 transition-colors">
       {/* Demonstration Banner */}
-      <div className="bg-slate-900 px-4 py-1 text-xs text-slate-300 dark:bg-slate-950 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800">
+      <div className="bg-indigo-50/90 text-indigo-950 dark:bg-slate-950 dark:text-slate-300 px-4 py-1 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-indigo-200/70 dark:border-slate-800 transition-colors">
         <div className="flex items-center gap-2">
-          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-semibold tracking-wide text-slate-200">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="font-bold tracking-wide text-indigo-950 dark:text-slate-200">
             Prototype / Demonstration Mode
           </span>
-          <span className="text-slate-400 hidden sm:inline">
+          <span className="text-slate-600 dark:text-slate-400 hidden sm:inline font-medium">
             · All displayed case data is synthetic (Non-clinical screening prototype)
           </span>
         </div>
@@ -77,7 +77,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsDemoModalOpen(true)}
-            className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition"
+            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition shadow-xs cursor-pointer"
           >
             <Play className="w-3 h-3" />
             <span>Interactive Demo Scenario</span>
@@ -86,7 +86,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
           <button
             onClick={resetDemoData}
             title="Reset to default mock state"
-            className="flex items-center gap-1 px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition"
+            className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700 text-xs font-medium transition cursor-pointer"
           >
             <RotateCcw className="w-3 h-3" />
             <span className="hidden md:inline">Reset Data</span>
@@ -99,21 +99,21 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
         <div className="flex items-center gap-3">
           <button
             onClick={() => onNavigate && onNavigate('home')}
-            className="flex items-center gap-2.5 text-left group"
+            className="flex items-center gap-2.5 text-left group cursor-pointer"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800 text-white shadow-sm ring-1 ring-slate-700 group-hover:bg-slate-700 transition">
-              <Shield className="h-5 w-5 text-emerald-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 dark:bg-slate-800 text-white shadow-xs ring-1 ring-indigo-500/30 dark:ring-slate-700 group-hover:bg-indigo-700 dark:group-hover:bg-slate-700 transition">
+              <Shield className="h-5 w-5 text-white dark:text-emerald-400" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-slate-900 dark:text-white tracking-tight">
+                <span className="font-bold text-slate-900 dark:text-white tracking-tight">
                   {t.appTitle}
                 </span>
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-slate-800 text-indigo-700 dark:text-slate-300 border border-indigo-200 dark:border-slate-700">
                   Gov Assist
                 </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-[200px] sm:max-w-xs">
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium truncate max-w-[200px] sm:max-w-xs">
                 {t.appSubtitle}
               </p>
             </div>
@@ -125,11 +125,11 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
           {/* Quick Search trigger */}
           <button
             onClick={() => setIsCommandPaletteOpen(true)}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs text-slate-500 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-750 rounded-lg border border-slate-200 dark:border-slate-700 transition"
+            className="flex items-center gap-2 px-3 py-1.5 text-xs text-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750 rounded-lg border border-slate-300 dark:border-slate-700 transition cursor-pointer"
           >
-            <Search className="w-3.5 h-3.5" />
-            <span>Search cases, districts...</span>
-            <kbd className="ml-2 font-mono text-[10px] bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 text-slate-400">
+            <Search className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+            <span className="font-medium">Search cases, districts...</span>
+            <kbd className="ml-2 font-mono text-[10px] bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold">
               ⌘K
             </kbd>
           </button>
@@ -137,7 +137,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
           {/* Voice First Trigger */}
           <button
             onClick={() => setIsVoiceAssistantOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800/80 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition cursor-pointer"
             title="Multilingual Voice Assistant"
           >
             <Mic className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -145,12 +145,12 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
           </button>
         </div>
 
-        {/* Right Controls - Ordered logically: Action/Tools -> Profile/Role -> Utilities (Language, Font, Theme) -> Alerts */}
+        {/* Right Controls - Ordered logically */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* 1. Emergency Support Trigger */}
           <button
             onClick={() => setIsEmergencyModalOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 rounded-lg hover:bg-rose-100 dark:bg-rose-950/30 dark:text-rose-300 dark:border-rose-900/50 dark:hover:bg-rose-900/40 transition shadow-xs"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-rose-800 bg-rose-50 border border-rose-300 rounded-lg hover:bg-rose-100 dark:bg-rose-950/40 dark:text-rose-200 dark:border-rose-900/60 dark:hover:bg-rose-900/50 transition shadow-xs cursor-pointer"
           >
             <PhoneCall className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
             <span className="hidden sm:inline">24/7 Helpline</span>
@@ -160,38 +160,38 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
           {/* 2. Role & Persona Switcher with Supabase/Demo Status */}
           <div className="relative">
             <label htmlFor="role-select" className="sr-only">Switch Role</label>
-            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-200">
-              <UserCheck className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200">
+              <UserCheck className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400 shrink-0" />
               <div className="flex flex-col text-left">
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-none hidden md:block">
+                <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold leading-none hidden md:block">
                   {currentUser?.name}
                 </span>
                 <select
                   id="role-select"
                   value={role}
                   onChange={e => setRole(e.target.value as UserRole)}
-                  className="bg-transparent font-medium text-xs text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-1"
+                  className="bg-transparent font-bold text-xs text-slate-900 dark:text-slate-100 focus:outline-none cursor-pointer pr-1"
                   title={`Active persona: ${currentUser?.name} (${isSupabaseConfigured ? 'Supabase Live' : 'Demo Memory Backend'})`}
                 >
-                  <option value="victim">{ROLE_LABELS.victim}</option>
-                  <option value="counsellor">{ROLE_LABELS.counsellor}</option>
-                  <option value="district_officer">{ROLE_LABELS.district_officer}</option>
-                  <option value="state_admin">{ROLE_LABELS.state_admin}</option>
-                  <option value="national_admin">{ROLE_LABELS.national_admin}</option>
+                  <option value="victim" className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white">{ROLE_LABELS.victim}</option>
+                  <option value="counsellor" className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white">{ROLE_LABELS.counsellor}</option>
+                  <option value="district_officer" className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white">{ROLE_LABELS.district_officer}</option>
+                  <option value="state_admin" className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white">{ROLE_LABELS.state_admin}</option>
+                  <option value="national_admin" className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white">{ROLE_LABELS.national_admin}</option>
                 </select>
               </div>
               <span
                 className={`hidden lg:inline-block w-2 h-2 rounded-full ${
-                  isSupabaseConfigured ? 'bg-emerald-500' : 'bg-amber-400'
+                  isSupabaseConfigured ? 'bg-emerald-500' : 'bg-amber-500'
                 }`}
                 title={isSupabaseConfigured ? 'Supabase PostgreSQL Connected' : 'High-fidelity Demo Repository'}
               />
             </div>
           </div>
 
-          <div className="h-4 w-px bg-slate-200 dark:bg-slate-750 mx-0.5 hidden sm:block" />
+          <div className="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-0.5 hidden sm:block" />
 
-          {/* 3. Language Selector Dropdown (10 Indian Languages) */}
+          {/* 3. Language Selector Dropdown */}
           <div className="relative">
             <button
               onClick={() => {
@@ -199,19 +199,19 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
                 setIsFontMenuOpen(false);
                 setIsNotifOpen(false);
               }}
-              className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-700 transition"
+              className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg border border-slate-300 dark:border-slate-700 transition cursor-pointer"
               title="Select Language"
               aria-label="Language selection"
             >
-              <span className="font-semibold">{currentLangObj.code.toUpperCase()}</span>
-              <span className="hidden xl:inline text-slate-500 dark:text-slate-400">
+              <span className="font-bold">{currentLangObj.code.toUpperCase()}</span>
+              <span className="hidden xl:inline text-slate-600 dark:text-slate-400 font-medium">
                 ({currentLangObj.nativeName})
               </span>
             </button>
 
             {isLangMenuOpen && (
               <div className="absolute right-0 mt-2 w-56 rounded-xl border border-slate-200 bg-white py-2 shadow-xl dark:border-slate-800 dark:bg-slate-900 z-50 animate-in fade-in slide-in-from-top-2">
-                <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-100 dark:border-slate-800">
+                <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
                   Select Language / ভাষা
                 </div>
                 <div className="max-h-64 overflow-y-auto py-1">
@@ -222,14 +222,14 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
                         setLanguage(lang.code);
                         setIsLangMenuOpen(false);
                       }}
-                      className={`flex w-full items-center justify-between px-3 py-2 text-xs text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition ${
+                      className={`flex w-full items-center justify-between px-3 py-2 text-xs text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer ${
                         language === lang.code
-                          ? 'font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/20'
-                          : 'text-slate-700 dark:text-slate-300'
+                          ? 'font-bold text-indigo-600 dark:text-emerald-400 bg-indigo-50/70 dark:bg-emerald-950/30'
+                          : 'text-slate-800 dark:text-slate-200'
                       }`}
                     >
                       <span>{lang.name}</span>
-                      <span className="text-slate-400 text-[11px]">{lang.nativeName}</span>
+                      <span className="text-slate-500 dark:text-slate-400 text-[11px]">{lang.nativeName}</span>
                     </button>
                   ))}
                 </div>
@@ -245,7 +245,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
                 setIsLangMenuOpen(false);
                 setIsNotifOpen(false);
               }}
-              className="p-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+              className="p-2 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-750 transition cursor-pointer"
               title="Text size & accessibility"
               aria-label="Text size"
             >
@@ -254,7 +254,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
 
             {isFontMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900 z-50">
-                <div className="px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                <div className="px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 border-b border-slate-100 dark:border-slate-800 mb-1">
                   Font Scaling (WCAG)
                 </div>
                 {(['normal', 'large', 'extra-large'] as FontSizeOption[]).map(size => (
@@ -264,10 +264,10 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
                       setFontSize(size);
                       setIsFontMenuOpen(false);
                     }}
-                    className={`flex w-full items-center justify-between px-2.5 py-1.5 rounded-lg text-xs hover:bg-slate-100 dark:hover:bg-slate-800 ${
+                    className={`flex w-full items-center justify-between px-2.5 py-1.5 rounded-lg text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer ${
                       fontSize === size
-                        ? 'font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30'
-                        : 'text-slate-700 dark:text-slate-300'
+                        ? 'font-bold text-indigo-600 dark:text-emerald-400 bg-indigo-50 dark:bg-emerald-950/40'
+                        : 'text-slate-800 dark:text-slate-200 font-medium'
                     }`}
                   >
                     <span>
@@ -283,14 +283,33 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
             )}
           </div>
 
-          {/* 5. Theme Mode Toggle */}
+          {/* 5. Theme Mode Toggle (Light / Dark / System) */}
           <button
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
-            title={`Toggle Theme (Current: ${theme})`}
+            onClick={() => {
+              if (theme === 'light') setTheme('dark');
+              else if (theme === 'dark') setTheme('system');
+              else setTheme('light');
+            }}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg border border-slate-300 dark:border-slate-700 transition cursor-pointer"
+            title={`Current Theme: ${theme.toUpperCase()} (Click to cycle Light → Dark → System)`}
             aria-label="Toggle Theme"
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+            {theme === 'dark' ? (
+              <>
+                <Moon className="w-3.5 h-3.5 text-indigo-400 fill-indigo-400/30" />
+                <span className="hidden sm:inline">Night</span>
+              </>
+            ) : theme === 'light' ? (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-600 fill-amber-500/30" />
+                <span className="hidden sm:inline">Day</span>
+              </>
+            ) : (
+              <>
+                <Sun className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="hidden sm:inline">System</span>
+              </>
+            )}
           </button>
 
           {/* 6. Notification Center Trigger */}
@@ -301,7 +320,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
                 setIsLangMenuOpen(false);
                 setIsFontMenuOpen(false);
               }}
-              className="relative p-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+              className="relative p-2 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-750 transition cursor-pointer"
               title="Notifications"
               aria-label="View notifications"
             >
@@ -309,7 +328,7 @@ export function Navbar({ onNavigate }: { onNavigate?: (view: string) => void }) 
               {isClientHydrated && unreadCount > 0 ? (
                 <span
                   suppressHydrationWarning
-                  className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-600 text-[10px] font-bold text-white"
+                  className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-600 text-[10px] font-bold text-white shadow-xs"
                 >
                   {unreadCount}
                 </span>

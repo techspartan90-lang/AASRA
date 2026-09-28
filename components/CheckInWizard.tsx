@@ -224,7 +224,7 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
                   <span className="text-xs font-semibold text-slate-900 dark:text-white">
                     {opt.label}
                   </span>
-                  <span className="text-[10px] text-slate-400 mt-0.5">{opt.desc}</span>
+                  <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium mt-0.5">{opt.desc}</span>
                 </button>
               ))}
             </div>
@@ -235,7 +235,7 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                   Step 2
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
@@ -244,7 +244,7 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
               </div>
               <button
                 onClick={() => handleReadQuestion(t.step2Question)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
@@ -273,7 +273,7 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
                     <p className="text-sm font-semibold text-slate-900 dark:text-white">
                       {opt.label}
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{opt.sub}</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">{opt.sub}</p>
                   </div>
                   <div
                     className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ml-3 ${

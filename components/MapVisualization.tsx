@@ -41,29 +41,29 @@ export function MapVisualization({
               Zero PII
             </span>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
             Complies with Section 16 safeguards: exact victim coordinates, residence, and GPS trails are strictly redacted. Only district-level administrative counts are displayed.
           </p>
         </div>
 
         {/* View mode toggle */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-850 p-1 rounded-xl text-xs">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-850 p-1 rounded-xl text-xs border border-slate-300 dark:border-slate-700">
           <button
             onClick={() => setViewMode('aggregate')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
               viewMode === 'aggregate'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400'
+                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs border border-slate-200 dark:border-slate-600'
+                : 'text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             Caseload Volume
           </button>
           <button
             onClick={() => setViewMode('risk_density')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
               viewMode === 'risk_density'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400'
+                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs border border-slate-200 dark:border-slate-600'
+                : 'text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             Elevated Risk Density
@@ -144,8 +144,8 @@ export function MapVisualization({
                     y={coords.y + radius + 11}
                     textAnchor="middle"
                     fontSize="9"
-                    fontWeight={isSelected ? 'bold' : 'normal'}
-                    className="fill-slate-600 dark:fill-slate-300 pointer-events-none select-none"
+                    fontWeight="bold"
+                    className="fill-slate-800 dark:fill-slate-200 pointer-events-none select-none"
                   >
                     {dist.district.split(' ')[0]} ({viewMode === 'aggregate' ? dist.activeCases : dist.elevatedRiskCases})
                   </text>
@@ -155,59 +155,59 @@ export function MapVisualization({
           </svg>
 
           {/* Privacy badge pinned on map */}
-          <div className="absolute bottom-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 flex items-center gap-1.5">
-            <EyeOff className="w-3 h-3 text-emerald-500" />
+          <div className="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/90 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-800 text-[10px] text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-1.5 shadow-xs">
+            <EyeOff className="w-3 h-3 text-emerald-600 dark:text-emerald-500" />
             <span>Strict Geo-Fencing: No Street/Home Coordinates</span>
           </div>
         </div>
 
         {/* Selected District Details Card */}
         <div className="space-y-4">
-          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-4">
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-4 shadow-xs">
             <div>
-              <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-indigo-700 dark:text-emerald-400 uppercase tracking-wider">
                 District Overview
               </span>
               <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">
                 {selectedDistrict.district}
               </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
                 State: {selectedDistrict.state}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                <span className="text-[10px] text-slate-400 font-medium">Active Monitored Cases</span>
+              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+                <span className="text-[10px] text-slate-700 dark:text-slate-300 font-semibold">Active Monitored Cases</span>
                 <p className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">
                   {selectedDistrict.activeCases}
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                <span className="text-[10px] text-amber-500 font-medium">Elevated Indicators</span>
-                <p className="text-xl font-bold text-amber-600 dark:text-amber-400 mt-0.5">
+              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+                <span className="text-[10px] text-amber-700 dark:text-amber-400 font-bold">Elevated Indicators</span>
+                <p className="text-xl font-bold text-amber-700 dark:text-amber-400 mt-0.5">
                   {selectedDistrict.elevatedRiskCases}
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                <span className="text-[10px] text-slate-400 font-medium">Active Counsellors</span>
+              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+                <span className="text-[10px] text-slate-700 dark:text-slate-300 font-semibold">Active Counsellors</span>
                 <p className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">
                   {selectedDistrict.counsellorsActive}
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                <span className="text-[10px] text-slate-400 font-medium">Avg Response Time</span>
-                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
+              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+                <span className="text-[10px] text-slate-700 dark:text-slate-300 font-semibold">Avg Response Time</span>
+                <p className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mt-0.5">
                   {selectedDistrict.avgResponseHours}h
                 </p>
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
-              <span className="font-semibold text-slate-900 dark:text-white">Interventions Executed: </span>
+            <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 font-medium">
+              <span className="font-bold text-slate-900 dark:text-white">Interventions Executed: </span>
               {selectedDistrict.interventionsCompleted} welfare & protection actions logged
             </div>
           </div>

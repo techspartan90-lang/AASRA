@@ -73,7 +73,7 @@ export function CommandPalette({ onSelectCase, onNavigate }: CommandPaletteProps
         {/* Results Container */}
         <div className="max-h-80 overflow-y-auto p-2 space-y-1">
           {/* Quick Action Shortcuts */}
-          <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+          <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400">
             System Shortcuts
           </div>
 
@@ -82,13 +82,13 @@ export function CommandPalette({ onSelectCase, onNavigate }: CommandPaletteProps
               setIsCommandPaletteOpen(false);
               setIsVoiceAssistantOpen(true);
             }}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
           >
             <div className="flex items-center gap-2.5">
-              <Mic className="w-4 h-4 text-purple-500" />
+              <Mic className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               <span>Launch Multilingual Voice Assistant (10 Languages)</span>
             </div>
-            <span className="text-[10px] text-slate-400">Audio UI</span>
+            <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">Audio UI</span>
           </button>
 
           <button
@@ -96,13 +96,13 @@ export function CommandPalette({ onSelectCase, onNavigate }: CommandPaletteProps
               setIsCommandPaletteOpen(false);
               setIsEmergencyModalOpen(true);
             }}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
           >
             <div className="flex items-center gap-2.5">
-              <PhoneCall className="w-4 h-4 text-rose-500" />
+              <PhoneCall className="w-4 h-4 text-rose-600 dark:text-rose-400" />
               <span>Access 24/7 Emergency Helplines (112 / Tele-MANAS)</span>
             </div>
-            <span className="text-[10px] text-slate-400">Emergency</span>
+            <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">Emergency</span>
           </button>
 
           <button
@@ -110,17 +110,17 @@ export function CommandPalette({ onSelectCase, onNavigate }: CommandPaletteProps
               setIsCommandPaletteOpen(false);
               setIsReportModalOpen(true);
             }}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
           >
             <div className="flex items-center gap-2.5">
-              <FileText className="w-4 h-4 text-sky-500" />
+              <FileText className="w-4 h-4 text-sky-600 dark:text-sky-400" />
               <span>Generate Periodic Welfare & Audit Report</span>
             </div>
-            <span className="text-[10px] text-slate-400">Reports</span>
+            <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">Reports</span>
           </button>
 
           {/* Cases Results */}
-          <div className="px-3 pt-3 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+          <div className="px-3 pt-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400">
             Cases ({filteredCases.length})
           </div>
 
@@ -139,12 +139,12 @@ export function CommandPalette({ onSelectCase, onNavigate }: CommandPaletteProps
                   <span className="font-mono font-semibold text-slate-900 dark:text-white">
                     {c.id}
                   </span>
-                  <span className="text-[11px] text-slate-400">({c.anonymizedCode})</span>
-                  <span className="text-[10px] font-semibold uppercase px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400">
+                  <span className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">({c.anonymizedCode})</span>
+                  <span className="text-[10px] font-semibold uppercase px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-emerald-700 dark:text-emerald-400">
                     {c.stage}
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-sm">
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium truncate max-w-sm">
                   {c.district} · {c.assignedCounsellor.split(' (')[0]}
                 </p>
               </div>

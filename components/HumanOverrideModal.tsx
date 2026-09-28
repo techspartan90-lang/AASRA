@@ -100,15 +100,15 @@ export function HumanOverrideModal({
         ) : (
           <form onSubmit={handleSubmit} className="p-5 space-y-4">
             <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs space-y-1">
-              <div className="flex items-center justify-between text-slate-500">
+              <div className="flex items-center justify-between text-slate-700 dark:text-slate-300 font-medium">
                 <span>Original Algorithmic Assessment:</span>
                 <span className="font-semibold text-rose-600 dark:text-rose-400">
                   {currentLevel} ({currentScore}/100)
                 </span>
               </div>
-              <div className="flex items-center justify-between text-slate-500">
+              <div className="flex items-center justify-between text-slate-700 dark:text-slate-300 font-medium">
                 <span>Observed Trajectory:</span>
-                <span className="font-semibold text-slate-800 dark:text-slate-200">
+                <span className="font-semibold text-slate-900 dark:text-slate-100">
                   {currentTrajectory}
                 </span>
               </div>
@@ -144,7 +144,7 @@ export function HumanOverrideModal({
               />
             </div>
 
-            <div className="text-[11px] text-slate-500 bg-amber-50/60 dark:bg-amber-950/30 p-2.5 rounded-xl border border-amber-200 dark:border-amber-900/50">
+            <div className="text-[11px] text-slate-700 dark:text-slate-300 bg-amber-50/60 dark:bg-amber-950/30 p-2.5 rounded-xl border border-amber-200 dark:border-amber-900/50">
               <strong>Institutional Principle:</strong> The human caseworker holds final clinical authority. Automated models assist with screening flags; they cannot override human professional discernment.
             </div>
 

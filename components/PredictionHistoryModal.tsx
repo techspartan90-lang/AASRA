@@ -27,7 +27,7 @@ export function PredictionHistoryModal({ caseId, onClose }: PredictionHistoryMod
               <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 Prediction History & Observed Trajectories
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
                 Case {caseId} · Algorithmic Trajectory Validation
               </p>
             </div>
@@ -35,7 +35,7 @@ export function PredictionHistoryModal({ caseId, onClose }: PredictionHistoryMod
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            className="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -43,12 +43,12 @@ export function PredictionHistoryModal({ caseId, onClose }: PredictionHistoryMod
 
         {/* Content list */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 font-medium">
             <strong>Model Verification Audit:</strong> Each historical prediction is compared against the subsequently recorded check-in observation to evaluate trajectory alignment without manipulating historical predictions.
           </div>
 
           {records.length === 0 ? (
-            <p className="text-xs text-slate-400 py-6 text-center">
+            <p className="text-xs text-slate-500 dark:text-slate-400 py-6 text-center">
               No previous automated predictions recorded for this case.
             </p>
           ) : (
@@ -63,7 +63,7 @@ export function PredictionHistoryModal({ caseId, onClose }: PredictionHistoryMod
                       <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
                         {rec.date}
                       </span>
-                      <span className="text-[11px] text-slate-400">
+                      <span className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">
                         Score at Check-in: <strong>{rec.currentIndicator}/100</strong>
                       </span>
                     </div>
@@ -90,19 +90,19 @@ export function PredictionHistoryModal({ caseId, onClose }: PredictionHistoryMod
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                     <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <span className="text-[10px] text-slate-400">Predicted Trajectory</span>
+                      <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">Predicted Trajectory</span>
                       <p className="font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
                         {rec.predictedTrajectory}
                       </p>
                     </div>
                     <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <span className="text-[10px] text-slate-400">Model Confidence</span>
+                      <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">Model Confidence</span>
                       <p className="font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
                         {Math.round(rec.confidence * 100)}% ({rec.uncertainty})
                       </p>
                     </div>
                     <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <span className="text-[10px] text-slate-400">Later Actual Score</span>
+                      <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">Later Actual Score</span>
                       <p className="font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
                         {rec.actualLaterIndicator !== undefined
                           ? `${rec.actualLaterIndicator}/100`
@@ -110,7 +110,7 @@ export function PredictionHistoryModal({ caseId, onClose }: PredictionHistoryMod
                       </p>
                     </div>
                     <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <span className="text-[10px] text-slate-400">Model Version</span>
+                      <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">Model Version</span>
                       <p className="font-semibold text-slate-800 dark:text-slate-200 mt-0.5 font-mono text-[10px]">
                         {rec.modelVersion}
                       </p>
@@ -130,7 +130,7 @@ export function PredictionHistoryModal({ caseId, onClose }: PredictionHistoryMod
 
         {/* Footer */}
         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex items-center justify-between text-xs">
-          <span className="text-slate-500">
+          <span className="text-slate-600 dark:text-slate-400 font-medium">
             Model evaluation and trajectory alignment research records
           </span>
           <button

@@ -91,7 +91,7 @@ export function VictimDashboard() {
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-0.5">
             {t.yourWellBeing}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium mt-1">
             This space is completely private. Only your assigned caseworker and support professionals have access.
           </p>
         </div>
@@ -127,7 +127,7 @@ export function VictimDashboard() {
             {t.howAreYouToday}
           </h2>
 
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium">
             Select the option that best reflects your feelings right now. You can also share details through voice or text.
           </p>
 
@@ -149,10 +149,10 @@ export function VictimDashboard() {
                 <span className="text-3xl mb-1.5 group-hover:scale-110 transition-transform">
                   {item.emoji}
                 </span>
-                <span className="text-xs font-semibold text-slate-900 dark:text-white">
+                <span className="text-xs font-bold text-slate-900 dark:text-white">
                   {item.label}
                 </span>
-                <span className="text-[10px] text-slate-400 mt-0.5">{item.desc}</span>
+                <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium mt-0.5">{item.desc}</span>
               </button>
             ))}
           </div>
@@ -166,7 +166,7 @@ export function VictimDashboard() {
 
           {/* "Tell us more" prompt */}
           <div className="pt-4 border-t border-slate-200/60 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-            <span className="text-slate-500 dark:text-slate-400">
+            <span className="text-slate-700 dark:text-slate-300 font-medium">
               Want to complete the full 7-step check-in or share a voice message?
             </span>
             <button
@@ -183,57 +183,57 @@ export function VictimDashboard() {
       {/* 4 Status Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Check-in status */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
             <span>{t.currentCheckInStatus}</span>
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
           </div>
           <p className="text-base font-bold text-slate-900 dark:text-white">
             Up to Date
           </p>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
             Last logged: {victimCase.lastCheckInDate}
           </p>
         </div>
 
         {/* Next check-in */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
             <span>{t.nextCheckIn}</span>
             <Clock className="w-4 h-4 text-sky-500" />
           </div>
           <p className="text-base font-bold text-slate-900 dark:text-white">
             {victimCase.nextFollowUpDate}
           </p>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
             Routine 3-day well-being pulse
           </p>
         </div>
 
         {/* Support contact */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
             <span>{t.supportContact}</span>
             <UserCheck className="w-4 h-4 text-emerald-500" />
           </div>
           <p className="text-sm font-bold text-slate-900 dark:text-white truncate">
             {victimCase.assignedCounsellor.split(' (')[0]}
           </p>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
             Assigned Welfare Counsellor
           </p>
         </div>
 
         {/* Upcoming Appointment */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
             <span>{t.upcomingAppointment}</span>
             <Calendar className="w-4 h-4 text-purple-500" />
           </div>
           <p className="text-sm font-bold text-slate-900 dark:text-white">
             Sep 28 · 11:00 AM
           </p>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
             Pre-Trial Support Session (Tele)
           </p>
         </div>
@@ -246,7 +246,7 @@ export function VictimDashboard() {
             <h3 className="text-sm font-bold text-slate-900 dark:text-white">
               Need Something From Your Support Team?
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
               One tap informs your caseworker directly without having to make a phone call yourself.
             </p>
           </div>

@@ -102,14 +102,14 @@ export function MultilingualVoiceModal({ onClose }: { onClose: () => void }) {
               <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 Multilingual Voice Assistant
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">
                 Low-literacy voice-first navigation · 10 Indian Regional Languages
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            className="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           >
             <X className="w-5 h-5" />
           </button>
@@ -117,7 +117,7 @@ export function MultilingualVoiceModal({ onClose }: { onClose: () => void }) {
 
         {/* Language selection pills */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+          <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
             Active Language
           </label>
           <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1 bg-slate-50 dark:bg-slate-850 rounded-xl">
