@@ -166,23 +166,23 @@ export function SecureLoginModal({
     >
       <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8 transition-colors">
         {/* Header Bar */}
-        <div className="bg-slate-900 text-white px-6 py-5 flex items-center justify-between">
+        <div className="bg-[#FFF7FA] text-[#111111] dark:bg-[#111116] dark:text-white px-6 py-5 flex items-center justify-between border-b border-[#F1D5DE] dark:border-[#2A2028]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-[#B91C1C] dark:bg-[#EC4899] flex items-center justify-center text-white shadow-xs">
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h2 id="login-modal-title" className="text-base font-bold tracking-tight">
+              <h2 id="login-modal-title" className="text-base font-bold tracking-tight text-[#111111] dark:text-white">
                 Manas Suraksha Access
               </h2>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-[#64748B] dark:text-[#B8B8C2]">
                 Secure, Role-Authenticated Government Welfare Portal
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="w-8 h-8 rounded-full bg-white dark:bg-[#17171D] hover:bg-[#FFF0F5] dark:hover:bg-[#22141F] border border-[#F1D5DE] dark:border-[#2A2028] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
             aria-label="Close authentication modal"
           >
             <X className="w-4 h-4" />

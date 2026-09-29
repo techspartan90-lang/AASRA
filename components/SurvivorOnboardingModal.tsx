@@ -118,16 +118,16 @@ export function SurvivorOnboardingModal({
     >
       <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-6 transition-colors flex flex-col max-h-[92vh]">
         {/* Top Header & Step Progress Bar */}
-        <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between shrink-0">
+        <div className="bg-[#FFF7FA] text-[#111111] dark:bg-[#111116] dark:text-white px-6 py-4 flex items-center justify-between shrink-0 border-b border-[#F1D5DE] dark:border-[#2A2028]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#FCE7F3] text-[#B91C1C] dark:bg-[#2A1522] dark:text-[#F472B6] flex items-center justify-center">
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-xs font-bold text-slate-200">
+              <span className="text-xs font-bold text-[#111111] dark:text-white">
                 Manas Suraksha · Survivor Well-Being Onboarding
               </span>
-              <span className="text-[11px] text-slate-400 block">
+              <span className="text-[11px] text-[#64748B] dark:text-[#8E8E9A] block">
                 Step {currentStep} of {totalSteps}: {
                   currentStep === 1 ? 'Welcome & Sanctuary' :
                   currentStep === 2 ? 'Informed Consent' :
@@ -142,7 +142,7 @@ export function SurvivorOnboardingModal({
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="w-8 h-8 rounded-full bg-white dark:bg-[#17171D] hover:bg-[#FFF0F5] dark:hover:bg-[#22141F] border border-[#F1D5DE] dark:border-[#2A2028] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
             aria-label="Exit onboarding"
           >
             <X className="w-4 h-4" />

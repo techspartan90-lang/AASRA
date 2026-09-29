@@ -2,18 +2,18 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'AASRA Care - AI-Assisted Distress Early-Warning System',
+  title: 'MANAS SURAKSHA - Mind Protection & Distress Early-Warning System',
   description:
     'Continuous, privacy-conscious mental health monitoring and distress early-warning system for victims of atrocities, assisting authorized counsellors and public welfare officers.',
   openGraph: {
-    title: 'AASRA Care - AI-Assisted Distress Early-Warning System',
+    title: 'MANAS SURAKSHA - Mind Protection & Distress Early-Warning System',
     description:
       'Continuous, privacy-conscious mental health monitoring and distress early-warning system for victims of atrocities, assisting authorized counsellors and public welfare officers.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AASRA Care - AI-Assisted Distress Early-Warning System',
+    title: 'MANAS SURAKSHA - Mind Protection & Distress Early-Warning System',
     description:
       'Continuous, privacy-conscious mental health monitoring and distress early-warning system for victims of atrocities, assisting authorized counsellors and public welfare officers.',
   },
@@ -28,15 +28,25 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
             __html: `
               (function() {
                 try {
-                  var saved = localStorage.getItem('aasra_app_state_v1');
-                  var theme = 'light';
-                  if (saved) {
-                    var parsed = JSON.parse(saved);
-                    if (parsed && parsed.theme) {
-                      theme = parsed.theme;
+                  var explicitTheme = localStorage.getItem('manas-suraksha-theme');
+                  var theme = explicitTheme;
+                  if (!theme) {
+                    var saved = localStorage.getItem('aasra_app_state_v1');
+                    if (saved) {
+                      var parsed = JSON.parse(saved);
+                      if (parsed && parsed.theme) {
+                        theme = parsed.theme;
+                      }
                     }
                   }
-                  var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  var isDark = false;
+                  if (theme === 'dark') {
+                    isDark = true;
+                  } else if (theme === 'light') {
+                    isDark = false;
+                  } else {
+                    isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  }
                   if (isDark) {
                     document.documentElement.classList.add('dark');
                     document.documentElement.setAttribute('data-theme', 'dark');
@@ -50,7 +60,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-[#f7f9fc] text-[#172033] antialiased dark:bg-[#0b1220] dark:text-[#f8fafc] transition-colors duration-200">
+      <body className="min-h-screen bg-white text-[#111111] antialiased dark:bg-[#07070A] dark:text-white transition-colors duration-200">
         {children}
       </body>
     </html>

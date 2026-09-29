@@ -342,11 +342,11 @@ export function OfflineBanner() {
   return (
     <div
       role="alert"
-      className="w-full bg-slate-900 text-white px-4 py-2 text-xs flex items-center justify-center gap-2 border-b border-slate-700 shadow-md"
+      className="w-full bg-[#FFF7FA] text-[#111111] dark:bg-[#111116] dark:text-white px-4 py-2 text-xs flex items-center justify-center gap-2 border-b border-[#F1D5DE] dark:border-[#2A2028] shadow-xs"
     >
-      <WifiOff className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+      <WifiOff className="w-3.5 h-3.5 text-[#B91C1C] dark:text-[#F472B6] animate-pulse" />
       <span className="font-bold">Offline Mode:</span>
-      <span className="text-slate-300">
+      <span className="text-[#64748B] dark:text-[#B8B8C2]">
         You are working offline. Your changes are safely cached in encrypted local storage.
       </span>
     </div>

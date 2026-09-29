@@ -138,12 +138,27 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const handle = requestAnimationFrame(() => {
       try {
+        const explicitTheme = localStorage.getItem('manas-suraksha-theme');
         const saved = localStorage.getItem(STORAGE_KEY);
+        let parsed: any = null;
         if (saved) {
-          const parsed = JSON.parse(saved);
+          try {
+            parsed = JSON.parse(saved);
+          } catch {}
+        }
+
+        if (explicitTheme === 'light' || explicitTheme === 'dark') {
+          setThemeState(explicitTheme);
+        } else if (parsed?.theme) {
+          setThemeState(parsed.theme);
+        } else if (typeof window !== 'undefined' && window.matchMedia) {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          setThemeState(prefersDark ? 'dark' : 'light');
+        }
+
+        if (parsed) {
           if (parsed.role) setRoleState(parsed.role);
           if (parsed.language) setLanguage(parsed.language);
-          if (parsed.theme) setThemeState(parsed.theme);
           if (parsed.fontSize) setFontSize(parsed.fontSize);
           if (parsed.cases && Array.isArray(parsed.cases)) setCases(parsed.cases);
           if (parsed.alerts && Array.isArray(parsed.alerts)) setAlerts(parsed.alerts);
@@ -167,6 +182,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isClientHydrated) return;
     try {
+      localStorage.setItem('manas-suraksha-theme', theme === 'dark' ? 'dark' : 'light');
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
@@ -194,9 +210,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (theme === 'dark') {
       root.classList.add('dark');
       root.setAttribute('data-theme', 'dark');
+      try { localStorage.setItem('manas-suraksha-theme', 'dark'); } catch {}
     } else if (theme === 'light') {
       root.classList.remove('dark');
       root.setAttribute('data-theme', 'light');
+      try { localStorage.setItem('manas-suraksha-theme', 'light'); } catch {}
     } else {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const applySystemTheme = () => {

@@ -1524,7 +1524,7 @@ export function VictimDashboard() {
 
             <button
               onClick={() => setIsBreathingOpen(false)}
-              className="w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition cursor-pointer min-h-[44px]"
+              className="w-full py-3 rounded-2xl bg-[#B91C1C] hover:bg-[#991B1B] dark:bg-[#EC4899] dark:hover:bg-[#DB2777] text-white font-bold text-xs transition cursor-pointer min-h-[44px] shadow-xs"
             >
               Finished &amp; Return to Dashboard
             </button>

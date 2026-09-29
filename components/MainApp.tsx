@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '@/lib/store';
-import { Navbar } from '@/components/Navbar';
+import { Sidebar } from '@/components/navigation/Sidebar';
+import { MobileNavigation } from '@/components/navigation/MobileNavigation';
+import { PageHeader } from '@/components/navigation/PageHeader';
 import { PublicLandingPage } from '@/components/PublicLandingPage';
 import { VictimDashboard } from '@/components/VictimDashboard';
 import { CheckInWizard } from '@/components/CheckInWizard';
@@ -27,27 +29,6 @@ import { getTextDirection } from '@/lib/i18n-engine';
 import { motion, AnimatePresence } from 'framer-motion';
 import { pageTransitionVariants } from '@/lib/design-system';
 import { OfflineBanner } from '@/components/ui/StateViews';
-import {
-  HeartPulse,
-  Home,
-  Users,
-  ShieldAlert,
-  BarChart3,
-  Lock,
-  Flame,
-  CheckCircle,
-  HelpCircle,
-  MessageSquare,
-  Globe2,
-  Calendar,
-  Sparkles,
-  PhoneCall,
-  Search,
-  Brain,
-  Radio,
-  Activity,
-  TrendingUp,
-} from 'lucide-react';
 
 export function MainApp() {
   const {
@@ -74,9 +55,48 @@ export function MainApp() {
 
   const [currentView, setCurrentView] = useState<string>('public');
   const [activeCaseModalId, setActiveCaseModalId] = useState<string | null>(null);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+
+  // Initialize sidebar collapsed state from localStorage & screen size safely on mount
+  useEffect(() => {
+    const handle = requestAnimationFrame(() => {
+      try {
+        const savedCollapsed = localStorage.getItem('manas-suraksha-sidebar-collapsed');
+        if (savedCollapsed !== null) {
+          setIsSidebarCollapsed(savedCollapsed === 'true');
+        } else if (typeof window !== 'undefined') {
+          // Default to collapsed on tablet screens (< 1024px)
+          setIsSidebarCollapsed(window.innerWidth < 1024);
+        }
+      } catch {}
+    });
+    return () => cancelAnimationFrame(handle);
+  }, []);
+
+  const handleToggleSidebar = () => {
+    setIsSidebarCollapsed(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('manas-suraksha-sidebar-collapsed', String(next));
+      } catch {}
+      return next;
+    });
+  };
+
+  // Keyboard shortcut Ctrl+[ to toggle sidebar collapse
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === '[') {
+        e.preventDefault();
+        handleToggleSidebar();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Synchronize document direction and lang for RTL support (WCAG 3.1.2)
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof document !== 'undefined') {
       const dir = getTextDirection(language);
       document.documentElement.setAttribute('dir', dir);
@@ -103,43 +123,23 @@ export function MainApp() {
     }
   };
 
-  const isStaffRole = role !== 'victim';
-
-  // Victim-specific simple navigation (Section 23)
-  const victimNavItems = [
-    { id: 'dashboard', label: 'Home', icon: <Home className="w-4 h-4" /> },
-    { id: 'distress_score', label: 'Distress Score', icon: <Activity className="w-4 h-4" /> },
-    { id: 'predictive_risk', label: 'Predictive Trajectory', icon: <TrendingUp className="w-4 h-4" /> },
-    { id: 'channels', label: 'Multi-Channel Hub', icon: <Radio className="w-4 h-4" /> },
-    { id: 'checkin_wizard', label: 'Check-In', icon: <HeartPulse className="w-4 h-4" /> },
-    { id: 'support', label: 'Support & Counsellor', icon: <Users className="w-4 h-4" /> },
-    { id: 'privacy', label: 'Privacy & Security', icon: <Lock className="w-4 h-4" /> },
-    { id: 'public', label: 'About Platform', icon: <HelpCircle className="w-4 h-4" /> },
-  ];
-
-  // Administrative / Caseworker Navigation (Section 23)
-  const staffNavItems = [
-    { id: 'cases', label: 'Counsellor Workspace', icon: <Users className="w-4 h-4" /> },
-    { id: 'distress_score', label: 'Dynamic Distress Engine', icon: <Activity className="w-4 h-4" /> },
-    { id: 'predictive_risk', label: 'Predictive Risk Hub', icon: <TrendingUp className="w-4 h-4" /> },
-    { id: 'channels', label: 'Multi-Channel Hub', icon: <Radio className="w-4 h-4" /> },
-    { id: 'alerts', label: 'Alert Center', icon: <ShieldAlert className="w-4 h-4" /> },
-    { id: 'prioritization', label: 'Prioritization Queue', icon: <Flame className="w-4 h-4" /> },
-    { id: 'analytics', label: 'Administrative & Map', icon: <BarChart3 className="w-4 h-4" /> },
-    { id: 'ai_models', label: 'AI & ML Hub', icon: <Brain className="w-4 h-4" /> },
-    { id: 'privacy', label: 'Privacy & Audit Logs', icon: <Lock className="w-4 h-4" /> },
-    { id: 'public', label: 'Public Portal', icon: <Globe2 className="w-4 h-4" /> },
-  ];
+  const handleNavigate = (viewId: string) => {
+    if (viewId === 'home') {
+      setCurrentView('public');
+    } else {
+      setCurrentView(viewId);
+    }
+  };
 
   return (
     <div
       dir={getTextDirection(language)}
-      className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors"
+      className="min-h-screen flex flex-col bg-white dark:bg-[#07070A] text-[#111111] dark:text-white transition-colors duration-200"
     >
       {/* Skip to Main Content Link (WCAG 2.4.1) */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:font-bold focus:rounded-xl focus:shadow-lg focus:outline-hidden"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#B91C1C] focus:text-white focus:font-bold focus:rounded-xl focus:shadow-lg focus:outline-hidden"
       >
         Skip to main content
       </a>
@@ -147,58 +147,47 @@ export function MainApp() {
       {/* Non-intrusive Offline Notification Banner */}
       <OfflineBanner />
 
-      {/* Global Accessible Navbar */}
-      <Navbar
-        onNavigate={view => {
-          if (view === 'home') setCurrentView('public');
-          else if (view === 'cases') setCurrentView('cases');
-          else setCurrentView(view);
-        }}
+      {/* =======================================================================
+          DESKTOP & TABLET VERTICAL LUXURY SIDEBAR (md+)
+         ======================================================================= */}
+      <div className="hidden md:block">
+        <Sidebar
+          currentView={currentView}
+          onNavigate={handleNavigate}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={handleToggleSidebar}
+        />
+      </div>
+
+      {/* =======================================================================
+          MOBILE TOP BAR & DRAWER (< md)
+         ======================================================================= */}
+      <MobileNavigation
+        currentView={currentView}
+        onNavigate={handleNavigate}
       />
 
-      {/* Main Body with Role-Sensitive Secondary Nav */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Navigation Bar for Active Role */}
-        <nav
-          aria-label="Role Viewport Navigation"
-          className="flex items-center justify-between overflow-x-auto pb-1 border-b border-slate-200 dark:border-slate-800 scrollbar-none"
-        >
-          <div className="flex items-center gap-1 sm:gap-2">
-            {(isStaffRole ? staffNavItems : victimNavItems).map(item => (
-              <button
-                key={item.id}
-                onClick={() => setCurrentView(item.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition cursor-pointer min-h-[40px] ${
-                  currentView === item.id
-                    ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs font-bold dark:bg-slate-800 dark:text-emerald-400 dark:border-slate-700'
-                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60 font-semibold'
-                }`}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Quick Context pill & Demo Mode Trigger */}
-          <div className="hidden md:flex items-center gap-2.5 text-xs font-medium text-slate-600 dark:text-slate-400">
-            <button
-              onClick={() => setIsDemoModalOpen(true)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/60 dark:hover:bg-amber-900/60 text-amber-900 dark:text-amber-200 font-bold border border-amber-300 dark:border-amber-800 transition cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span>Demo Mode (6 Scenarios)</span>
-            </button>
-            <span className="text-slate-300 dark:text-slate-700">|</span>
-            <span>Viewing as:</span>
-            <span className="font-bold text-slate-900 dark:text-white capitalize">
-              {role.replace('_', ' ')}
-            </span>
-          </div>
-        </nav>
+      {/* =======================================================================
+          MAIN WORKSPACE LAYOUT (Accounting for dynamic Sidebar width)
+         ======================================================================= */}
+      <div
+        className={`flex-1 flex flex-col min-h-screen transition-[padding] duration-300 ease-in-out ${
+          isSidebarCollapsed ? 'md:pl-[76px]' : 'md:pl-[272px]'
+        }`}
+      >
+        {/* Lightweight Page Top Header */}
+        <PageHeader
+          currentView={currentView}
+          onNavigate={handleNavigate}
+          onSelectCase={caseId => setActiveCaseModalId(caseId)}
+        />
 
         {/* View Router with Subtle Framer Motion Page Transitions */}
-        <main id="main-content" tabIndex={-1} className="pb-16 outline-hidden">
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="flex-1 w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-6 outline-hidden"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentView}
@@ -276,32 +265,37 @@ export function MainApp() {
             </motion.div>
           </AnimatePresence>
         </main>
+
+        {/* Luxury Healthcare Statutory Footer */}
+        <footer className="mt-auto border-t border-[#F1D5DE] dark:border-[#2A2028] bg-[#FFF7FA] dark:bg-[#0B0B0F] py-5 text-xs text-[#64748B] dark:text-[#B8B8C2]">
+          <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#B91C1C] dark:bg-[#EC4899]" />
+              <span className="font-bold text-[#111111] dark:text-white">
+                MANAS SURAKSHA
+              </span>
+              <span className="text-[#64748B] dark:text-[#8E8E9A]">
+                · National Distress Early-Warning & Victim Mental Health Platform
+              </span>
+            </div>
+
+            <div className="flex items-center gap-4 text-[11px] text-[#64748B] dark:text-[#8E8E9A]">
+              <span>SC/ST PoA Act §15A & DPDPA 2023 End-to-End Encryption</span>
+              <button
+                type="button"
+                onClick={() => setIsEmergencyModalOpen(true)}
+                className="text-[#B91C1C] dark:text-[#F472B6] hover:underline font-bold"
+              >
+                24/7 National Emergency (112)
+              </button>
+            </div>
+          </div>
+        </footer>
       </div>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-xs text-slate-600 dark:text-slate-400 font-medium">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span className="font-bold text-slate-900 dark:text-slate-200">
-              AASRA Care Prototype
-            </span>
-            <span className="text-slate-600 dark:text-slate-400">· National Atrocity Victim Mental Health & Distress Early Support Platform</span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-slate-600 dark:text-slate-400">
-            <span>Secured with Role-Based Encryption & Audit Trail</span>
-            <button
-              onClick={() => setIsEmergencyModalOpen(true)}
-              className="text-rose-600 dark:text-rose-400 hover:underline font-bold"
-            >
-              24/7 National Emergency (112)
-            </button>
-          </div>
-        </div>
-      </footer>
-
-      {/* Global Modals */}
+      {/* =======================================================================
+          GLOBAL APPLICATION MODALS (All Preserved)
+         ======================================================================= */}
       {activeCaseModalId && (
         <CaseProfileModal
           caseId={activeCaseModalId}
@@ -345,6 +339,7 @@ export function MainApp() {
         }}
       />
 
+      {/* Accessible Command Palette (⌘K) */}
       <CommandPalette
         onSelectCase={caseId => setActiveCaseModalId(caseId)}
         onNavigate={view => setCurrentView(view)}
