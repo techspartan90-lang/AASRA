@@ -156,8 +156,8 @@ export function ErrorState({
   onRetry,
   onGoHome,
 }: ErrorStateProps) {
-  // Generate random sanitized error reference if none provided
-  const refId = errorReferenceId || `ERR-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+  const generatedId = React.useId().replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 6);
+  const refId = errorReferenceId || `ERR-${generatedId || 'SEC404'}`;
 
   return (
     <div
@@ -313,28 +313,29 @@ export function OfflineState({ onRetry, cachedItemsCount = 0 }: OfflineStateProp
   );
 }
 
+function subscribeOnlineStatus(callback: () => void) {
+  if (typeof window === 'undefined') return () => {};
+  window.addEventListener('online', callback);
+  window.addEventListener('offline', callback);
+  return () => {
+    window.removeEventListener('online', callback);
+    window.removeEventListener('offline', callback);
+  };
+}
+
+function getOnlineSnapshot() {
+  return typeof window !== 'undefined' ? !window.navigator.onLine : false;
+}
+
 /**
  * Universal Non-Intrusive Offline Sticky Banner
  */
 export function OfflineBanner() {
-  const [isOffline, setIsOffline] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const handleOnline = () => setIsOffline(false);
-    const handleOffline = () => setIsOffline(true);
-
-    setIsOffline(!window.navigator.onLine);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
+  const isOffline = React.useSyncExternalStore(
+    subscribeOnlineStatus,
+    getOnlineSnapshot,
+    () => false
+  );
 
   if (!isOffline) return null;
 

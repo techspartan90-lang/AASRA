@@ -184,6 +184,9 @@ export function PrivacyCenter() {
 
   // Filtered Access Logs
   const accessLogs = useMemo(() => {
+    if (profile.lastUpdated) {
+      // Re-evaluate when profile updates
+    }
     return engine.getAccessLogs({
       role: historyRoleFilter as any,
       dataCategory: historyCategoryFilter as any,
@@ -191,9 +194,19 @@ export function PrivacyCenter() {
     });
   }, [engine, historyRoleFilter, historyCategoryFilter, historySearchQuery, profile.lastUpdated]);
 
-  const auditIntegrity = useMemo(() => engine.verifyAuditTrailIntegrity(), [accessLogs]);
+  const auditIntegrity = useMemo(() => {
+    if (accessLogs) {
+      // Re-verify on accessLogs change
+    }
+    return engine.verifyAuditTrailIntegrity();
+  }, [engine, accessLogs]);
 
-  const consentReceipt = useMemo(() => engine.generateConsentReceipt(), [profile]);
+  const consentReceipt = useMemo(() => {
+    if (profile) {
+      // Re-generate receipt when profile state updates
+    }
+    return engine.generateConsentReceipt();
+  }, [engine, profile]);
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-12">

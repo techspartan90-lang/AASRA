@@ -386,7 +386,7 @@ export function NotificationPreferencesModal({
                       Blocked Stigmatizing Preview (Raw)
                     </span>
                     <p className="text-xs font-mono text-slate-800 dark:text-slate-200 p-2.5 rounded-lg bg-white/70 dark:bg-slate-900/70 border border-rose-200 dark:border-rose-900/50">
-                      "{testInput}"
+                      &ldquo;{testInput}&rdquo;
                     </p>
                     {testSanitized.detectedSensitiveTerms.length > 0 && (
                       <p className="text-[10px] text-rose-600 dark:text-rose-400">
@@ -401,7 +401,7 @@ export function NotificationPreferencesModal({
                       Sanitized Lock-Screen Preview (Delivered)
                     </span>
                     <p className="text-xs font-medium text-slate-900 dark:text-white p-2.5 rounded-lg bg-white/70 dark:bg-slate-900/70 border border-emerald-200 dark:border-emerald-900/50">
-                      "{testSanitized.maskedPreview}"
+                      &ldquo;{testSanitized.maskedPreview}&rdquo;
                     </p>
                     <p className="text-[10px] text-emerald-600 dark:text-emerald-400">
                       Discreet & trauma-informed. Full context viewable only after authenticated biometric/PIN unlock.
@@ -446,7 +446,7 @@ export function NotificationPreferencesModal({
                         </span>
                       </div>
                       <p className="text-slate-600 dark:text-slate-300 font-medium">
-                        "{log.maskedPreview}"
+                        &ldquo;{log.maskedPreview}&rdquo;
                       </p>
                       <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono pt-1 border-t border-slate-100 dark:border-slate-800">
                         <span>Status: <strong className="text-emerald-600 dark:text-emerald-400 uppercase">{log.deliveryStatus}</strong></span>

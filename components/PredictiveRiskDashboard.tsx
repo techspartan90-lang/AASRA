@@ -95,6 +95,9 @@ export function PredictiveRiskDashboard({ onOpenCaseworkerModal }: PredictiveRis
   ]);
 
   const auditHistory: ModelVersionTracking[] = useMemo(() => {
+    if (prediction) {
+      // Re-fetch stored predictions when new prediction is made
+    }
     return predictiveRiskEngine.getStoredPredictions();
   }, [prediction]);
 

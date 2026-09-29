@@ -45,7 +45,16 @@ export function SecureLoginModal({
   const { language, setLanguage, theme, setTheme, fontSize, setFontSize, setRole } = useApp();
 
   const [authMethod, setAuthMethod] = useState<'password' | 'otp'>('password');
-  const [identifier, setIdentifier] = useState('');
+  const [identifier, setIdentifier] = useState(() =>
+    initialRoleHint && DEMO_USERS[initialRoleHint] ? DEMO_USERS[initialRoleHint].email : ''
+  );
+  const [prevRoleHint, setPrevRoleHint] = useState(initialRoleHint);
+  if (initialRoleHint !== prevRoleHint) {
+    setPrevRoleHint(initialRoleHint);
+    if (initialRoleHint && DEMO_USERS[initialRoleHint]) {
+      setIdentifier(DEMO_USERS[initialRoleHint].email);
+    }
+  }
   const [password, setPassword] = useState('');
   const [otpCode, setOtpCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
@@ -55,13 +64,6 @@ export function SecureLoginModal({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [showDemoAccounts, setShowDemoAccounts] = useState(true);
-
-  // Pre-fill if role hint is provided
-  useEffect(() => {
-    if (initialRoleHint && DEMO_USERS[initialRoleHint]) {
-      setIdentifier(DEMO_USERS[initialRoleHint].email);
-    }
-  }, [initialRoleHint]);
 
   // Countdown timer for OTP
   useEffect(() => {

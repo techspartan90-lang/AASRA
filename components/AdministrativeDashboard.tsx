@@ -90,7 +90,12 @@ export function AdministrativeDashboard({
   const channelUtilization = useMemo(() => districtStateAnalyticsEngine.getChannelUtilization(), []);
   const supportDemand = useMemo(() => districtStateAnalyticsEngine.getSupportDemandMetrics(), []);
   const responseTimeStats = useMemo(() => districtStateAnalyticsEngine.getResponseTimeStats(), []);
-  const exportHistory = useMemo(() => districtStateAnalyticsEngine.getExportAuditHistory(), [exportSuccessMessage]);
+  const exportHistory = useMemo(() => {
+    if (exportSuccessMessage) {
+      // Re-fetch history when export succeeds
+    }
+    return districtStateAnalyticsEngine.getExportAuditHistory();
+  }, [exportSuccessMessage]);
 
   // Role Access Control
   if (!canViewAnalytics()) {

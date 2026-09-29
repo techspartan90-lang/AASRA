@@ -44,11 +44,43 @@ export function AiDistressExplainabilityPanel() {
   const [reportedThreats, setReportedThreats] = useState<boolean>(true);
   const [baselineScore, setBaselineScore] = useState<number>(58);
 
-  const [analysis, setAnalysis] = useState<DistressAnalysisResponse | null>(null);
+  const [analysis, setAnalysis] = useState<DistressAnalysisResponse>(() => {
+    return aiDistressEngine.executeLocalScreening({
+      survivorId: 'usr-victim-001',
+      language: 'hi',
+      moodResponse: 'Worried',
+      textResponse:
+        'I feel scared about the court hearing next week. The accused family members were standing near our village market.',
+      voiceAcoustics: {
+        hasAudio: true,
+        durationSeconds: 22,
+        pitchHz: 198,
+        pitchJitter: 0.048,
+        speakingRateWpm: 92,
+        pausesDurationSeconds: 5.2,
+        intensityVarianceDb: 14.2,
+        tremorIndex: 0.52,
+      },
+      behavioralContext: {
+        missedCheckIns: 2,
+        decliningEngagement: true,
+        suddenInteractionChange: true,
+        repeatedSupportRequests: 2,
+      },
+      milestoneContext: {
+        hearingDateProximityDays: 3,
+        investigationStatus: 'chargesheet_filed',
+        rehabilitationEventScheduled: false,
+        reportedThreatsPresent: true,
+        caseDelayMonths: 2,
+      },
+      baselineIndicator: 58,
+    });
+  });
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
 
-  const runAnalysis = async () => {
-    setIsCalculating(true);
+  useEffect(() => {
+    let isCancelled = false;
     const req: DistressAnalysisRequest = {
       survivorId: 'usr-victim-001',
       language: 'hi',
@@ -82,13 +114,16 @@ export function AiDistressExplainabilityPanel() {
       baselineIndicator: baselineScore,
     };
 
-    const result = await aiDistressEngine.analyzeDistress(req);
-    setAnalysis(result);
-    setIsCalculating(false);
-  };
+    aiDistressEngine.analyzeDistress(req).then(result => {
+      if (!isCancelled) {
+        setAnalysis(result);
+        setIsCalculating(false);
+      }
+    });
 
-  useEffect(() => {
-    runAnalysis();
+    return () => {
+      isCancelled = true;
+    };
   }, [
     mood,
     textInput,
