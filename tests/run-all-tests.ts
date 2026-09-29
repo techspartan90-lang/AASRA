@@ -18,6 +18,7 @@ import { runFastApiAiServiceTests } from './fastapi-ai-service.test';
 import { runNotificationSystemTests } from './notification-system.test';
 import { runUiUxRefinementTests } from './ui-ux-refinement.test';
 import { runDemonstrationModeTests } from './demonstration-mode.test';
+import { runFullSystemFlowTests } from './full-system-flow.test';
 
 export async function runAllAppletTests() {
   console.log('================================================================');
@@ -38,6 +39,7 @@ export async function runAllAppletTests() {
   await runNotificationSystemTests();
   runUiUxRefinementTests();
   runDemonstrationModeTests();
+  await runFullSystemFlowTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;

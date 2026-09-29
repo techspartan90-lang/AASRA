@@ -26,6 +26,7 @@ import { PredictiveRiskDashboard } from '@/components/PredictiveRiskDashboard';
 import { getTextDirection } from '@/lib/i18n-engine';
 import { motion, AnimatePresence } from 'framer-motion';
 import { pageTransitionVariants } from '@/lib/design-system';
+import { OfflineBanner } from '@/components/ui/StateViews';
 import {
   HeartPulse,
   Home,
@@ -142,6 +143,9 @@ export function MainApp() {
       >
         Skip to main content
       </a>
+
+      {/* Non-intrusive Offline Notification Banner */}
+      <OfflineBanner />
 
       {/* Global Accessible Navbar */}
       <Navbar
