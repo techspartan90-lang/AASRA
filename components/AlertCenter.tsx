@@ -274,11 +274,25 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
           </div>
 
           <div className="space-y-3">
-            {filteredAlerts.map(alert => {
+            {filteredAlerts.length === 0 ? (
+              <LuxuryCard className="p-6 text-center">
+                <p className="text-sm font-semibold text-white">No alerts match the current filters.</p>
+                <p className="text-xs text-[#D6D6D6] mt-1">Adjust the filters or search terms to view other alerts.</p>
+              </LuxuryCard>
+            ) : filteredAlerts.map(alert => {
               const isSelected = selectedAlert?.alertId === alert.alertId;
               return (
                 <LuxuryCard
                   key={alert.alertId}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedAlertId(alert.alertId);
+                    }
+                  }}
                   onClick={() => setSelectedAlertId(alert.alertId)}
                   className={`p-4 space-y-2.5 cursor-pointer transition ${
                     isSelected
