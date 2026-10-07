@@ -978,6 +978,20 @@ export function CounsellorWorkspace({ onSelectCase }: CounsellorWorkspaceProps) 
               >
                 Add Clinical Note
               </LuxuryButton>
+              <LuxuryButton
+                variant="secondary"
+                size="sm"
+                onClick={() => setActiveActionModal('assign')}
+              >
+                Reassign
+              </LuxuryButton>
+              <LuxuryButton
+                variant="danger"
+                size="sm"
+                onClick={() => setActiveActionModal('escalate')}
+              >
+                Escalate
+              </LuxuryButton>
             </div>
           </div>
         </div>
