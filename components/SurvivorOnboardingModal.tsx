@@ -139,7 +139,7 @@ export function SurvivorOnboardingModal({
                 </span>
                 <span className="text-[11px] text-[#D6D6D6] block">
                   Step {currentStep} of {totalSteps}: {
-                    currentStep === 1 ? 'Sanctuary & Control' :
+                    currentStep === 1 ? 'Care & Sovereignty' :
                     currentStep === 2 ? 'Informed Consent' :
                     currentStep === 3 ? 'Language Preference' :
                     currentStep === 4 ? 'Communication Channel' :

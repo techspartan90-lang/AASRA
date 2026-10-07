@@ -170,14 +170,25 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
           </div>
 
           {/* Right Column: 3D Visual Centerpiece */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            <div className="w-full max-w-[440px] aspect-square rounded-3xl glass-card p-2 border border-[#FD1053]/20 dark:border-white/10 relative overflow-hidden shadow-2xl">
+          <div className="lg:col-span-5 relative flex flex-col items-center justify-center gap-3">
+            <div className="w-full max-w-[460px] aspect-square rounded-3xl glass-card p-2 border border-[#FD1053]/25 dark:border-white/10 relative overflow-hidden shadow-2xl">
               <ThreeDHero className="w-full h-full" interactive />
-              <div className="absolute bottom-3 left-3 right-3 text-center pointer-events-none">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#A3A3A3] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">
-                  Protection • Connection • Well-Being
+            </div>
+
+            {/* Surrounding Context & Psychological Safety Guardrails */}
+            <div className="w-full max-w-[460px] px-2 text-center space-y-1.5">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FD1053]" />
+                <span className="text-[10px] font-bold tracking-widest text-[#474747] dark:text-[#A3A3A3] uppercase">
+                  SAFETY · SUPPORT · WELL-BEING
                 </span>
               </div>
+              <p className="text-xs text-[#333333] dark:text-[#EDEDED] font-medium leading-relaxed">
+                Your well-being is calibrated through voluntary check-ins and support interactions.
+              </p>
+              <p className="text-[11px] text-[#6B7280] dark:text-[#8E8E93] leading-relaxed">
+                Changes are reviewed with human support professionals when attention may be needed. No automated clinical diagnosis.
+              </p>
             </div>
           </div>
         </div>

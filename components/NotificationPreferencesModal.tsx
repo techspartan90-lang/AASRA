@@ -346,7 +346,7 @@ export function NotificationPreferencesModal({
                     Trauma-Informed Lock-Screen Preview Shield
                   </h3>
                   <p className="text-[11px] text-amber-800 dark:text-amber-300 leading-relaxed">
-                    Under AASRA security policies, SMS, push previews, and lock-screen headers NEVER expose
+                    Under MANAS SURAKSHA security policies, SMS, push previews, and lock-screen headers NEVER expose
                     psychological distress scores, suicidal ideation markers, court case numbers, or police complaint details.
                     Sensitive details remain safely encrypted inside the app.
                   </p>

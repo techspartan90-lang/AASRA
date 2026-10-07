@@ -263,11 +263,11 @@ export function VictimDashboard() {
                     MANAS SURAKSHA
                   </span>
                   <span className="px-2.5 py-0.5 rounded-full bg-[#FD1053]/15 text-[#FD1053] text-[11px] font-bold border border-[#FD1053]/30">
-                    Safe Sanctuary
+                    Care Space
                   </span>
                 </div>
                 <p className="text-xs text-[#D6D6D6] font-medium">
-                  Protected &amp; Confidential Survivor Care Sanctuary
+                  Protected &amp; Confidential Survivor Care Network
                 </p>
               </div>
             </div>
@@ -469,11 +469,11 @@ export function VictimDashboard() {
       </header>
 
       {/* =========================================================================
-          SECTION 1: TODAY'S EMOTIONAL SANCTUARY
+          SECTION 1: TODAY'S CARE SPACE & REFLECTION
           ========================================================================= */}
       {(activeTab === 'today' || activeTab === 'checkin') && (
         <GlassPanel
-          title="Today’s Emotional Sanctuary"
+          title="Today’s Care Space & Reflection"
           subtitle="Tap the option that best reflects where you are right now. Your feelings are honored without judgment."
           badge={<PremiumBadge tone="stable">Daily Reflection</PremiumBadge>}
         >

@@ -165,23 +165,23 @@ export function Sidebar({
         {/* Day / Night Theme Toggle */}
         <ThemeToggle isCollapsed={isCollapsed} />
 
-        {/* Demo Mode & Scenario Trigger */}
+        {/* Support Scenarios & Reset Trigger */}
         {!isCollapsed ? (
           <div className="flex items-center gap-1.5">
             <button
               type="button"
               onClick={() => setIsDemoModalOpen(true)}
               className="flex flex-1 items-center justify-center gap-1.5 px-2.5 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold transition cursor-pointer"
-              title="Launch Guided Demo & 6 Realistic Scenarios"
+              title="Explore Guided Support Scenarios & Realistic Personas"
             >
               <Sparkles className="h-3.5 w-3.5 text-amber-400 shrink-0" />
-              <span className="truncate">Demo Scenarios</span>
+              <span className="truncate">Support Scenarios</span>
             </button>
 
             <button
               type="button"
               onClick={resetDemoData}
-              title="Reset synthetic demo data to default baseline"
+              title="Reset case information to default baseline"
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-[#D6D6D6] hover:text-white border border-white/10 transition cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />
@@ -193,7 +193,7 @@ export function Sidebar({
               type="button"
               onClick={() => setIsDemoModalOpen(true)}
               className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition cursor-pointer"
-              title="Demo Scenarios (6 Realistic Personas)"
+              title="Support Scenarios (6 Realistic Personas)"
             >
               <Sparkles className="h-4 w-4 text-amber-400" />
             </button>

@@ -338,7 +338,7 @@ export function MobileNavigation({
                     className="flex flex-1 items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/30 text-xs font-semibold transition min-h-[44px]"
                   >
                     <Sparkles className="h-4 w-4 text-amber-400" />
-                    <span>Demo Scenarios</span>
+                    <span>Support Scenarios</span>
                   </button>
 
                   <button

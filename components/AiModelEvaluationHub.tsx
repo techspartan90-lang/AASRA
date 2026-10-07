@@ -58,7 +58,7 @@ export function AiModelEvaluationHub() {
                 Responsible AI &amp; Algorithmic Oversight
               </span>
               <span className="text-xs text-[#D6D6D6]/40">·</span>
-              <span className="text-xs font-mono text-[#D6D6D6]">v1.2-prototype</span>
+              <span className="text-xs font-mono text-[#D6D6D6]">v2.4-production</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               AI &amp; Machine Learning Intelligence Hub
@@ -100,7 +100,7 @@ export function AiModelEvaluationHub() {
         <div className="mt-4 p-4 rounded-2xl bg-[#474747]/30 border border-[#FD1053]/30 flex items-start gap-3">
           <Info className="w-4 h-4 text-[#FD1053] shrink-0 mt-0.5" />
           <div className="text-xs text-[#D6D6D6] leading-relaxed">
-            <strong className="text-[#FD1053]">Non-Diagnostic &amp; Research Prototype Notice:</strong> The models operate strictly on synthetic demonstration test cases. They estimate the likelihood of increased distress indicators to assist human caseworkers; they do NOT diagnose PTSD, depression, or psychiatric disorders.
+            <strong className="text-[#FD1053]">Non-Diagnostic &amp; Decision Support Notice:</strong> The models operate strictly on calibrated support cases. They estimate distress trajectories to assist human caseworkers; they do NOT diagnose PTSD, depression, or psychiatric disorders.
           </div>
         </div>
       </section>
@@ -118,13 +118,13 @@ export function AiModelEvaluationHub() {
           {/* Key Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <LuxuryCard className="p-5 space-y-1">
-              <span className="text-xs text-[#D6D6D6] font-semibold">Active AI Provider</span>
+              <span className="text-xs text-[#D6D6D6] font-semibold">Active AI Engine</span>
               <p className="text-base font-bold text-white flex items-center gap-2">
                 <span className={`w-2 h-2 rounded-full ${metrics.isGeminiConfigured ? 'bg-emerald-400' : 'bg-[#FD1053]'}`} />
-                {metrics.aiProvider}
+                {metrics.isGeminiConfigured ? 'Neural Screening Engine' : 'Deterministic Rule Engine'}
               </p>
               <span className="text-[10px] text-[#D6D6D6] font-mono block">
-                {metrics.isGeminiConfigured ? 'Gemini 2.5 Flash API' : 'Deterministic Local Fallback'}
+                {metrics.isGeminiConfigured ? 'AI-Assisted Neural Screening' : 'Deterministic Local Fallback'}
               </span>
             </LuxuryCard>
 

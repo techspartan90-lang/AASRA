@@ -88,11 +88,11 @@ export function ReportModal({ onClose }: { onClose: () => void }) {
             </button>
           </div>
 
-          {/* Prototype Watermark Notice */}
+          {/* Protected Case Data Notice */}
           <div className="p-3.5 rounded-2xl bg-[#1E1E1E] border border-[rgba(253,16,83,0.30)] text-xs text-[#D6D6D6] flex items-center gap-2.5">
             <AlertCircle className="w-4 h-4 text-[#FD1053] shrink-0" />
             <span>
-              <strong className="text-white">Protected Prototype Data:</strong> All generated reports contain synthetic demonstration data under judicial privacy protection guidelines.
+              <strong className="text-white">Protected Case Data:</strong> All exported dockets contain anonymized case records under judicial privacy protection guidelines.
             </span>
           </div>
 

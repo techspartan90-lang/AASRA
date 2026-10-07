@@ -146,7 +146,7 @@ export function SecureLoginModal({
     const targetUser = DEMO_USERS[roleKey];
     if (targetUser) {
       setIdentifier(targetUser.email);
-      setPassword('Aasra@2026');
+      setPassword('Suraksha@2026');
       setOtpCode('123456');
       setErrorMessage(null);
       setInfoMessage(`Autofilled credentials for ${targetUser.name} (${targetUser.email}). Role resolved securely.`);
@@ -321,7 +321,7 @@ export function SecureLoginModal({
                     type="text"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
-                    placeholder="e.g. 9876543210 or your.name@aasra.gov.in"
+                    placeholder="e.g. 9876543210 or your.name@manas-suraksha.gov.in"
                     className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-[rgba(255,255,255,0.15)] bg-[#1E1E1E] text-xs sm:text-sm text-white placeholder:text-[#888888] focus:outline-none focus:border-[#FD1053] focus:ring-1 focus:ring-[#FD1053] transition"
                     autoComplete="username"
                     required
