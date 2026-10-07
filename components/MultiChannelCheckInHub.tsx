@@ -131,6 +131,7 @@ export function MultiChannelCheckInHub() {
   // 2. IVRS STATE
   const [ivrsStep, setIvrsStep] = useState<'idle' | 'calling' | 'lang_select' | 'mood_check' | 'voice_note' | 'completed'>('idle');
   const [ivrsSelectedMood, setIvrsSelectedMood] = useState<string>('Okay');
+  const [ivrsLanguage, setIvrsLanguage] = useState<string>('hi');
 
   const startIvrsCall = () => {
     setIvrsStep('calling');
@@ -139,6 +140,8 @@ export function MultiChannelCheckInHub() {
 
   const handleIvrsKeypad = async (key: string) => {
     if (ivrsStep === 'lang_select') {
+      const languageMap: Record<string, string> = { '1': 'hi', '2': 'en', '3': 'as' };
+      setIvrsLanguage(languageMap[key] || 'hi');
       setIvrsStep('mood_check');
     } else if (ivrsStep === 'mood_check') {
       const moodMap: Record<string, string> = {
@@ -155,9 +158,10 @@ export function MultiChannelCheckInHub() {
       await checkInPipelineService.ingestCheckIn({
         survivor_id: 'usr-victim-001',
         channel: 'ivrs',
-        language: 'hi',
+        language: ivrsLanguage,
         mood_response: ivrsSelectedMood,
         text_response: `IVRS Keypad Selected: ${ivrsSelectedMood}. Brief acoustic affirmation recorded.`,
+        voice_response_metadata: { hasAudio: true, durationSeconds: 18, audioFormat: 'wav', sampleRateHz: 8000 },
         engagement_metadata: {
           latencyMs: 320,
           completionRate: 1.0,
