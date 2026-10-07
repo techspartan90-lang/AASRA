@@ -60,7 +60,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-white text-[#111111] antialiased dark:bg-[#07070A] dark:text-white transition-colors duration-200">
+      <body className="min-h-screen bg-white text-[#333333] antialiased dark:bg-[#151515] dark:text-[#FFFFFF] transition-colors duration-200 luxury-ambient-bg">
         {children}
       </body>
     </html>

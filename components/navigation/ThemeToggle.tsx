@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useApp } from '@/lib/store';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Laptop } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ThemeToggleProps {
@@ -36,8 +36,8 @@ export function ThemeToggle({
         title={`Switch to ${isDark ? 'Day' : 'Night'} Mode`}
         className={`group relative flex h-10 w-10 items-center justify-center rounded-xl border transition-all duration-200 cursor-pointer ${
           isDark
-            ? 'bg-[#17171D] border-[#2A2028] text-[#F472B6] hover:bg-[#22141F] hover:border-[#EC4899]/50'
-            : 'bg-white border-[#F1D5DE] text-[#B91C1C] hover:bg-[#FFF0F5] hover:border-[#B91C1C]/40 shadow-xs'
+            ? 'bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-[#FD1053]/40'
+            : 'bg-white/10 border-white/15 text-white hover:bg-white/15'
         } ${className}`}
       >
         <span className="sr-only">Toggle theme</span>
@@ -49,9 +49,9 @@ export function ThemeToggle({
           transition={{ duration: 0.2 }}
         >
           {isDark ? (
-            <Moon className="h-4 w-4 text-[#F472B6]" />
+            <Moon className="h-4 w-4 text-[#FD1053]" />
           ) : (
-            <Sun className="h-4 w-4 text-[#B91C1C]" />
+            <Sun className="h-4 w-4 text-[#FD1053]" />
           )}
         </motion.div>
       </button>
@@ -60,11 +60,7 @@ export function ThemeToggle({
 
   return (
     <div
-      className={`flex items-center justify-between rounded-xl border p-1.5 transition-all duration-200 ${
-        isDark
-          ? 'bg-[#111116] border-[#2A2028]'
-          : 'bg-[#FFF7FA] border-[#F1D5DE]'
-      } ${className}`}
+      className={`flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-1 transition-all duration-200 ${className}`}
     >
       <button
         type="button"
@@ -72,12 +68,12 @@ export function ThemeToggle({
         aria-pressed={!isDark}
         className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-1.5 px-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
           !isDark
-            ? 'bg-white text-[#111111] shadow-xs border border-[#F1D5DE]'
-            : 'text-[#B8B8C2] hover:text-white hover:bg-[#17171D]/60'
+            ? 'bg-white text-[#333333] shadow-md border border-white/20'
+            : 'text-[#D6D6D6] hover:text-white hover:bg-white/10'
         }`}
       >
-        <Sun className={`h-3.5 w-3.5 ${!isDark ? 'text-[#B91C1C]' : 'text-slate-400'}`} />
-        {showLabel && <span>Day Mode</span>}
+        <Sun className={`h-3.5 w-3.5 ${!isDark ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
+        {showLabel && <span>Day</span>}
       </button>
 
       <button
@@ -86,12 +82,12 @@ export function ThemeToggle({
         aria-pressed={isDark}
         className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-1.5 px-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
           isDark
-            ? 'bg-[#17171D] text-white shadow-xs border border-[#2A2028]'
-            : 'text-[#475569] hover:text-[#111111] hover:bg-white/60'
+            ? 'bg-[#252525] text-white shadow-md border border-white/15'
+            : 'text-[#D6D6D6] hover:text-white hover:bg-white/10'
         }`}
       >
-        <Moon className={`h-3.5 w-3.5 ${isDark ? 'text-[#F472B6]' : 'text-slate-500'}`} />
-        {showLabel && <span>Night Mode</span>}
+        <Moon className={`h-3.5 w-3.5 ${isDark ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
+        {showLabel && <span>Night</span>}
       </button>
     </div>
   );

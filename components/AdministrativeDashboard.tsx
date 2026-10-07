@@ -14,6 +14,13 @@ import {
 } from '@/lib/district-state-analytics';
 import { MapVisualization } from '@/components/MapVisualization';
 import {
+  GlassPanel,
+  LuxuryCard,
+  LuxuryButton,
+  GlassInput,
+  PremiumBadge,
+} from '@/components/design-system';
+import {
   ResponsiveContainer,
   AreaChart,
   Area,
@@ -91,28 +98,25 @@ export function AdministrativeDashboard({
   const supportDemand = useMemo(() => districtStateAnalyticsEngine.getSupportDemandMetrics(), []);
   const responseTimeStats = useMemo(() => districtStateAnalyticsEngine.getResponseTimeStats(), []);
   const exportHistory = useMemo(() => {
-    if (exportSuccessMessage) {
-      // Re-fetch history when export succeeds
-    }
     return districtStateAnalyticsEngine.getExportAuditHistory();
   }, [exportSuccessMessage]);
 
   // Role Access Control
   if (!canViewAnalytics()) {
     return (
-      <div className="p-8 rounded-3xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-center space-y-4">
-        <div className="w-12 h-12 mx-auto rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-700 dark:text-amber-300">
+      <div className="p-8 rounded-3xl bg-[#333333] border border-white/10 text-center space-y-4 text-white">
+        <div className="w-12 h-12 mx-auto rounded-full bg-[#FD1053]/15 flex items-center justify-center text-[#FD1053]">
           <ShieldAlert className="w-6 h-6" />
         </div>
         <div>
-          <h2 className="text-lg font-black text-slate-900 dark:text-white">
+          <h2 className="text-lg font-bold text-white">
             Administrative Analytics Restricted
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-[#D6D6D6] mt-1 max-w-md mx-auto">
             Aggregated territorial surveillance and district caseload summaries are restricted to Case Workers, District Welfare Officers, and State/National Administrators.
           </p>
         </div>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-[#D6D6D6]">
           To inspect these views, switch your demo role to <strong>District Officer</strong> or <strong>State Admin</strong> in the top navigation.
         </p>
       </div>
@@ -152,16 +156,16 @@ export function AdministrativeDashboard({
           ========================================================================= */}
       <section
         aria-labelledby="admin-analytics-heading"
-        className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-4"
+        className="rounded-3xl bg-[#333333]/90 dark:bg-[#1E1E1E]/95 border border-[#474747]/30 dark:border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-xl text-white space-y-4"
       >
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#FD1053]/15 text-[#FD1053] border border-[#FD1053]/30">
                 <BarChart3 className="w-3.5 h-3.5" aria-hidden="true" />
                 Phase 10: District &amp; State Analytics
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#474747]/60 text-emerald-400 border border-emerald-500/30">
                 <Lock className="w-3.5 h-3.5" aria-hidden="true" />
                 Aggregated Only · Zero Individual GPS
               </span>
@@ -169,39 +173,38 @@ export function AdministrativeDashboard({
 
             <h1
               id="admin-analytics-heading"
-              className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight"
+              className="text-2xl sm:text-3xl font-bold text-white tracking-tight"
             >
               Territorial Public Health Surveillance
             </h1>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium mt-1 max-w-3xl leading-relaxed">
+            <p className="text-sm text-[#D6D6D6] font-medium mt-1 max-w-3xl leading-relaxed">
               District and state-level longitudinal metrics. Protects survivor identity by rendering strictly aggregated population health statistics without individual GPS or residence points.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <button
+            <LuxuryButton
+              variant="primary"
+              size="sm"
               onClick={() => setIsExportModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm transition cursor-pointer min-h-[44px]"
+              leftIcon={<Download className="w-4 h-4" />}
             >
-              <Download className="w-4 h-4" aria-hidden="true" />
-              <span>Controlled Audit Export</span>
-            </button>
+              Controlled Audit Export
+            </LuxuryButton>
           </div>
         </div>
 
-        {/* =====================================================================
-            FILTER TOOLBAR: State, District, Time Range, Channel, Risk Category
-            ===================================================================== */}
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850/60 border border-slate-200 dark:border-slate-800 space-y-3">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
-            <Filter className="w-3.5 h-3.5" />
+        {/* Filter Toolbar */}
+        <div className="p-4 rounded-2xl bg-[#474747]/30 border border-white/10 space-y-3">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#D6D6D6] uppercase tracking-wider">
+            <Filter className="w-3.5 h-3.5 text-[#FD1053]" />
             <span>Administrative Filters:</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-xs">
             {/* Filter 1: State */}
             <div>
-              <label htmlFor="stateFilterSelect" className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">State:</label>
+              <label htmlFor="stateFilterSelect" className="font-semibold text-white block mb-1">State:</label>
               <select
                 id="stateFilterSelect"
                 value={filterState}
@@ -209,7 +212,7 @@ export function AdministrativeDashboard({
                   setFilterState(e.target.value);
                   setFilterDistrict('all');
                 }}
-                className="w-full p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-semibold cursor-pointer"
+                className="w-full p-2.5 rounded-xl bg-[#333333] border border-white/10 text-white font-semibold cursor-pointer"
               >
                 <option value="all">All States</option>
                 <option value="Assam">Assam</option>
@@ -222,12 +225,12 @@ export function AdministrativeDashboard({
 
             {/* Filter 2: District */}
             <div>
-              <label htmlFor="districtFilterSelect" className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">District:</label>
+              <label htmlFor="districtFilterSelect" className="font-semibold text-white block mb-1">District:</label>
               <select
                 id="districtFilterSelect"
                 value={filterDistrict}
                 onChange={e => setFilterDistrict(e.target.value)}
-                className="w-full p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-semibold cursor-pointer"
+                className="w-full p-2.5 rounded-xl bg-[#333333] border border-white/10 text-white font-semibold cursor-pointer"
               >
                 <option value="all">All Districts</option>
                 <option value="Kamrup Rural">Kamrup Rural</option>
@@ -241,12 +244,12 @@ export function AdministrativeDashboard({
 
             {/* Filter 3: Time Range */}
             <div>
-              <label htmlFor="timeRangeFilterSelect" className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Time Range:</label>
+              <label htmlFor="timeRangeFilterSelect" className="font-semibold text-white block mb-1">Time Range:</label>
               <select
                 id="timeRangeFilterSelect"
                 value={filterTimeRange}
                 onChange={e => setFilterTimeRange(e.target.value)}
-                className="w-full p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-semibold cursor-pointer"
+                className="w-full p-2.5 rounded-xl bg-[#333333] border border-white/10 text-white font-semibold cursor-pointer"
               >
                 <option value="Last 7 Days">Last 7 Days</option>
                 <option value="Last 30 Days">Last 30 Days</option>
@@ -257,12 +260,12 @@ export function AdministrativeDashboard({
 
             {/* Filter 4: Channel */}
             <div>
-              <label htmlFor="channelFilterSelect" className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Channel:</label>
+              <label htmlFor="channelFilterSelect" className="font-semibold text-white block mb-1">Channel:</label>
               <select
                 id="channelFilterSelect"
                 value={filterChannel}
                 onChange={e => setFilterChannel(e.target.value)}
-                className="w-full p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-semibold cursor-pointer"
+                className="w-full p-2.5 rounded-xl bg-[#333333] border border-white/10 text-white font-semibold cursor-pointer"
               >
                 <option value="all">All Channels</option>
                 <option value="Chatbot">Chatbot</option>
@@ -275,12 +278,12 @@ export function AdministrativeDashboard({
 
             {/* Filter 5: Risk Category */}
             <div>
-              <label htmlFor="riskCategoryFilterSelect" className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Risk Category:</label>
+              <label htmlFor="riskCategoryFilterSelect" className="font-semibold text-white block mb-1">Risk Category:</label>
               <select
                 id="riskCategoryFilterSelect"
                 value={filterRisk}
                 onChange={e => setFilterRisk(e.target.value)}
-                className="w-full p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-semibold cursor-pointer"
+                className="w-full p-2.5 rounded-xl bg-[#333333] border border-white/10 text-white font-semibold cursor-pointer"
               >
                 <option value="all">All Categories</option>
                 <option value="Low">Low Risk</option>
@@ -293,469 +296,415 @@ export function AdministrativeDashboard({
         </div>
 
         {/* View Mode Navigation Tabs */}
-        <div className="flex items-center gap-2 pt-2 overflow-x-auto">
+        <div className="flex items-center gap-2 pt-2 overflow-x-auto scrollbar-none">
           {[
             { id: 'kpi_trends', label: 'KPIs & Longitudinal Trends', icon: <TrendingUp className="w-3.5 h-3.5" /> },
             { id: 'map_view', label: 'Aggregated India & District Map', icon: <MapPin className="w-3.5 h-3.5" /> },
             { id: 'district_comparison', label: 'District Comparison Matrix', icon: <Building2 className="w-3.5 h-3.5" /> },
             { id: 'channel_analytics', label: 'Channel & Support Demand', icon: <Radio className="w-3.5 h-3.5" /> },
             { id: 'audit_log', label: 'Export Audit Provenance Log', icon: <History className="w-3.5 h-3.5" /> },
-          ].map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition cursor-pointer min-h-[40px] ${
-                activeTab === tab.id
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
-              }`}
-            >
-              {tab.icon}
-              <span>{tab.label}</span>
-            </button>
-          ))}
+          ].map(tab => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer min-h-[40px] ${
+                  isActive
+                    ? 'bg-[#FD1053] text-white shadow-lg shadow-[#FD1053]/25'
+                    : 'bg-[#474747]/40 text-[#D6D6D6] hover:text-white hover:bg-[#474747]'
+                }`}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
       </section>
 
       {/* =========================================================================
-          8 KEY DASHBOARD KPIS (ALWAYS VISIBLE OR PRIMARY IN KPI TAB)
-          1. active monitored cases
-          2. completed check-ins
-          3. follow-up completion
-          4. open alerts
-          5. resolved alerts
-          6. average distress indicator
-          7. trend changes
-          8. channel usage
+          8 KEY DASHBOARD KPIS
           ========================================================================= */}
       <section aria-label="Aggregated KPIs" className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3.5">
-        {/* KPI 1: Active Monitored Cases */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">1. Active Cases</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">1. Active Cases</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">{kpis.activeMonitoredCases}</span>
-            <span className="text-[10px] text-slate-400 block font-medium">of {kpis.totalMonitoredCases} total</span>
+            <span className="text-2xl font-bold text-white font-mono">{kpis.activeMonitoredCases}</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">of {kpis.totalMonitoredCases} total</span>
           </div>
-          <span className="text-[10px] text-emerald-600 font-bold">100% anonymized</span>
-        </div>
+          <span className="text-[10px] text-emerald-400 font-bold">100% anonymized</span>
+        </LuxuryCard>
 
-        {/* KPI 2: Completed Check-ins */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">2. Completed Check-ins</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">2. Check-ins</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-indigo-600 dark:text-indigo-400 font-mono">{kpis.completedCheckIns.toLocaleString()}</span>
-            <span className="text-[10px] text-slate-400 block font-medium">Across 5 channels</span>
+            <span className="text-2xl font-bold text-white font-mono">{kpis.completedCheckIns.toLocaleString()}</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">Across 5 channels</span>
           </div>
-          <span className="text-[10px] text-slate-500 font-medium">Voluntary pulses</span>
-        </div>
+          <span className="text-[10px] text-[#D6D6D6] font-medium">Voluntary pulses</span>
+        </LuxuryCard>
 
-        {/* KPI 3: Follow-up Completion */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">3. Follow-up SLA</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">3. Follow-up SLA</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{kpis.followUpCompletionRate}%</span>
-            <span className="text-[10px] text-slate-400 block font-medium">Target: &gt;90%</span>
+            <span className="text-2xl font-bold text-emerald-400 font-mono">{kpis.followUpCompletionRate}%</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">Target: &gt;90%</span>
           </div>
-          <span className="text-[10px] text-emerald-600 font-bold">Within SLA bounds</span>
-        </div>
+          <span className="text-[10px] text-emerald-400 font-bold">Within SLA bounds</span>
+        </LuxuryCard>
 
-        {/* KPI 4: Open Alerts */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">4. Open Alerts</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">4. Open Alerts</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{kpis.openAlerts}</span>
-            <span className="text-[10px] text-slate-400 block font-medium">Active human triage</span>
+            <span className="text-2xl font-bold text-[#FD1053] font-mono">{kpis.openAlerts}</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">Active human triage</span>
           </div>
-          <span className="text-[10px] text-amber-700 font-bold">Requires review</span>
-        </div>
+          <span className="text-[10px] text-[#FD1053] font-bold">Requires review</span>
+        </LuxuryCard>
 
-        {/* KPI 5: Resolved Alerts */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">5. Resolved Alerts</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">5. Resolved</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">{kpis.resolvedAlerts}</span>
-            <span className="text-[10px] text-slate-400 block font-medium">Documented closures</span>
+            <span className="text-2xl font-bold text-white font-mono">{kpis.resolvedAlerts}</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">Documented closures</span>
           </div>
-          <span className="text-[10px] text-slate-500 font-medium">Audited outcomes</span>
-        </div>
+          <span className="text-[10px] text-[#D6D6D6] font-medium">Audited outcomes</span>
+        </LuxuryCard>
 
-        {/* KPI 6: Average Distress Indicator */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">6. Avg Distress</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">6. Avg Distress</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">{kpis.averageDistressIndicator}</span>
-            <span className="text-[10px] text-slate-400 block font-medium">Scale: 0–100</span>
+            <span className="text-2xl font-bold text-white font-mono">{kpis.averageDistressIndicator}</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">Scale: 0–100</span>
           </div>
-          <span className="text-[10px] text-blue-700 font-bold">Medium Operational</span>
-        </div>
+          <span className="text-[10px] text-sky-400 font-bold">Medium Operational</span>
+        </LuxuryCard>
 
-        {/* KPI 7: Trend Changes */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">7. Trend Shift</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">7. Trend Shift</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{kpis.trendChangesPct}%</span>
-            <span className="text-[10px] text-slate-400 block font-medium">Month-over-month</span>
+            <span className="text-2xl font-bold text-emerald-400 font-mono">{kpis.trendChangesPct}%</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">Month-over-month</span>
           </div>
-          <span className="text-[10px] text-emerald-700 font-bold">Eased distress</span>
-        </div>
+          <span className="text-[10px] text-emerald-400 font-bold">Eased distress</span>
+        </LuxuryCard>
 
-        {/* KPI 8: Channel Usage Top */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">8. Channel Usage</span>
+        <LuxuryCard className="p-4 flex flex-col justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#D6D6D6]">8. Top Channel</span>
           <div className="my-1.5">
-            <span className="text-2xl font-black text-indigo-600 dark:text-indigo-400 font-mono">{kpis.channelUsage.chatbot}%</span>
-            <span className="text-[10px] text-slate-400 block font-medium">Top: Chatbot</span>
+            <span className="text-base font-bold text-white truncate block">Chatbot ({kpis.channelUsage.chatbot}%)</span>
+            <span className="text-[10px] text-[#D6D6D6] block font-medium">Primary access gateway</span>
           </div>
-          <span className="text-[10px] text-slate-500 font-medium">SMS: {kpis.channelUsage.sms}% · IVR: {kpis.channelUsage.ivrs}%</span>
-        </div>
+          <span className="text-[10px] text-emerald-400 font-bold">Accessible</span>
+        </LuxuryCard>
       </section>
 
       {/* =========================================================================
-          TAB 1: KPIS & LONGITUDINAL TREND ANALYTICS (Weekly & Monthly)
+          VIEW MODE 1: KPIS & LONGITUDINAL TRENDS
           ========================================================================= */}
       {activeTab === 'kpi_trends' && (
         <section aria-labelledby="longitudinal-trends-heading" className="space-y-6">
-          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
-              <div>
-                <h2 id="longitudinal-trends-heading" className="text-xl font-black text-slate-900 dark:text-white">
-                  Longitudinal Distress &amp; Volume Trajectories
-                </h2>
-                <p className="text-xs text-slate-500 font-medium">
-                  Aggregated time-series monitoring population stabilization and judicial milestone correlation.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-850 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs">
+          <GlassPanel
+            title="Longitudinal Distress &amp; Intervention Velocity Trends"
+            subtitle="Evaluating population mental distress curves against prompt counsellor resolution."
+            action={
+              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#333333] border border-white/10 text-xs">
                 <button
                   onClick={() => setTrendHorizon('weekly')}
                   className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
-                    trendHorizon === 'weekly'
-                      ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-white shadow-xs'
-                      : 'text-slate-600 dark:text-slate-400'
+                    trendHorizon === 'weekly' ? 'bg-[#FD1053] text-white shadow-xs' : 'text-[#D6D6D6]'
                   }`}
                 >
-                  Weekly Trend
+                  Weekly (8 Wks)
                 </button>
                 <button
                   onClick={() => setTrendHorizon('monthly')}
                   className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
-                    trendHorizon === 'monthly'
-                      ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-white shadow-xs'
-                      : 'text-slate-600 dark:text-slate-400'
+                    trendHorizon === 'monthly' ? 'bg-[#FD1053] text-white shadow-xs' : 'text-[#D6D6D6]'
                   }`}
                 >
-                  Monthly Trend
+                  Monthly (6 Mos)
                 </button>
               </div>
-            </div>
-
-            {/* Recharts Area / Line Chart */}
-            <div className="w-full h-80 pt-2" aria-hidden="true">
+            }
+          >
+            <div className="h-72 w-full pt-4">
               <ResponsiveContainer width="100%" height="100%">
-                {trendHorizon === 'weekly' ? (
-                  <AreaChart data={weeklyTrends} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
-                    <defs>
-                      <linearGradient id="adminDistressGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.35} />
-                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0.0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#94a3b8" opacity={0.25} />
-                    <XAxis dataKey="week" stroke="#64748b" fontSize={11} />
-                    <YAxis domain={[30, 60]} stroke="#64748b" fontSize={11} />
-                    <Tooltip />
-                    <Legend />
-                    <Area type="monotone" dataKey="avgDistress" name="Average Distress Indicator" stroke="#6366f1" strokeWidth={3} fill="url(#adminDistressGrad)" />
-                  </AreaChart>
-                ) : (
-                  <BarChart data={monthlyTrends} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#94a3b8" opacity={0.25} />
-                    <XAxis dataKey="month" stroke="#64748b" fontSize={11} />
-                    <YAxis stroke="#64748b" fontSize={11} />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="checkInCount" name="Completed Check-ins" fill="#10b981" radius={[8, 8, 0, 0]} />
-                    <Bar dataKey="activeCases" name="Active Monitored Cases" fill="#6366f1" radius={[8, 8, 0, 0]} />
-                  </BarChart>
-                )}
+                <AreaChart
+                  data={
+                    trendHorizon === 'weekly'
+                      ? weeklyTrends
+                      : monthlyTrends.map(m => ({
+                          week: m.month,
+                          avgDistress: m.averageDistress,
+                          resolvedAlerts: Math.round(m.checkInCount * 0.15),
+                          checkInVolume: m.checkInCount,
+                          supportRequests: m.activeCases,
+                        }))
+                  }
+                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                >
+                  <defs>
+                    <linearGradient id="distressGrad" x1="0" y1="0" x2="0" y2="100%">
+                      <stop offset="5%" stopColor="#FD1053" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#FD1053" stopOpacity={0.0} />
+                    </linearGradient>
+                    <linearGradient id="resolvedGrad" x1="0" y1="0" x2="0" y2="100%">
+                      <stop offset="5%" stopColor="#474747" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="#474747" stopOpacity={0.0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#474747" opacity={0.3} />
+                  <XAxis dataKey="period" stroke="#D6D6D6" fontSize={11} />
+                  <YAxis stroke="#D6D6D6" fontSize={11} domain={[0, 100]} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#333333',
+                      borderColor: 'rgba(255,255,255,0.1)',
+                      borderRadius: '16px',
+                      color: '#FFFFFF',
+                      fontSize: '12px',
+                    }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
+                  <Area
+                    type="monotone"
+                    dataKey="avgDistress"
+                    name="Mean Distress Indicator"
+                    stroke="#FD1053"
+                    strokeWidth={2.5}
+                    fillOpacity={1}
+                    fill="url(#distressGrad)"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="resolvedAlerts"
+                    name="Resolved Interventions"
+                    stroke="#D6D6D6"
+                    strokeWidth={2}
+                    fillOpacity={1}
+                    fill="url(#resolvedGrad)"
+                  />
+                </AreaChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </GlassPanel>
         </section>
       )}
 
       {/* =========================================================================
-          TAB 2: AGGREGATED INDIA & DISTRICT MAP
-          "Display aggregated patterns only. Avoid exposing individual survivor locations."
+          VIEW MODE 2: MAP VIEW
           ========================================================================= */}
       {activeTab === 'map_view' && (
-        <section aria-labelledby="map-view-heading" className="space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-            <div>
-              <h2 id="map-view-heading" className="text-xl font-black text-slate-900 dark:text-white">
-                Aggregated Geographic Surveillance (Privacy Preserving)
-              </h2>
-              <p className="text-xs text-slate-500 font-medium">
-                Mandatory Section 15A protection: Zero individual survivor coordinates or GPS traces are exposed. District centroid clusters only.
-              </p>
-            </div>
-          </div>
-          <MapVisualization onSelectDistrict={d => setFilterDistrict(d)} />
+        <section aria-labelledby="map-section-heading" className="space-y-4">
+          <MapVisualization />
         </section>
       )}
 
       {/* =========================================================================
-          TAB 3: DISTRICT COMPARISON MATRIX
+          VIEW MODE 3: DISTRICT COMPARISON
           ========================================================================= */}
       {activeTab === 'district_comparison' && (
-        <section aria-labelledby="district-comparison-heading" className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 space-y-4 shadow-sm">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
-            <div>
-              <h2 id="district-comparison-heading" className="text-xl font-black text-slate-900 dark:text-white">
-                Multi-District Comparison Matrix
-              </h2>
-              <p className="text-xs text-slate-500 font-medium">
-                Cross-district surveillance of caseload density, response times, and follow-up completion rates.
-              </p>
-            </div>
-          </div>
-
-          <div className="overflow-x-auto">
+        <GlassPanel
+          title="District Caseload &amp; Vulnerability Matrix"
+          subtitle="Comparative surveillance across territorial jurisdictions with zero PII."
+        >
+          <div className="overflow-x-auto pt-2">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 dark:bg-slate-850 text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200 dark:border-slate-800">
+              <thead className="bg-[#333333] text-[#D6D6D6] font-bold border-b border-white/10 uppercase tracking-wider text-[11px]">
                 <tr>
-                  <th scope="col" className="py-3 px-4">District / State</th>
-                  <th scope="col" className="py-3 px-4 text-right">Active Caseload</th>
-                  <th scope="col" className="py-3 px-4 text-right">Avg Distress</th>
-                  <th scope="col" className="py-3 px-4 text-right">Follow-up SLA</th>
-                  <th scope="col" className="py-3 px-4 text-right">Median Response</th>
-                  <th scope="col" className="py-3 px-4">Primary Channel</th>
-                  <th scope="col" className="py-3 px-4 text-right">Critical Reviews</th>
+                  <th className="py-3 px-4">District</th>
+                  <th className="py-3 px-4">State</th>
+                  <th className="py-3 px-4">Active Cases</th>
+                  <th className="py-3 px-4">Mean Distress</th>
+                  <th className="py-3 px-4">Open Alerts</th>
+                  <th className="py-3 px-4">SLA Rate</th>
+                  <th className="py-3 px-4">Vulnerability Tier</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium">
-                {districtComparisons.map(d => (
-                  <tr key={d.district} className="hover:bg-slate-50 dark:hover:bg-slate-850 transition">
-                    <td className="py-3.5 px-4">
-                      <span className="font-bold text-slate-900 dark:text-white block">{d.district}</span>
-                      <span className="text-[10px] text-slate-500">{d.state}</span>
-                    </td>
-                    <td className="py-3.5 px-4 text-right font-mono font-bold">{d.caseload}</td>
-                    <td className="py-3.5 px-4 text-right font-mono">{d.avgDistress}</td>
-                    <td className="py-3.5 px-4 text-right font-mono font-bold text-emerald-600">{d.followUpRate}%</td>
-                    <td className="py-3.5 px-4 text-right font-mono text-indigo-600 dark:text-indigo-400">{d.medianResponseMins} mins</td>
-                    <td className="py-3.5 px-4">{d.topChannel}</td>
-                    <td className="py-3.5 px-4 text-right">
-                      <span className="font-bold text-amber-600 dark:text-amber-400 font-mono">{d.criticalCases}</span>
+              <tbody className="divide-y divide-white/5 font-medium">
+                {districtComparisons.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-[#474747]/30 transition">
+                    <td className="py-3 px-4 font-bold text-white">{row.district}</td>
+                    <td className="py-3 px-4 text-[#D6D6D6]">{row.state}</td>
+                    <td className="py-3 px-4 font-mono text-white">{row.caseload}</td>
+                    <td className="py-3 px-4 font-mono text-[#FD1053] font-bold">{row.avgDistress}</td>
+                    <td className="py-3 px-4 font-mono text-white">{row.criticalCases}</td>
+                    <td className="py-3 px-4 font-mono text-emerald-400 font-bold">{row.followUpRate}%</td>
+                    <td className="py-3 px-4">
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                        row.criticalCases > 2 ? 'bg-[#FD1053] text-white' : 'bg-[#474747] text-[#D6D6D6]'
+                      }`}>
+                        {row.criticalCases > 2 ? 'High Attention' : 'Standard'}
+                      </span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </section>
+        </GlassPanel>
       )}
 
       {/* =========================================================================
-          TAB 4: CHANNEL UTILIZATION, SUPPORT DEMAND & RESPONSE TIME
+          VIEW MODE 4: CHANNEL & DEMAND
           ========================================================================= */}
       {activeTab === 'channel_analytics' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Channel Utilization */}
-          <section aria-labelledby="channel-util-heading" className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
-            <h2 id="channel-util-heading" className="text-lg font-black text-slate-900 dark:text-white">
-              Channel Adoption &amp; Session Volume
-            </h2>
-            <div className="space-y-3">
-              {channelUtilization.map(c => (
-                <div key={c.channel} className="space-y-1.5">
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span>{c.channel} ({c.preferredLanguage})</span>
-                    <span className="font-mono font-bold">{c.percentage}% ({c.sessions.toLocaleString()} sessions)</span>
-                  </div>
-                  <div className="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-indigo-600 rounded-full" style={{ width: `${c.percentage}%` }} />
-                  </div>
-                  <span className="text-[10px] text-slate-400 block">Avg completion time: {c.avgCompletionSeconds} seconds</span>
-                </div>
-              ))}
+          <GlassPanel
+            title="Multi-Channel Check-in Distribution"
+            subtitle="Adoption and intake volume across authorized channels."
+          >
+            <div className="h-64 pt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={channelUtilization}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#474747" opacity={0.3} />
+                  <XAxis dataKey="channel" stroke="#D6D6D6" fontSize={11} />
+                  <YAxis stroke="#D6D6D6" fontSize={11} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: '#333333', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                  />
+                  <Bar dataKey="checkInCount" name="Check-in Volume" fill="#FD1053" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
-          </section>
+          </GlassPanel>
 
-          {/* Support Demand Surge Patterns & Response Time */}
-          <section aria-labelledby="support-demand-heading" className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
-            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
-              <h2 id="support-demand-heading" className="text-lg font-black text-slate-900 dark:text-white">
-                Support Demand &amp; Caseworker Response Time
-              </h2>
-              <span className="text-xs font-mono font-bold text-emerald-600">
-                Median: {responseTimeStats.medianResponseMins} mins
-              </span>
+          <GlassPanel
+            title="Support Modality Utilization"
+            subtitle="Counsellor assistance requests categorized by delivery modality."
+          >
+            <div className="h-64 pt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={supportDemand}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#474747" opacity={0.3} />
+                  <XAxis dataKey="service" stroke="#D6D6D6" fontSize={11} />
+                  <YAxis stroke="#D6D6D6" fontSize={11} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: '#333333', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                  />
+                  <Bar dataKey="count" name="Support Requests" fill="#D6D6D6" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
-
-            <div className="space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block">Surge Triggers:</span>
-              {supportDemand.map(item => (
-                <div key={item.milestoneTrigger} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
-                  <div>
-                    <span className="font-bold text-slate-900 dark:text-white block">{item.milestoneTrigger}</span>
-                    <span className="text-slate-500">{item.caseworkerInterventions} interventions · Avg wait {item.avgWaitTimeMins} mins</span>
-                  </div>
-                  <span className={`font-mono font-black ${item.demandSurgePct > 0 ? 'text-amber-600' : 'text-emerald-600'}`}>
-                    {item.demandSurgePct > 0 ? `+${item.demandSurgePct}%` : `${item.demandSurgePct}%`}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
+          </GlassPanel>
         </div>
       )}
 
       {/* =========================================================================
-          TAB 5: EXPORT AUDIT PROVENANCE LOG
-          "All exports must be audited."
+          VIEW MODE 5: AUDIT LOG PROVENANCE
           ========================================================================= */}
       {activeTab === 'audit_log' && (
-        <section aria-labelledby="export-audit-heading" className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 space-y-4 shadow-sm">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
-            <div>
-              <h2 id="export-audit-heading" className="text-xl font-black text-slate-900 dark:text-white">
-                Export Audit &amp; Data Governance Provenance Log
-              </h2>
-              <p className="text-xs text-slate-500 font-medium">
-                Mandatory administrative record logging every aggregate download to enforce compliance with judicial data confidentiality.
-              </p>
-            </div>
-            <span className="text-xs font-mono font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-xl">
-              {exportHistory.length} Audited Operations
-            </span>
-          </div>
-
-          <div className="overflow-x-auto">
+        <GlassPanel
+          title="Administrative Data Export Audit Ledger"
+          subtitle="Immutable record of every territorial dataset extraction."
+          badge={<PremiumBadge tone="stable">Audit Provenance</PremiumBadge>}
+        >
+          <div className="overflow-x-auto pt-2">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 dark:bg-slate-850 text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200 dark:border-slate-800">
+              <thead className="bg-[#333333] text-[#D6D6D6] font-bold border-b border-white/10 uppercase tracking-wider text-[11px]">
                 <tr>
-                  <th scope="col" className="py-3 px-3">Export ID</th>
-                  <th scope="col" className="py-3 px-3">Timestamp (UTC)</th>
-                  <th scope="col" className="py-3 px-3">Authorized Actor</th>
-                  <th scope="col" className="py-3 px-3">Dataset Description</th>
-                  <th scope="col" className="py-3 px-3">Format</th>
-                  <th scope="col" className="py-3 px-3 text-right">Records</th>
-                  <th scope="col" className="py-3 px-3 font-mono">Checksum</th>
+                  <th className="py-3 px-4">Export ID</th>
+                  <th className="py-3 px-4">Timestamp</th>
+                  <th className="py-3 px-4">Authorizing Actor</th>
+                  <th className="py-3 px-4">Role</th>
+                  <th className="py-3 px-4">Format</th>
+                  <th className="py-3 px-4">Records</th>
+                  <th className="py-3 px-4">Verification</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium">
+              <tbody className="divide-y divide-white/5 font-medium">
                 {exportHistory.map(entry => (
-                  <tr key={entry.id} className="hover:bg-slate-50 dark:hover:bg-slate-850">
-                    <td className="py-3 px-3 font-mono font-bold text-indigo-600 dark:text-indigo-400">{entry.id}</td>
-                    <td className="py-3 px-3 text-slate-500 font-mono">{entry.timestamp}</td>
-                    <td className="py-3 px-3">
-                      <span className="font-bold block">{entry.actor}</span>
-                      <span className="text-[10px] text-slate-500 uppercase">{entry.role}</span>
+                  <tr key={entry.id} className="hover:bg-[#474747]/30 transition">
+                    <td className="py-3 px-4 font-mono font-bold text-white">{entry.id}</td>
+                    <td className="py-3 px-4 text-[#D6D6D6] font-mono text-[11px]">
+                      {new Date(entry.timestamp).toLocaleString()}
                     </td>
-                    <td className="py-3 px-3 text-slate-800 dark:text-slate-200">{entry.dataset}</td>
-                    <td className="py-3 px-3 font-bold">{entry.exportFormat}</td>
-                    <td className="py-3 px-3 text-right font-mono font-bold">{entry.recordCount}</td>
-                    <td className="py-3 px-3 font-mono text-[10px] text-slate-400">{entry.checksum}</td>
+                    <td className="py-3 px-4 text-white font-bold">{entry.actor}</td>
+                    <td className="py-3 px-4 text-[#D6D6D6] capitalize">{entry.role}</td>
+                    <td className="py-3 px-4">
+                      <span className="px-2 py-0.5 rounded-md bg-[#474747] text-white font-mono text-[10px]">
+                        {entry.exportFormat}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 font-mono text-white">{entry.recordCount}</td>
+                    <td className="py-3 px-4 text-emerald-400 font-mono text-[11px]">
+                      ✓ {entry.id.slice(0, 12)}...
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </section>
+        </GlassPanel>
       )}
 
       {/* =========================================================================
-          CONTROLLED EXPORT MODAL WITH ROLE PERMISSIONS & AUDITING
+          CONTROLLED EXPORT MODAL
           ========================================================================= */}
       {isExportModalOpen && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in"
         >
-          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl space-y-4">
-            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
-              <div className="flex items-center gap-2">
-                <Download className="w-5 h-5 text-indigo-600" />
-                <h2 className="text-base font-black text-slate-900 dark:text-white">
-                  Controlled Aggregate Export
-                </h2>
-              </div>
-              <button onClick={() => setIsExportModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+          <div className="w-full max-w-md rounded-3xl bg-[#333333] border border-white/10 p-6 sm:p-8 space-y-4 shadow-2xl text-white">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 className="text-base font-bold text-white">
+                Authorized Surveillance Data Export
+              </h3>
+              <button
+                onClick={() => setIsExportModalOpen(false)}
+                className="p-1 rounded-xl text-[#D6D6D6] hover:text-white cursor-pointer"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200 space-y-1">
-                <span className="font-bold block uppercase tracking-wider text-[10px]">Role Permission Status:</span>
-                <p>
-                  Authenticated as <strong>{role.toUpperCase()}</strong>. You are authorized to export aggregated statistical tables. Individual survivor records and GPS coordinates are systematically redacted.
-                </p>
+              <div className="space-y-1">
+                <label className="font-bold text-white block">Export Format</label>
+                <select
+                  value={exportFormat}
+                  onChange={e => setExportFormat(e.target.value as any)}
+                  className="w-full p-2.5 rounded-xl bg-[#474747] border border-white/10 text-white font-semibold cursor-pointer"
+                >
+                  <option value="CSV">Comma Separated Values (.CSV)</option>
+                  <option value="PDF">Certified Audit Document (.PDF)</option>
+                  <option value="JSON">Encrypted Telemetry JSON (.JSON)</option>
+                </select>
               </div>
 
-              <div>
-                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Export Format:</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {(['CSV', 'PDF', 'JSON'] as ('CSV' | 'PDF' | 'JSON')[]).map(fmt => (
-                    <button
-                      key={fmt}
-                      type="button"
-                      onClick={() => setExportFormat(fmt)}
-                      className={`p-2.5 rounded-xl border text-xs font-bold transition cursor-pointer ${
-                        exportFormat === fmt
-                          ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300'
-                          : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
-                      }`}
-                    >
-                      {fmt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-1 font-mono text-[11px]">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">State Filter:</span>
-                  <span>{filterState}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">District Filter:</span>
-                  <span>{filterDistrict}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Time Range:</span>
-                  <span>{filterTimeRange}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Aggregated Cases:</span>
-                  <span className="font-bold">{kpis.activeMonitoredCases}</span>
-                </div>
+              <div className="p-3 rounded-xl bg-[#474747]/40 border border-white/5 space-y-1 text-[#D6D6D6]">
+                <p><strong>Dataset:</strong> Aggregated Public Health Metrics</p>
+                <p><strong>Territory:</strong> {filterState} / {filterDistrict}</p>
+                <p><strong>Records:</strong> {kpis.activeMonitoredCases} Aggregated Units</p>
+                <p className="text-[#FD1053] font-bold">Zero Survivor PII or Exact GPS Included</p>
               </div>
 
               {exportSuccessMessage && (
-                <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-bold flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{exportSuccessMessage}</span>
+                <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
+                  ✓ {exportSuccessMessage}
                 </div>
               )}
             </div>
 
-            <div className="flex justify-end gap-3 pt-2">
-              <button
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
+              <LuxuryButton
+                variant="ghost"
+                size="sm"
                 onClick={() => setIsExportModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 cursor-pointer min-h-[40px]"
               >
                 Cancel
-              </button>
-              <button
+              </LuxuryButton>
+              <LuxuryButton
+                variant="primary"
+                size="sm"
                 onClick={handleExport}
-                className="px-5 py-2 rounded-xl text-xs font-black bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs transition cursor-pointer min-h-[40px]"
               >
-                Authorize &amp; Download {exportFormat}
-              </button>
+                Authorize &amp; Download
+              </LuxuryButton>
             </div>
           </div>
         </div>

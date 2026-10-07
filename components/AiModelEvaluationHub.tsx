@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Brain,
   Activity,
@@ -26,6 +26,12 @@ import {
 import { aiObservability, AIObservabilityMetrics } from '@/lib/ai/observability';
 import { performDataLeakageAudit } from '@/lib/ai/data-leakage-audit';
 import { AiDistressExplainabilityPanel } from '@/components/AiDistressExplainabilityPanel';
+import {
+  GlassPanel,
+  LuxuryCard,
+  LuxuryButton,
+  PremiumBadge,
+} from '@/components/design-system';
 
 export function AiModelEvaluationHub() {
   const [activeTab, setActiveTab] = useState<'explainability' | 'observability' | 'models' | 'leakage' | 'fairness' | 'limitations'>('explainability');
@@ -42,232 +48,190 @@ export function AiModelEvaluationHub() {
   const evaluation = selectedModel.evaluate(testData);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-in fade-in duration-300">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-              Responsible AI & Algorithmic Oversight
-            </span>
-            <span className="text-xs text-slate-400">·</span>
-            <span className="text-xs font-mono text-slate-500">v1.2-prototype</span>
+      <section className="rounded-3xl bg-[#333333]/90 dark:bg-[#1E1E1E]/95 border border-[#474747]/30 dark:border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-xl text-white">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 pb-6">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#FD1053]/15 text-[#FD1053] border border-[#FD1053]/30">
+                Responsible AI &amp; Algorithmic Oversight
+              </span>
+              <span className="text-xs text-[#D6D6D6]/40">·</span>
+              <span className="text-xs font-mono text-[#D6D6D6]">v1.2-prototype</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+              AI &amp; Machine Learning Intelligence Hub
+            </h1>
+            <p className="text-sm text-[#D6D6D6] font-medium mt-1 max-w-2xl leading-relaxed">
+              System telemetry, interpretable model evaluation, fairness audits, and validation transparency.
+            </p>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-0.5">
-            AI & Machine Learning Intelligence Hub
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-            System telemetry, interpretable model evaluation, fairness audits, and validation transparency
-          </p>
+
+          {/* Tab Navigation */}
+          <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-[#474747]/40 border border-white/10 text-xs shrink-0 overflow-x-auto scrollbar-none">
+            {[
+              { id: 'explainability', label: 'Explainability & Signals' },
+              { id: 'observability', label: 'Observability' },
+              { id: 'models', label: 'Model Comparison' },
+              { id: 'leakage', label: 'Data Leakage & Temporal' },
+              { id: 'fairness', label: 'Fairness & Subgroups' },
+              { id: 'limitations', label: 'Limitations' },
+            ].map(tab => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`px-3 py-1.5 rounded-xl font-semibold transition cursor-pointer min-h-[36px] whitespace-nowrap ${
+                    isActive
+                      ? 'bg-[#FD1053] text-white shadow-xs'
+                      : 'text-[#D6D6D6] hover:text-white hover:bg-[#474747]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs shrink-0 overflow-x-auto">
-          <button
-            onClick={() => setActiveTab('explainability')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
-              activeTab === 'explainability'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Explainability &amp; Signals
-          </button>
-          <button
-            onClick={() => setActiveTab('observability')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
-              activeTab === 'observability'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Observability
-          </button>
-          <button
-            onClick={() => setActiveTab('models')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
-              activeTab === 'models'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Model Comparison
-          </button>
-          <button
-            onClick={() => setActiveTab('leakage')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
-              activeTab === 'leakage'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Data Leakage & Temporal
-          </button>
-          <button
-            onClick={() => setActiveTab('fairness')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
-              activeTab === 'fairness'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Fairness & Subgroups
-          </button>
-          <button
-            onClick={() => setActiveTab('limitations')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
-              activeTab === 'limitations'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Limitations
-          </button>
+        {/* Mandatory Non-Diagnostic Disclaimer Banner */}
+        <div className="mt-4 p-4 rounded-2xl bg-[#474747]/30 border border-[#FD1053]/30 flex items-start gap-3">
+          <Info className="w-4 h-4 text-[#FD1053] shrink-0 mt-0.5" />
+          <div className="text-xs text-[#D6D6D6] leading-relaxed">
+            <strong className="text-[#FD1053]">Non-Diagnostic &amp; Research Prototype Notice:</strong> The models operate strictly on synthetic demonstration test cases. They estimate the likelihood of increased distress indicators to assist human caseworkers; they do NOT diagnose PTSD, depression, or psychiatric disorders.
+          </div>
         </div>
-      </div>
-
-      {/* Mandatory Non-Diagnostic Disclaimer Banner */}
-      <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 flex items-start gap-3">
-        <Info className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-        <div className="text-xs text-amber-900 dark:text-amber-200">
-          <strong>Non-Diagnostic & Research Prototype Notice:</strong> The models described below operate strictly on synthetic demonstration test cases. They estimate the <em>likelihood of increased distress indicators</em> to assist human triage; they do NOT diagnose PTSD, anxiety, or psychological disorders.
-        </div>
-      </div>
+      </section>
 
       {/* TAB 0: EXPLAINABILITY & SIGNALS */}
       {activeTab === 'explainability' && (
-        <div className="space-y-6 animate-in fade-in">
+        <div className="space-y-6">
           <AiDistressExplainabilityPanel />
         </div>
       )}
 
       {/* TAB 1: OBSERVABILITY */}
       {activeTab === 'observability' && (
-        <div className="space-y-6 animate-in fade-in">
+        <div className="space-y-6">
           {/* Key Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-xs">
-              <span className="text-xs text-slate-700 dark:text-slate-300 font-semibold">Active AI Provider</span>
-              <p className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${metrics.isGeminiConfigured ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+            <LuxuryCard className="p-5 space-y-1">
+              <span className="text-xs text-[#D6D6D6] font-semibold">Active AI Provider</span>
+              <p className="text-base font-bold text-white flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${metrics.isGeminiConfigured ? 'bg-emerald-400' : 'bg-[#FD1053]'}`} />
                 {metrics.aiProvider}
               </p>
-              <span className="text-[10px] text-slate-600 dark:text-slate-400 font-mono font-medium">
+              <span className="text-[10px] text-[#D6D6D6] font-mono block">
                 {metrics.isGeminiConfigured ? 'Gemini 2.5 Flash API' : 'Deterministic Local Fallback'}
               </span>
-            </div>
+            </LuxuryCard>
 
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-xs">
-              <span className="text-xs text-slate-700 dark:text-slate-300 font-semibold">Average Latency</span>
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">
-                {metrics.averageLatencyMs} <span className="text-xs font-normal text-slate-600 dark:text-slate-400">ms</span>
+            <LuxuryCard className="p-5 space-y-1">
+              <span className="text-xs text-[#D6D6D6] font-semibold">Average Latency</span>
+              <p className="text-2xl font-bold text-white">
+                {metrics.averageLatencyMs} <span className="text-xs font-normal text-[#D6D6D6]">ms</span>
               </p>
-              <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+              <span className="text-[10px] font-bold text-emerald-400">
                 Near-instantaneous local evaluation
               </span>
-            </div>
+            </LuxuryCard>
 
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-xs">
-              <span className="text-xs text-slate-700 dark:text-slate-300 font-semibold">Total Inferences</span>
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">
+            <LuxuryCard className="p-5 space-y-1">
+              <span className="text-xs text-[#D6D6D6] font-semibold">Total Inferences</span>
+              <p className="text-2xl font-bold text-white">
                 {metrics.totalRequests}
               </p>
-              <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">
-                Successful: {metrics.successfulRequests} · Failures: {metrics.invalidResponseCount}
+              <span className="text-[10px] text-[#D6D6D6]">
+                Success: {metrics.successfulRequests} · Failures: {metrics.invalidResponseCount}
               </span>
-            </div>
+            </LuxuryCard>
 
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-xs">
-              <span className="text-xs text-slate-700 dark:text-slate-300 font-semibold">Fallback Invocations</span>
-              <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">
+            <LuxuryCard className="p-5 space-y-1">
+              <span className="text-xs text-[#D6D6D6] font-semibold">Fallback Invocations</span>
+              <p className="text-2xl font-bold text-[#FD1053]">
                 {metrics.fallbackUsageCount}
               </p>
-              <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">
+              <span className="text-[10px] text-emerald-400">
                 100% offline guarantee active
               </span>
-            </div>
+            </LuxuryCard>
           </div>
 
-          {/* Telemetry Request Logs (Metadata Only) */}
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4 shadow-xs">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                  Recent AI & ML Execution Audit Stream
-                </h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
-                  Privacy-first logging: captures operational metadata, latency, and model version with zero free-text retention.
-                </p>
-              </div>
-              <button
+          {/* Telemetry Request Logs */}
+          <GlassPanel
+            title="Recent AI &amp; ML Execution Audit Stream"
+            subtitle="Privacy-first logging: captures operational metadata, latency, and model version with zero free-text retention."
+            action={
+              <LuxuryButton
+                size="sm"
+                variant="secondary"
                 onClick={handleRefresh}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 transition cursor-pointer"
+                leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
               >
-                <RefreshCw className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
-                <span>Refresh</span>
-              </button>
-            </div>
-
-            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                Refresh Telemetry
+              </LuxuryButton>
+            }
+          >
+            <div className="overflow-x-auto rounded-2xl border border-white/10 pt-2">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100 dark:bg-slate-850 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-300 dark:border-slate-800 uppercase tracking-wider text-[11px]">
+                <thead className="bg-[#333333] text-[#D6D6D6] font-bold border-b border-white/10 uppercase tracking-wider text-[11px]">
                   <tr>
-                    <th className="py-2.5 px-3">Timestamp</th>
-                    <th className="py-2.5 px-3">Service</th>
-                    <th className="py-2.5 px-3">Operation</th>
-                    <th className="py-2.5 px-3">Model Version</th>
-                    <th className="py-2.5 px-3">Latency</th>
-                    <th className="py-2.5 px-3">Fallback</th>
-                    <th className="py-2.5 px-3">Status</th>
+                    <th className="py-3 px-4">Timestamp</th>
+                    <th className="py-3 px-4">Service</th>
+                    <th className="py-3 px-4">Operation</th>
+                    <th className="py-3 px-4">Model Version</th>
+                    <th className="py-3 px-4">Latency</th>
+                    <th className="py-3 px-4">Fallback</th>
+                    <th className="py-3 px-4">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200 dark:divide-slate-800 font-mono">
-                  {metrics.requestLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-slate-50 dark:hover:bg-slate-850">
-                      <td className="py-2 px-3 text-slate-700 dark:text-slate-300">{log.timestamp.slice(11, 19)}</td>
-                      <td className="py-2 px-3 text-slate-900 dark:text-slate-200 font-sans font-semibold">
-                        {log.service}
-                      </td>
-                      <td className="py-2 px-3 text-slate-700 dark:text-slate-300 font-sans font-medium">{log.operation}</td>
-                      <td className="py-2 px-3 text-slate-600 dark:text-slate-400 text-[11px] font-medium">{log.modelVersion}</td>
-                      <td className="py-2 px-3 text-slate-900 dark:text-slate-200 font-semibold">{log.latencyMs}ms</td>
-                      <td className="py-2 px-3">
+                <tbody className="divide-y divide-white/5 font-mono">
+                  {metrics.requestLogs.map(log => (
+                    <tr key={log.id} className="hover:bg-[#474747]/30 transition">
+                      <td className="py-3 px-4 text-[#D6D6D6]">{log.timestamp.slice(11, 19)}</td>
+                      <td className="py-3 px-4 text-white font-sans font-semibold">{log.service}</td>
+                      <td className="py-3 px-4 text-[#D6D6D6] font-sans">{log.operation}</td>
+                      <td className="py-3 px-4 text-[#D6D6D6] text-[11px]">{log.modelVersion}</td>
+                      <td className="py-3 px-4 text-white font-semibold">{log.latencyMs}ms</td>
+                      <td className="py-3 px-4">
                         {log.fallbackTriggered ? (
-                          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FD1053]/20 text-[#FD1053] border border-[#FD1053]/30">
                             Fallback
                           </span>
                         ) : (
-                          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                             Primary
                           </span>
                         )}
                       </td>
-                      <td className="py-2 px-3 font-sans">
-                        <span className="text-emerald-700 dark:text-emerald-400 font-bold">Success</span>
+                      <td className="py-3 px-4 font-sans font-bold text-emerald-400">
+                        Success
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
+          </GlassPanel>
         </div>
       )}
 
       {/* TAB 2: MODEL COMPARISON & EVALUATION */}
       {activeTab === 'models' && (
-        <div className="space-y-6 animate-in fade-in">
+        <div className="space-y-6">
           {/* Model Selector */}
-          <div className="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <span className="text-xs font-semibold text-slate-500 mr-2">Inspect Model:</span>
+          <div className="flex flex-wrap items-center gap-2 p-3 rounded-2xl glass-panel">
+            <span className="text-xs font-semibold text-[#D6D6D6] mr-2">Inspect Model:</span>
             {Object.entries(AVAILABLE_ML_MODELS).map(([key, model]) => (
               <button
                 key={key}
                 onClick={() => setSelectedModelKey(key)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer min-h-[38px] ${
                   selectedModelKey === key
-                    ? 'bg-emerald-600 text-white shadow-xs'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-[#FD1053] text-white shadow-xs'
+                    : 'bg-[#474747]/40 text-[#D6D6D6] hover:text-white hover:bg-[#474747]'
                 }`}
               >
                 {model.modelName}
@@ -277,253 +241,234 @@ export function AiModelEvaluationHub() {
 
           {/* Model Metrics Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Accuracy</span>
-              <p className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">
+            <LuxuryCard className="p-4 space-y-1">
+              <span className="text-[11px] font-semibold text-[#D6D6D6]">Accuracy</span>
+              <p className="text-xl font-bold text-white mt-0.5">
                 {(evaluation.accuracy * 100).toFixed(1)}%
               </p>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Precision</span>
-              <p className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">
+            </LuxuryCard>
+            <LuxuryCard className="p-4 space-y-1">
+              <span className="text-[11px] font-semibold text-[#D6D6D6]">Precision</span>
+              <p className="text-xl font-bold text-white mt-0.5">
                 {(evaluation.precision * 100).toFixed(1)}%
               </p>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Recall</span>
-              <p className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">
+            </LuxuryCard>
+            <LuxuryCard className="p-4 space-y-1">
+              <span className="text-[11px] font-semibold text-[#D6D6D6]">Recall</span>
+              <p className="text-xl font-bold text-white mt-0.5">
                 {(evaluation.recall * 100).toFixed(1)}%
               </p>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">F1 Score</span>
-              <p className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">
+            </LuxuryCard>
+            <LuxuryCard className="p-4 space-y-1">
+              <span className="text-[11px] font-semibold text-[#D6D6D6]">F1 Score</span>
+              <p className="text-xl font-bold text-white mt-0.5">
                 {evaluation.f1Score.toFixed(2)}
               </p>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">ROC-AUC</span>
-              <p className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mt-0.5">
+            </LuxuryCard>
+            <LuxuryCard className="p-4 space-y-1">
+              <span className="text-[11px] font-semibold text-[#D6D6D6]">ROC-AUC</span>
+              <p className="text-xl font-bold text-[#FD1053] mt-0.5">
                 {evaluation.rocAuc.toFixed(2)}
               </p>
-            </div>
+            </LuxuryCard>
           </div>
 
           {/* Confusion Matrix & Calibration Detail */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 shadow-xs">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                Confusion Matrix ({evaluation.sampleCount} Synthetic Benchmark Cases)
-              </h4>
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-900/50">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">True Positive (Escalated Detected)</span>
-                  <p className="text-lg font-bold text-emerald-900 dark:text-emerald-300">
+            <GlassPanel
+              title="Confusion Matrix"
+              subtitle={`${evaluation.sampleCount} Synthetic Benchmark Cases`}
+            >
+              <div className="grid grid-cols-2 gap-3 text-xs pt-2">
+                <div className="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/30">
+                  <span className="font-semibold text-[#D6D6D6]">True Positive (Escalated Detected)</span>
+                  <p className="text-lg font-bold text-emerald-300">
                     {evaluation.confusionMatrix.truePositive}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-900/50">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">False Positive (False Alarm)</span>
-                  <p className="text-lg font-bold text-rose-900 dark:text-rose-300">
+                <div className="p-3.5 rounded-2xl bg-[#FD1053]/15 border border-[#FD1053]/30">
+                  <span className="font-semibold text-[#D6D6D6]">False Positive (False Alarm)</span>
+                  <p className="text-lg font-bold text-[#FD1053]">
                     {evaluation.confusionMatrix.falsePositive}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-900/50">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">False Negative (Missed Escalation)</span>
-                  <p className="text-lg font-bold text-amber-900 dark:text-amber-300">
+                <div className="p-3.5 rounded-2xl bg-amber-500/15 border border-amber-500/30">
+                  <span className="font-semibold text-[#D6D6D6]">False Negative (Missed Escalation)</span>
+                  <p className="text-lg font-bold text-amber-300">
                     {evaluation.confusionMatrix.falseNegative}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">True Negative (Stable Identified)</span>
-                  <p className="text-lg font-bold text-slate-900 dark:text-slate-200">
+                <div className="p-3.5 rounded-2xl bg-[#474747]/40 border border-white/10">
+                  <span className="font-semibold text-[#D6D6D6]">True Negative (Stable Identified)</span>
+                  <p className="text-lg font-bold text-white">
                     {evaluation.confusionMatrix.trueNegative}
                   </p>
                 </div>
               </div>
-            </div>
+            </GlassPanel>
 
-            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 shadow-xs">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                Probability Calibration & Brier Loss
-              </h4>
-              <div className="space-y-2 text-xs text-slate-700 dark:text-slate-300 font-medium">
+            <GlassPanel
+              title="Probability Calibration &amp; Brier Loss"
+              subtitle="Mathematical guarantee against false overconfidence."
+            >
+              <div className="space-y-3 text-xs text-[#D6D6D6] font-medium pt-2">
                 <p>
-                  <strong>Brier Calibration Loss:</strong> <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">{evaluation.brierScore}</span> (Lower is better, &lt; 0.15 indicates well-calibrated probabilities).
+                  <strong className="text-white">Brier Calibration Loss:</strong> <span className="font-mono font-bold text-emerald-400">{evaluation.brierScore}</span> (Lower is better, &lt; 0.15 indicates well-calibrated probabilities).
                 </p>
                 <p>{evaluation.calibrationNotes}</p>
-                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-600 dark:text-slate-400">
-                  <strong>Calibration Note:</strong> A model confidence of 74% reflects the historical empirical frequency of escalation in similar feature profiles, not clinical certainty.
+                <div className="p-3 rounded-2xl bg-[#474747]/30 border border-white/10 text-[11px] text-[#D6D6D6]">
+                  <strong className="text-white">Calibration Note:</strong> Model confidence of 74% reflects the historical empirical frequency of escalation in similar feature profiles, not deterministic certainty.
                 </div>
               </div>
-            </div>
+            </GlassPanel>
           </div>
         </div>
       )}
 
-      {/* TAB: DATA LEAKAGE & TEMPORAL VALIDATION (Phase 6 Sections 14, 15, 17) */}
+      {/* TAB 3: DATA LEAKAGE & TEMPORAL VALIDATION */}
       {activeTab === 'leakage' && (
-        <div className="space-y-6 animate-in fade-in">
+        <div className="space-y-6">
           {(() => {
             const leakage = performDataLeakageAudit();
             return (
               <>
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                      <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                        Algorithmic Data Leakage & Temporal Causality Audit
-                      </h3>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Guarantees zero future-observation contamination and strict subject-level cross-validation partitioning
-                      </p>
-                    </div>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 self-start sm:self-auto">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      Status: {leakage.overallStatus}
-                    </span>
+                <GlassPanel
+                  title="Algorithmic Data Leakage &amp; Temporal Causality Audit"
+                  subtitle="Guarantees zero future-observation contamination and strict subject-level cross-validation partitioning."
+                  badge={<PremiumBadge tone="stable">{leakage.overallStatus}</PremiumBadge>}
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs pt-2">
+                    <LuxuryCard className="p-3.5 space-y-1">
+                      <span className="text-[#D6D6D6] text-[11px] font-semibold uppercase">Dataset Partition</span>
+                      <p className="font-mono font-bold text-white mt-1">{leakage.datasetVersion}</p>
+                    </LuxuryCard>
+                    <LuxuryCard className="p-3.5 space-y-1">
+                      <span className="text-[#D6D6D6] text-[11px] font-semibold uppercase">Historical Lookback</span>
+                      <p className="font-mono font-bold text-white mt-1">{leakage.temporalSplitSummary.historicalLookbackDays} Days</p>
+                    </LuxuryCard>
+                    <LuxuryCard className="p-3.5 space-y-1">
+                      <span className="text-[#D6D6D6] text-[11px] font-semibold uppercase">Subject Overlap</span>
+                      <p className="font-mono font-bold text-emerald-400 mt-1">{leakage.temporalSplitSummary.subjectOverlapCount} (0% Leakage)</p>
+                    </LuxuryCard>
+                    <LuxuryCard className="p-3.5 space-y-1">
+                      <span className="text-[#D6D6D6] text-[11px] font-semibold uppercase">Future Contamination</span>
+                      <p className="font-mono font-bold text-emerald-400 mt-1">{leakage.temporalSplitSummary.futureObservationsInFeatures} Detected</p>
+                    </LuxuryCard>
                   </div>
+                </GlassPanel>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                      <span className="text-slate-400 text-[11px] font-semibold uppercase">Dataset Partition</span>
-                      <p className="font-mono font-bold text-slate-900 dark:text-white mt-1">{leakage.datasetVersion}</p>
-                    </div>
-                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                      <span className="text-slate-400 text-[11px] font-semibold uppercase">Historical Lookback</span>
-                      <p className="font-mono font-bold text-slate-900 dark:text-white mt-1">{leakage.temporalSplitSummary.historicalLookbackDays} Days</p>
-                    </div>
-                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                      <span className="text-slate-400 text-[11px] font-semibold uppercase">Subject Overlap</span>
-                      <p className="font-mono font-bold text-emerald-600 dark:text-emerald-400 mt-1">{leakage.temporalSplitSummary.subjectOverlapCount} (0% Leakage)</p>
-                    </div>
-                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                      <span className="text-slate-400 text-[11px] font-semibold uppercase">Future Contamination</span>
-                      <p className="font-mono font-bold text-emerald-600 dark:text-emerald-400 mt-1">{leakage.temporalSplitSummary.futureObservationsInFeatures} Detected</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Formal Verification Checks
-                  </h4>
-                  <div className="space-y-3">
+                <GlassPanel
+                  title="Formal Verification Checks"
+                  subtitle="Systematic anti-leakage proofs verified across evaluation sets."
+                >
+                  <div className="space-y-3 pt-2">
                     {leakage.checks.map((chk, i) => (
-                      <div key={i} className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <LuxuryCard key={i} className="p-4 flex items-start gap-3">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                         <div className="space-y-1 text-xs">
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-slate-900 dark:text-white">{chk.name}</span>
-                            <span className="px-2 py-0.5 rounded text-[10px] uppercase font-mono bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                            <span className="font-bold text-white">{chk.name}</span>
+                            <span className="px-2 py-0.5 rounded text-[10px] uppercase font-mono bg-[#474747] text-[#D6D6D6]">
                               {chk.category}
                             </span>
                           </div>
-                          <p className="text-slate-600 dark:text-slate-400">{chk.description}</p>
-                          <p className="text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
+                          <p className="text-[#D6D6D6]">{chk.description}</p>
+                          <p className="text-[11px] text-emerald-400 font-medium">
                             <strong>Mitigation:</strong> {chk.mitigationApplied}
                           </p>
                         </div>
-                      </div>
+                      </LuxuryCard>
                     ))}
                   </div>
-                </div>
+                </GlassPanel>
               </>
             );
           })()}
         </div>
       )}
 
-      {/* TAB 3: FAIRNESS & SUBGROUP ANALYSIS */}
+      {/* TAB 4: FAIRNESS & SUBGROUP ANALYSIS */}
       {activeTab === 'fairness' && (
-        <div className="space-y-6 animate-in fade-in">
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4">
-            <div>
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                Subgroup Parity & Modality Evaluation (Section 42)
-              </h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
-                Auditing parity across regional languages and interaction modalities to detect disparate performance.
-              </p>
-            </div>
-
-            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+        <div className="space-y-6">
+          <GlassPanel
+            title="Subgroup Parity &amp; Modality Evaluation"
+            subtitle="Auditing parity across regional languages and interaction modalities to detect disparate performance."
+          >
+            <div className="overflow-x-auto rounded-2xl border border-white/10 pt-2">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100 dark:bg-slate-850 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-300 dark:border-slate-800 uppercase tracking-wider text-[11px]">
+                <thead className="bg-[#333333] text-[#D6D6D6] font-bold border-b border-white/10 uppercase tracking-wider text-[11px]">
                   <tr>
-                    <th className="py-2.5 px-3">Subgroup</th>
-                    <th className="py-2.5 px-3">Category</th>
-                    <th className="py-2.5 px-3">Sample Count</th>
-                    <th className="py-2.5 px-3">Accuracy</th>
-                    <th className="py-2.5 px-3">FPR</th>
-                    <th className="py-2.5 px-3">Status</th>
-                    <th className="py-2.5 px-3">Notes</th>
+                    <th className="py-3 px-4">Subgroup</th>
+                    <th className="py-3 px-4">Category</th>
+                    <th className="py-3 px-4">Sample Count</th>
+                    <th className="py-3 px-4">Accuracy</th>
+                    <th className="py-3 px-4">FPR</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4">Notes</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                <tbody className="divide-y divide-white/5 font-medium">
                   {SUBGROUP_FAIRNESS_AUDIT.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-850">
-                      <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-slate-200">
+                    <tr key={idx} className="hover:bg-[#474747]/30 transition">
+                      <td className="py-3 px-4 font-bold text-white">
                         {item.subgroup}
                       </td>
-                      <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300 font-medium">{item.category}</td>
-                      <td className="py-2.5 px-3 font-mono font-medium text-slate-800 dark:text-slate-200">{item.sampleSize}</td>
-                      <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">{(item.accuracy * 100).toFixed(0)}%</td>
-                      <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">{(item.falsePositiveRate * 100).toFixed(0)}%</td>
-                      <td className="py-2.5 px-3">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                      <td className="py-3 px-4 text-[#D6D6D6]">{item.category}</td>
+                      <td className="py-3 px-4 font-mono text-white">{item.sampleSize}</td>
+                      <td className="py-3 px-4 font-mono font-bold text-white">{(item.accuracy * 100).toFixed(0)}%</td>
+                      <td className="py-3 px-4 font-mono font-bold text-[#FD1053]">{(item.falsePositiveRate * 100).toFixed(0)}%</td>
+                      <td className="py-3 px-4">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                           {item.status.replace('_', ' ')}
                         </span>
                       </td>
-                      <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300 text-[11px] font-medium">{item.notes}</td>
+                      <td className="py-3 px-4 text-[#D6D6D6] text-[11px]">{item.notes}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
+          </GlassPanel>
         </div>
       )}
 
-      {/* TAB 4: LIMITATIONS & RESPONSIBLE AI */}
+      {/* TAB 5: LIMITATIONS & RESPONSIBLE AI */}
       {activeTab === 'limitations' && (
-        <div className="space-y-6 animate-in fade-in">
-          {/* AI Limitations Record (Section 40) */}
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-3 shadow-xs">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-              AI Limitations & Validation Status Matrix
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div className="space-y-6">
+          <GlassPanel
+            title="AI Limitations &amp; Validation Status Matrix"
+            subtitle="Transparent disclosure of algorithmic boundaries."
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-2">
               {Object.entries(AI_LIMITATIONS_RECORD).map(([k, v]) => (
-                <div key={k} className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
-                  <span className="text-[11px] font-bold uppercase text-slate-700 dark:text-slate-300">
+                <LuxuryCard key={k} className="p-4 space-y-1">
+                  <span className="text-[11px] font-bold uppercase text-[#FD1053]">
                     {k.replace(/([A-Z])/g, ' $1')}
                   </span>
-                  <p className="text-slate-800 dark:text-slate-200 font-medium mt-1 leading-relaxed">{v}</p>
-                </div>
+                  <p className="text-[#D6D6D6] font-medium mt-1 leading-relaxed">{v}</p>
+                </LuxuryCard>
               ))}
             </div>
-          </div>
+          </GlassPanel>
 
-          {/* Responsible AI Principles (Section 41) */}
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4 shadow-xs">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-              Responsible AI Charter & Safeguards
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+          <GlassPanel
+            title="Responsible AI Charter &amp; Safeguards"
+            subtitle="Core operational guardrails governing automated suggestions."
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs pt-2">
               {RESPONSIBLE_AI_PRINCIPLES.map((principle, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 space-y-1">
-                  <span className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-500 shrink-0" />
+                <LuxuryCard key={idx} className="p-4 space-y-1.5">
+                  <span className="font-bold text-white flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-[#FD1053] shrink-0" />
                     {principle.title}
                   </span>
-                  <p className="text-slate-600 dark:text-slate-400 text-[11px] font-medium leading-relaxed">
+                  <p className="text-[#D6D6D6] text-[11px] font-medium leading-relaxed">
                     {principle.description}
                   </p>
-                </div>
+                </LuxuryCard>
               ))}
             </div>
-          </div>
+          </GlassPanel>
         </div>
       )}
     </div>

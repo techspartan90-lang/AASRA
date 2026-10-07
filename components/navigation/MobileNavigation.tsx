@@ -15,8 +15,12 @@ import {
   Sparkles,
   RotateCcw,
   PhoneCall,
-  Bell,
   Search,
+  Home,
+  Activity,
+  ClipboardCheck,
+  Users,
+  Radio,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -36,13 +40,10 @@ export function MobileNavigation({
     resetDemoData,
     setIsEmergencyModalOpen,
     setIsCommandPaletteOpen,
-    notifications,
   } = useApp();
 
   const isStaffRole = role !== 'victim';
-  const unreadCount = notifications.filter(n => !n.read).length;
 
-  // Close drawer on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -53,7 +54,6 @@ export function MobileNavigation({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  // Lock body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -92,14 +92,14 @@ export function MobileNavigation({
       {/* =========================================================================
           COMPACT MOBILE TOP BAR (< md)
          ========================================================================= */}
-      <header className="sticky top-0 z-40 flex h-14 w-full items-center justify-between border-b border-[#F1D5DE] bg-white/95 px-3.5 backdrop-blur-md dark:border-[#2A2028] dark:bg-[#07070A]/95 md:hidden">
-        {/* Left: Hamburger & Brand */}
+      <header className="sticky top-0 z-40 flex h-14 w-full items-center justify-between border-b border-[#474747]/20 bg-white/90 px-3.5 backdrop-blur-md dark:border-white/10 dark:bg-[#1E1E1E]/95 md:hidden">
+        {/* Left: Hamburger & Minimal Luxury Emblem */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setIsOpen(true)}
             aria-label="Open navigation menu"
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#F1D5DE] bg-[#FFF7FA] text-[#111111] hover:bg-[#FCE7F3] dark:border-[#2A2028] dark:bg-[#111116] dark:text-white dark:hover:bg-[#17171D] transition cursor-pointer"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#474747]/20 bg-black/5 text-[#333333] dark:border-white/10 dark:bg-white/5 dark:text-white transition cursor-pointer"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -109,27 +109,27 @@ export function MobileNavigation({
             onClick={() => onNavigate('dashboard')}
             className="flex items-center gap-2 text-left cursor-pointer"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#B91C1C] text-white shadow-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#333333] to-[#474747] text-white shadow-xs border border-white/10">
               <Shield className="h-4 w-4" />
             </div>
             <div>
-              <span className="font-extrabold text-xs tracking-tight text-[#111111] dark:text-white uppercase">
+              <span className="font-extrabold text-xs tracking-tight text-[#333333] dark:text-white uppercase">
                 MANAS SURAKSHA
               </span>
-              <p className="text-[10px] text-[#64748B] dark:text-[#B8B8C2]">
+              <p className="text-[10px] text-[#FD1053] font-semibold">
                 Mind Protection
               </p>
             </div>
           </button>
         </div>
 
-        {/* Right: Search, Emergency 112 & Theme Toggle */}
+        {/* Right: Search & Emergency 112 */}
         <div className="flex items-center gap-1.5">
           <button
             type="button"
             onClick={() => setIsCommandPaletteOpen(true)}
             aria-label="Search"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-[#474747] dark:text-[#D6D6D6] hover:bg-black/5 dark:hover:bg-white/10 transition"
           >
             <Search className="h-4 w-4" />
           </button>
@@ -138,18 +138,83 @@ export function MobileNavigation({
             type="button"
             onClick={() => setIsEmergencyModalOpen(true)}
             aria-label="24/7 Helpline"
-            className="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-bold text-[11px] transition shadow-xs"
+            className="flex h-9 items-center gap-1 px-2.5 rounded-xl bg-[#FD1053] text-white font-bold text-xs shadow-xs"
           >
-            <PhoneCall className="h-3 w-3" />
-            <span className="hidden xs:inline">112</span>
+            <PhoneCall className="h-3.5 w-3.5 fill-white" />
+            <span>112</span>
           </button>
-
-          <ThemeToggle isCollapsed showLabel={false} />
         </div>
       </header>
 
       {/* =========================================================================
-          SLIDE-IN MOBILE NAVIGATION DRAWER
+          LUXURY MOBILE BOTTOM NAVIGATION BAR (< md)
+         ========================================================================= */}
+      <nav
+        aria-label="Mobile Quick Navigation"
+        className="fixed bottom-0 left-0 right-0 z-30 flex h-16 items-center justify-around border-t border-[#474747]/20 bg-white/95 px-2 backdrop-blur-xl dark:border-white/10 dark:bg-[#1E1E1E]/95 md:hidden"
+      >
+        <button
+          type="button"
+          onClick={() => onNavigate('dashboard')}
+          className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium transition ${
+            currentView === 'dashboard' || currentView === 'home'
+              ? 'text-[#FD1053] font-bold'
+              : 'text-[#6B7280] dark:text-[#A3A3A3]'
+          }`}
+        >
+          <Home className="h-4 w-4" />
+          <span className="mt-1">Home</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onNavigate('distress_score')}
+          className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium transition ${
+            currentView === 'distress_score'
+              ? 'text-[#FD1053] font-bold'
+              : 'text-[#6B7280] dark:text-[#A3A3A3]'
+          }`}
+        >
+          <Activity className="h-4 w-4" />
+          <span className="mt-1">Distress</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onNavigate('checkin_wizard')}
+          className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium"
+        >
+          <div className="flex h-9 w-9 -mt-4 items-center justify-center rounded-full bg-[#FD1053] text-white shadow-[0_2px_12px_rgba(253,16,83,0.5)]">
+            <ClipboardCheck className="h-4 w-4" />
+          </div>
+          <span className="mt-1 text-[#FD1053] font-bold">Check-In</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onNavigate('channels')}
+          className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium transition ${
+            currentView === 'channels'
+              ? 'text-[#FD1053] font-bold'
+              : 'text-[#6B7280] dark:text-[#A3A3A3]'
+          }`}
+        >
+          <Radio className="h-4 w-4" />
+          <span className="mt-1">Channels</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium text-[#6B7280] dark:text-[#A3A3A3]"
+        >
+          <Menu className="h-4 w-4" />
+          <span className="mt-1">Menu</span>
+        </button>
+      </nav>
+
+      {/* =========================================================================
+          SLIDE-OVER LUXURY DRAWER (< md)
          ========================================================================= */}
       <AnimatePresence>
         {isOpen && (
@@ -161,33 +226,29 @@ export function MobileNavigation({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
-              aria-hidden="true"
+              className="absolute inset-0 bg-black/75 backdrop-blur-sm"
             />
 
-            {/* Sliding Panel */}
+            {/* Drawer Container */}
             <motion.div
-              role="dialog"
-              aria-modal="true"
-              aria-label="Navigation Drawer"
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-              className="relative flex h-full w-[290px] max-w-[85vw] flex-col justify-between border-r border-[#F1D5DE] bg-white shadow-2xl dark:border-[#2A2028] dark:bg-[#0B0B0F]"
+              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              className="absolute inset-y-0 left-0 flex w-full max-w-xs flex-col bg-[#333333] text-white shadow-2xl"
             >
               {/* Drawer Header */}
-              <div className="flex items-center justify-between border-b border-[#F1D5DE] p-4 dark:border-[#2A2028]">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#B91C1C] text-white shadow-xs">
-                    <Shield className="h-5 w-5" />
+              <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#333333] via-[#474747] to-[#1E1E1E] text-white shadow-xs border border-white/15">
+                    <Shield className="h-4 w-4" />
                   </div>
                   <div>
-                    <span className="font-extrabold text-sm tracking-tight text-[#111111] dark:text-white uppercase">
+                    <span className="font-extrabold text-sm tracking-tight text-white uppercase">
                       MANAS SURAKSHA
                     </span>
-                    <p className="text-[10px] text-[#64748B] dark:text-[#B8B8C2]">
-                      Mind Protection
+                    <p className="text-[10px] text-[#FD1053] font-semibold">
+                      Mind Protection · GOV CARE
                     </p>
                   </div>
                 </div>
@@ -195,8 +256,8 @@ export function MobileNavigation({
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  aria-label="Close navigation drawer"
-                  className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white transition cursor-pointer"
+                  aria-label="Close menu"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/15 transition cursor-pointer"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -215,14 +276,14 @@ export function MobileNavigation({
                         onClick={() => handleLinkClick(item)}
                         className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold text-left transition cursor-pointer min-h-[44px] ${
                           isActive
-                            ? 'bg-[#FCE7F3] text-[#111111] font-bold border border-[#F1D5DE] dark:bg-[#22141F] dark:text-white dark:border-[#3E1F32]'
-                            : 'text-[#242424] hover:bg-[#FFF0F5] dark:text-[#B8B8C2] dark:hover:bg-[#17171D] dark:hover:text-white'
+                            ? 'bg-[#FD1053]/15 text-[#FD1053] font-bold border border-[#FD1053]/35 shadow-[0_0_12px_rgba(253,16,83,0.15)]'
+                            : 'text-[#D6D6D6] hover:bg-white/10 hover:text-white'
                         }`}
                       >
-                        <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#B91C1C] dark:text-[#F472B6]' : 'text-slate-400'}`} />
+                        <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
                         <span className="flex-1 truncate">{item.label}</span>
                         {item.badge && (
-                          <span className="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-rose-100 text-[#B91C1C] dark:bg-rose-950/60 dark:text-rose-300">
+                          <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-[#FD1053]/20 text-[#FD1053] border border-[#FD1053]/30">
                             {item.badge}
                           </span>
                         )}
@@ -233,8 +294,8 @@ export function MobileNavigation({
 
                 {/* Staff Workspaces */}
                 {isStaffRole && (
-                  <div className="pt-2 border-t border-[#F1D5DE] dark:border-[#2A2028] space-y-1">
-                    <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#B91C1C] dark:text-[#F472B6]">
+                  <div className="pt-2 border-t border-white/10 space-y-1">
+                    <span className="px-3 text-[10px] font-bold uppercase tracking-wider text-[#FD1053]">
                       Clinical & Governance
                     </span>
                     {STAFF_WORKSPACES.map(item => {
@@ -250,11 +311,11 @@ export function MobileNavigation({
                           }}
                           className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold text-left transition cursor-pointer min-h-[44px] ${
                             isActive
-                              ? 'bg-[#FCE7F3] text-[#111111] font-bold border border-[#F1D5DE] dark:bg-[#22141F] dark:text-white dark:border-[#3E1F32]'
-                              : 'text-[#242424] hover:bg-[#FFF0F5] dark:text-[#B8B8C2] dark:hover:bg-[#17171D] dark:hover:text-white'
+                              ? 'bg-[#FD1053]/15 text-[#FD1053] font-bold border border-[#FD1053]/35'
+                              : 'text-[#D6D6D6] hover:bg-white/10 hover:text-white'
                           }`}
                         >
-                          <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#B91C1C] dark:text-[#F472B6]' : 'text-slate-400'}`} />
+                          <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
                           <span className="flex-1 truncate">{item.label}</span>
                         </button>
                       );
@@ -264,7 +325,7 @@ export function MobileNavigation({
               </div>
 
               {/* Drawer Footer */}
-              <div className="border-t border-[#F1D5DE] p-3 space-y-2 bg-[#FFF7FA] dark:border-[#2A2028] dark:bg-[#0E0E13]">
+              <div className="border-t border-white/10 p-3 space-y-2 bg-[#252525]">
                 <ThemeToggle showLabel />
 
                 <div className="flex items-center gap-2">
@@ -274,9 +335,9 @@ export function MobileNavigation({
                       setIsDemoModalOpen(true);
                       setIsOpen(false);
                     }}
-                    className="flex flex-1 items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/10 text-amber-900 dark:text-amber-300 border border-amber-300/80 dark:border-amber-800/80 text-xs font-bold transition min-h-[44px]"
+                    className="flex flex-1 items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/30 text-xs font-semibold transition min-h-[44px]"
                   >
-                    <Sparkles className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    <Sparkles className="h-4 w-4 text-amber-400" />
                     <span>Demo Scenarios</span>
                   </button>
 
@@ -287,7 +348,7 @@ export function MobileNavigation({
                       setIsOpen(false);
                     }}
                     title="Reset State"
-                    className="flex h-11 w-11 items-center justify-center rounded-xl bg-white border border-[#F1D5DE] text-slate-700 dark:bg-[#17171D] dark:border-[#2A2028] dark:text-slate-200"
+                    className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-[#D6D6D6] hover:text-white"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </button>
@@ -299,10 +360,10 @@ export function MobileNavigation({
                     setIsEmergencyModalOpen(true);
                     setIsOpen(false);
                   }}
-                  className="flex w-full items-center justify-center gap-2 py-2 px-3 rounded-xl bg-rose-600 text-white text-xs font-bold transition min-h-[44px]"
+                  className="flex w-full items-center justify-center gap-2 py-2 px-3 rounded-xl bg-[#FD1053] hover:bg-[#e00b46] text-white text-xs font-bold transition min-h-[44px] shadow-[0_2px_10px_rgba(253,16,83,0.35)]"
                 >
                   <PhoneCall className="h-4 w-4" />
-                  <span>24/7 National Emergency (112)</span>
+                  <span>24/7 Helpline (112)</span>
                 </button>
               </div>
             </motion.div>

@@ -25,6 +25,7 @@ import { SurvivorOnboardingModal } from '@/components/SurvivorOnboardingModal';
 import { MultiChannelCheckInHub } from '@/components/MultiChannelCheckInHub';
 import { DynamicDistressDashboard } from '@/components/DynamicDistressDashboard';
 import { PredictiveRiskDashboard } from '@/components/PredictiveRiskDashboard';
+import { ManasSurakshaMobileOverview } from '@/components/ManasSurakshaMobileOverview';
 import { getTextDirection } from '@/lib/i18n-engine';
 import { motion, AnimatePresence } from 'framer-motion';
 import { pageTransitionVariants } from '@/lib/design-system';
@@ -134,12 +135,12 @@ export function MainApp() {
   return (
     <div
       dir={getTextDirection(language)}
-      className="min-h-screen flex flex-col bg-white dark:bg-[#07070A] text-[#111111] dark:text-white transition-colors duration-200"
+      className="min-h-screen flex flex-col bg-[#FFFFFF] dark:bg-[#151515] text-[#333333] dark:text-white transition-colors duration-200"
     >
       {/* Skip to Main Content Link (WCAG 2.4.1) */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#B91C1C] focus:text-white focus:font-bold focus:rounded-xl focus:shadow-lg focus:outline-hidden"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#FD1053] focus:text-white focus:font-bold focus:rounded-xl focus:shadow-lg focus:outline-hidden"
       >
         Skip to main content
       </a>
@@ -208,6 +209,16 @@ export function MainApp() {
 
               {currentView === 'dashboard' && <VictimDashboard />}
 
+              {(currentView === 'mobile_overview' || currentView === 'stitch_mobile') && (
+                <div className="py-2">
+                  <ManasSurakshaMobileOverview
+                    onNavigate={handleNavigate}
+                    onOpenCheckIn={() => setCurrentView('checkin_wizard')}
+                    onOpenTrajectory={() => setCurrentView('distress_score')}
+                  />
+                </div>
+              )}
+
               {currentView === 'distress_score' && (
                 <DynamicDistressDashboard
                   initialScore={47}
@@ -267,24 +278,24 @@ export function MainApp() {
         </main>
 
         {/* Luxury Healthcare Statutory Footer */}
-        <footer className="mt-auto border-t border-[#F1D5DE] dark:border-[#2A2028] bg-[#FFF7FA] dark:bg-[#0B0B0F] py-5 text-xs text-[#64748B] dark:text-[#B8B8C2]">
+        <footer className="mt-auto border-t border-[#474747]/15 dark:border-white/10 bg-[#F7F7F8] dark:bg-[#1B1B1B] py-5 text-xs text-[#6B7280] dark:text-[#A3A3A3]">
           <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#B91C1C] dark:bg-[#EC4899]" />
-              <span className="font-bold text-[#111111] dark:text-white">
+              <span className="w-2 h-2 rounded-full bg-[#FD1053] shadow-[0_0_6px_#FD1053]" />
+              <span className="font-bold text-[#333333] dark:text-white">
                 MANAS SURAKSHA
               </span>
-              <span className="text-[#64748B] dark:text-[#8E8E9A]">
+              <span className="text-[#6B7280] dark:text-[#A3A3A3]">
                 · National Distress Early-Warning & Victim Mental Health Platform
               </span>
             </div>
 
-            <div className="flex items-center gap-4 text-[11px] text-[#64748B] dark:text-[#8E8E9A]">
+            <div className="flex items-center gap-4 text-[11px] text-[#6B7280] dark:text-[#A3A3A3]">
               <span>SC/ST PoA Act §15A & DPDPA 2023 End-to-End Encryption</span>
               <button
                 type="button"
                 onClick={() => setIsEmergencyModalOpen(true)}
-                className="text-[#B91C1C] dark:text-[#F472B6] hover:underline font-bold"
+                className="text-[#FD1053] hover:underline font-bold"
               >
                 24/7 National Emergency (112)
               </button>

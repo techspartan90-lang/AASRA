@@ -6,26 +6,23 @@ import {
   DistressAnalysisResponse,
   DistressAnalysisRequest,
 } from '@/lib/ai-distress-engine';
+import { LuxuryButton } from '@/components/design-system/LuxuryButton';
+import { PremiumBadge } from '@/components/design-system/PremiumBadge';
+import { GlassPanel } from '@/components/design-system/GlassPanel';
 import {
   Brain,
-  Shield,
   ShieldAlert,
-  ShieldCheck,
   Activity,
   FileText,
   Mic,
   Clock,
   Scale,
   Sparkles,
-  Info,
-  CheckCircle2,
-  AlertTriangle,
   RotateCcw,
   Sliders,
   TrendingUp,
   UserCheck,
   Server,
-  Zap,
 } from 'lucide-react';
 
 export function AiDistressExplainabilityPanel() {
@@ -77,7 +74,6 @@ export function AiDistressExplainabilityPanel() {
       baselineIndicator: 58,
     });
   });
-  const [isCalculating, setIsCalculating] = useState<boolean>(false);
 
   useEffect(() => {
     let isCancelled = false;
@@ -117,7 +113,6 @@ export function AiDistressExplainabilityPanel() {
     aiDistressEngine.analyzeDistress(req).then(result => {
       if (!isCancelled) {
         setAnalysis(result);
-        setIsCalculating(false);
       }
     });
 
@@ -143,37 +138,38 @@ export function AiDistressExplainabilityPanel() {
   return (
     <div className="max-w-6xl mx-auto space-y-8 py-6 px-4 sm:px-6">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-linear-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 shadow-xl border border-slate-800 space-y-4">
+      <div className="rounded-3xl bg-[#333333] text-white p-6 sm:p-8 shadow-xl border border-[rgba(255,255,255,0.12)] space-y-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[rgba(253,16,83,0.06)] rounded-full blur-3xl pointer-events-none" />
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-xs font-bold text-emerald-400 border border-white/10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1E1E1E] text-xs font-mono font-bold text-[#FD1053] border border-[rgba(253,16,83,0.30)]">
               <Brain className="w-3.5 h-3.5" />
-              <span>Phase 5 · Multimodal AI Distress Analysis</span>
+              <span>Multimodal AI Distress Analysis</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               AI Distress Recognition &amp; Explainability
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#D6D6D6] max-w-2xl leading-relaxed">
               Transparent, non-diagnostic inference fusing text sentiment, voluntary voice acoustics, behavioral check-in cadence, and judicial milestone stressors.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-2xl border border-white/10 text-xs self-start md:self-auto">
-            <Server className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 bg-[#252525] px-4 py-2.5 rounded-2xl border border-[rgba(255,255,255,0.10)] text-xs self-start md:self-auto">
+            <Server className="w-4 h-4 text-[#FD1053]" />
             <div>
-              <span className="text-[10px] text-slate-400 block">FastAPI Service Status</span>
-              <span className="font-extrabold text-white text-xs">
-                {analysis.isFastApiBackend ? 'FastAPI Connected (Port 8000)' : 'Deterministic Local Fallback Engine'}
+              <span className="text-[10px] text-[#888888] block">Service Status</span>
+              <span className="font-bold text-white text-xs">
+                {analysis.isFastApiBackend ? 'FastAPI Active (Port 8000)' : 'Deterministic Local Fallback Engine'}
               </span>
             </div>
           </div>
         </div>
 
         {/* Ethical Non-Clinical Disclaimer */}
-        <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex items-center gap-2.5">
-          <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-[#1E1E1E] border border-[rgba(253,16,83,0.35)] text-[#D6D6D6] text-xs flex items-center gap-2.5">
+          <ShieldAlert className="w-4 h-4 text-[#FD1053] shrink-0" />
           <span>
-            <strong>Mandatory Governance Boundary:</strong> Never produces a psychiatric or clinical diagnosis. All indicators are decision-support cues strictly intended to assist human caseworkers in prioritizing welfare outreach.
+            <strong className="text-white">Mandatory Governance Boundary:</strong> Never produces a clinical diagnosis. All indicators are early decision-support cues strictly intended to assist human caseworkers in prioritizing welfare outreach.
           </span>
         </div>
       </div>
@@ -181,113 +177,113 @@ export function AiDistressExplainabilityPanel() {
       {/* Primary Indicator Score & High-Level Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* 1. Distress Indicator */}
-        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+        <div className="p-6 rounded-3xl bg-[#252525] border border-[rgba(255,255,255,0.10)] shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#888888]">
               Distress Indicator
             </span>
-            <Activity className="w-4 h-4 text-rose-500" />
+            <Activity className="w-4 h-4 text-[#FD1053]" />
           </div>
           <div className="my-4">
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white">
+              <span className="text-4xl sm:text-5xl font-black text-white">
                 {analysis.distress_indicator}
               </span>
-              <span className="text-base text-slate-500 font-semibold">/ 100</span>
+              <span className="text-base text-[#888888] font-semibold">/ 100</span>
             </div>
-            <span
-              className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-extrabold ${
-                analysis.distress_indicator >= 75
-                  ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+            <div className="mt-2">
+              <PremiumBadge
+                tone={
+                  analysis.distress_indicator >= 75
+                    ? 'elevated'
+                    : analysis.distress_indicator >= 50
+                    ? 'medium'
+                    : 'stable'
+                }
+              >
+                {analysis.distress_indicator >= 75
+                  ? 'Elevated Situational Distress'
                   : analysis.distress_indicator >= 50
-                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                  : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-              }`}
-            >
-              {analysis.distress_indicator >= 75
-                ? 'Elevated Situational Distress'
-                : analysis.distress_indicator >= 50
-                ? 'Moderate Stress Load'
-                : 'Balanced Emotional Baseline'}
-            </span>
+                  ? 'Moderate Stress Load'
+                  : 'Balanced Emotional Baseline'}
+              </PremiumBadge>
+            </div>
           </div>
-          <span className="text-[11px] text-slate-500 font-mono">
+          <span className="text-[11px] text-[#888888] font-mono">
             Model Confidence: {(analysis.confidence * 100).toFixed(0)}%
           </span>
         </div>
 
         {/* 2. Longitudinal Trend Change */}
-        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+        <div className="p-6 rounded-3xl bg-[#252525] border border-[rgba(255,255,255,0.10)] shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#888888]">
               Baseline Deviation
             </span>
-            <TrendingUp className="w-4 h-4 text-indigo-500" />
+            <TrendingUp className="w-4 h-4 text-white" />
           </div>
           <div className="my-4">
-            <span className="text-xl sm:text-2xl font-black text-indigo-700 dark:text-indigo-400 block leading-tight">
+            <span className="text-xl sm:text-2xl font-bold text-white block leading-tight">
               {analysis.trend_change}
             </span>
-            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-2">
+            <p className="text-xs text-[#D6D6D6] font-medium mt-2">
               Assessed against 30-day personalized intake baseline of {baselineScore} pts.
             </p>
           </div>
-          <span className="text-[11px] text-slate-500 font-mono">
+          <span className="text-[11px] text-[#888888] font-mono">
             Updated: {new Date(analysis.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
 
         {/* 3. Actionable Follow-Up Pathway */}
-        <div className="p-6 rounded-3xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 shadow-sm flex flex-col justify-between">
+        <div className="p-6 rounded-3xl bg-[#252525] border border-[rgba(255,255,255,0.10)] shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#888888]">
               Recommended Follow-Up
             </span>
-            <UserCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <UserCheck className="w-4 h-4 text-[#FD1053]" />
           </div>
           <div className="my-3">
-            <p className="text-sm font-bold text-slate-900 dark:text-white leading-relaxed">
+            <p className="text-sm font-bold text-white leading-relaxed">
               {analysis.recommended_follow_up}
             </p>
           </div>
-          <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold">
+          <span className="text-[11px] text-[#FD1053] font-semibold">
             Human Caseworker Pathway · No Automated Intervention
           </span>
         </div>
       </div>
 
-      {/* =========================================================================
-          EXPLAINABILITY PANEL: “Signals contributing to this indicator”
-          ========================================================================= */}
-      <section className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-sm space-y-6">
-        <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
-          <div className="flex items-center gap-2 text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">
+      {/* EXPLAINABILITY PANEL */}
+      <section className="rounded-3xl bg-[#252525] border border-[rgba(255,255,255,0.10)] p-6 sm:p-10 shadow-sm space-y-6">
+        <div className="border-b border-[rgba(255,255,255,0.08)] pb-4">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#FD1053] uppercase tracking-wider mb-1">
             <Sparkles className="w-4 h-4" />
             <span>Multi-Signal Transparency</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white">
             Signals contributing to this indicator
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium mt-1">
+          <p className="text-xs sm:text-sm text-[#D6D6D6] font-medium mt-1">
             Every score is decomposed into plain-language human explanations so caseworkers understand why an indicator shifted.
           </p>
         </div>
 
-        {/* Signals List with Category Badges */}
-        <div className="space-y-3.5">
+        {/* Signals List */}
+        <div className="space-y-3">
           {analysis.contributing_signals.map((sig, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 flex items-start gap-3.5 transition hover:border-indigo-300 dark:hover:border-indigo-700"
+              className="p-4 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] flex items-start gap-3.5 transition hover:border-[#FD1053]"
             >
-              <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+              <div className="w-8 h-8 rounded-xl bg-[#333333] border border-[rgba(253,16,83,0.30)] text-[#FD1053] flex items-center justify-center shrink-0 mt-0.5 font-mono font-bold text-xs">
                 {idx + 1}
               </div>
               <div className="space-y-1">
-                <span className="text-sm font-bold text-slate-900 dark:text-white block">
+                <span className="text-sm font-bold text-white block">
                   {sig}
                 </span>
-                <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
+                <p className="text-xs text-[#D6D6D6]">
                   {sig.includes('court hearing')
                     ? 'Situational stressor: Court appearances frequently produce temporary acute anxiety peaks.'
                     : sig.includes('fear')
@@ -304,91 +300,88 @@ export function AiDistressExplainabilityPanel() {
         </div>
 
         {/* 4 Analysis Module Breakdown Cards */}
-        <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+        <div className="pt-6 border-t border-[rgba(255,255,255,0.08)] space-y-4">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#888888]">
             Analysis Modules In Detail
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* 1. Text Analysis */}
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2.5">
-              <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+            <div className="p-5 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-2.5">
+              <div className="flex items-center gap-2 text-[#FD1053]">
                 <FileText className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider">1. Text Analysis</span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                Scans for hopelessness, fear/anxiety, social withdrawal, and self-harm keywords across 10 Indian regional languages.
+              <p className="text-xs text-[#D6D6D6] leading-relaxed">
+                Scans for distress keywords, fear/anxiety markers, and self-harm terms across 10 Indian regional languages.
               </p>
-              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 block">
-                Active · Vocabulary Heuristic &amp; Transformer Screening
+              <span className="text-[10px] font-mono text-white block">
+                Active · Vocabulary Heuristic &amp; Transformer
               </span>
             </div>
 
             {/* 2. Voice Acoustics */}
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2.5">
-              <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
+            <div className="p-5 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-2.5">
+              <div className="flex items-center gap-2 text-white">
                 <Mic className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider">2. Voice Acoustics</span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                Extracts pitch jitter, speaking rate (WPM), hesitation pause lengths, and tremor perturbation from voluntary voice notes.
+              <p className="text-xs text-[#D6D6D6] leading-relaxed">
+                Extracts pitch jitter, speaking rate (WPM), hesitation pause lengths, and tremor from voluntary recordings.
               </p>
-              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 block">
+              <span className="text-[10px] font-mono text-white block">
                 Active · 8kHz - 48kHz Acoustic Telemetry
               </span>
             </div>
 
             {/* 3. Behavioral Analysis */}
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2.5">
-              <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400">
+            <div className="p-5 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-2.5">
+              <div className="flex items-center gap-2 text-[#D6D6D6]">
                 <Clock className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider">3. Behavioral Cadence</span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                Tracks missed check-ins, declining engagement depth, abrupt time shifts, and frequency of human callback requests.
+              <p className="text-xs text-[#D6D6D6] leading-relaxed">
+                Tracks missed check-ins, declining engagement depth, abrupt time shifts, and frequency of callback requests.
               </p>
-              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 block">
+              <span className="text-[10px] font-mono text-white block">
                 Active · Temporal Cadence Evaluation
               </span>
             </div>
 
             {/* 4. Case Milestone Context */}
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2.5">
-              <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+            <div className="p-5 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-2.5">
+              <div className="flex items-center gap-2 text-[#FD1053]">
                 <Scale className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider">4. Case Milestones</span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+              <p className="text-xs text-[#D6D6D6] leading-relaxed">
                 Contextualizes emotional state against upcoming court hearings, chargesheets, investigation delays, and threat reports.
               </p>
-              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 block">
-                Active · Legal Timeline Context Integration
+              <span className="text-[10px] font-mono text-white block">
+                Active · Judicial Milestone Integration
               </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* =========================================================================
-          INTERACTIVE AI SIMULATION SANDBOX
-          Allows evaluators / caseworkers to test the inference model interactively.
-          ========================================================================= */}
-      <section className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-sm space-y-6">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+      {/* INTERACTIVE AI SIMULATION SANDBOX */}
+      <section className="rounded-3xl bg-[#252525] border border-[rgba(255,255,255,0.10)] p-6 sm:p-10 shadow-sm space-y-6">
+        <div className="flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] pb-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
-              <Sliders className="w-4 h-4 text-emerald-600" />
+            <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#888888] uppercase tracking-wider mb-1">
+              <Sliders className="w-4 h-4 text-[#FD1053]" />
               <span>Interactive Model Evaluation Sandbox</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h3 className="text-xl sm:text-2xl font-bold text-white">
               Simulate Multimodal Signals
             </h3>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-xs text-[#D6D6D6]">
               Adjust text, voice acoustics, missed check-ins, and milestone proximity to observe real-time inference recalculation.
             </p>
           </div>
 
-          <button
+          <LuxuryButton
             onClick={() => {
               setMood('Okay');
               setTextInput('Routine check-in today. Slept moderately well.');
@@ -401,18 +394,19 @@ export function AiDistressExplainabilityPanel() {
               setReportedThreats(false);
               setBaselineScore(50);
             }}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+            variant="secondary"
+            leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
+            className="text-xs py-1.5 px-3 min-h-[34px]"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Demo Baseline</span>
-          </button>
+            Reset Demo Baseline
+          </LuxuryButton>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
           {/* Left Column: Text & Mood Inputs */}
           <div className="space-y-4">
             <div>
-              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+              <label className="font-bold text-white block mb-1">
                 Survivor Stated Mood:
               </label>
               <div className="flex flex-wrap gap-2">
@@ -423,8 +417,8 @@ export function AiDistressExplainabilityPanel() {
                     onClick={() => setMood(m)}
                     className={`px-3 py-1.5 rounded-xl font-bold transition cursor-pointer ${
                       mood === m
-                        ? 'bg-indigo-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                        ? 'bg-[#FD1053] text-white shadow-sm'
+                        : 'bg-[#1E1E1E] text-[#D6D6D6] border border-[rgba(255,255,255,0.08)] hover:bg-[#333333]'
                     }`}
                   >
                     {m}
@@ -434,7 +428,7 @@ export function AiDistressExplainabilityPanel() {
             </div>
 
             <div>
-              <label htmlFor="sim-text" className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+              <label htmlFor="sim-text" className="font-bold text-white block mb-1">
                 Written / Spoken Reflection Text:
               </label>
               <textarea
@@ -442,15 +436,15 @@ export function AiDistressExplainabilityPanel() {
                 value={textInput}
                 onChange={e => setTextInput(e.target.value)}
                 rows={3}
-                className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+                className="w-full p-3 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.12)] text-xs text-white focus:outline-none focus:border-[#FD1053]"
               />
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
-              <span className="font-bold text-slate-800 dark:text-slate-200 block">
+            <div className="p-4 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-3">
+              <span className="font-bold text-white block">
                 Case Milestone Situational Context:
               </span>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-[#D6D6D6]">
                 <span>Days to Next Court Hearing:</span>
                 <input
                   type="number"
@@ -458,17 +452,17 @@ export function AiDistressExplainabilityPanel() {
                   max="60"
                   value={hearingProximityDays}
                   onChange={e => setHearingProximityDays(Number(e.target.value))}
-                  className="w-20 px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 text-right bg-white dark:bg-slate-800 font-bold"
+                  className="w-20 px-2 py-1 rounded-lg border border-[rgba(255,255,255,0.15)] text-right bg-[#252525] font-bold text-white focus:outline-none focus:border-[#FD1053]"
                 />
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-[#D6D6D6]">
                 <span>Reported Threat / Intimidation on Record:</span>
                 <input
                   type="checkbox"
                   checked={reportedThreats}
                   onChange={e => setReportedThreats(e.target.checked)}
-                  className="w-4 h-4 text-emerald-600 rounded cursor-pointer"
+                  className="w-4 h-4 accent-[#FD1053] rounded cursor-pointer"
                 />
               </div>
             </div>
@@ -476,28 +470,28 @@ export function AiDistressExplainabilityPanel() {
 
           {/* Right Column: Voice & Behavioral Sliders */}
           <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
+            <div className="p-4 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-800 dark:text-slate-200">
+                <span className="font-bold text-white">
                   Voice Acoustic Telemetry:
                 </span>
-                <label className="flex items-center gap-1.5 cursor-pointer">
+                <label className="flex items-center gap-1.5 cursor-pointer text-[#D6D6D6]">
                   <input
                     type="checkbox"
                     checked={includeVoice}
                     onChange={e => setIncludeVoice(e.target.checked)}
-                    className="w-4 h-4 text-purple-600 rounded"
+                    className="w-4 h-4 accent-[#FD1053] rounded"
                   />
                   <span className="font-semibold">Include Audio</span>
                 </label>
               </div>
 
               {includeVoice && (
-                <div className="space-y-3 pt-2">
+                <div className="space-y-3 pt-2 text-[#D6D6D6]">
                   <div>
                     <div className="flex justify-between">
                       <span>Pitch Jitter: {(pitchJitter * 100).toFixed(1)}%</span>
-                      <span className="text-slate-400">Threshold: &gt; 4.0%</span>
+                      <span className="text-[#888888]">Threshold: &gt; 4.0%</span>
                     </div>
                     <input
                       type="range"
@@ -506,14 +500,14 @@ export function AiDistressExplainabilityPanel() {
                       step="0.005"
                       value={pitchJitter}
                       onChange={e => setPitchJitter(Number(e.target.value))}
-                      className="w-full accent-purple-600 cursor-pointer"
+                      className="w-full accent-[#FD1053] cursor-pointer"
                     />
                   </div>
 
                   <div>
                     <div className="flex justify-between">
                       <span>Vocal Tremor Index: {tremorIndex.toFixed(2)}</span>
-                      <span className="text-slate-400">Threshold: &gt; 0.45</span>
+                      <span className="text-[#888888]">Threshold: &gt; 0.45</span>
                     </div>
                     <input
                       type="range"
@@ -522,14 +516,14 @@ export function AiDistressExplainabilityPanel() {
                       step="0.05"
                       value={tremorIndex}
                       onChange={e => setTremorIndex(Number(e.target.value))}
-                      className="w-full accent-purple-600 cursor-pointer"
+                      className="w-full accent-[#FD1053] cursor-pointer"
                     />
                   </div>
 
                   <div>
                     <div className="flex justify-between">
                       <span>Hesitation Pauses: {pausesSeconds.toFixed(1)}s</span>
-                      <span className="text-slate-400">Normal: &lt; 2.5s</span>
+                      <span className="text-[#888888]">Normal: &lt; 2.5s</span>
                     </div>
                     <input
                       type="range"
@@ -538,15 +532,15 @@ export function AiDistressExplainabilityPanel() {
                       step="0.5"
                       value={pausesSeconds}
                       onChange={e => setPausesSeconds(Number(e.target.value))}
-                      className="w-full accent-purple-600 cursor-pointer"
+                      className="w-full accent-[#FD1053] cursor-pointer"
                     />
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
-              <span className="font-bold text-slate-800 dark:text-slate-200 block">
+            <div className="p-4 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-3 text-[#D6D6D6]">
+              <span className="font-bold text-white block">
                 Behavioral Engagement Shifts:
               </span>
               <div className="flex items-center justify-between">
@@ -557,7 +551,7 @@ export function AiDistressExplainabilityPanel() {
                   max="5"
                   value={missedCheckIns}
                   onChange={e => setMissedCheckIns(Number(e.target.value))}
-                  className="w-16 px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 text-right bg-white dark:bg-slate-800 font-bold"
+                  className="w-16 px-2 py-1 rounded-lg border border-[rgba(255,255,255,0.15)] text-right bg-[#252525] font-bold text-white focus:outline-none focus:border-[#FD1053]"
                 />
               </div>
 
@@ -567,7 +561,7 @@ export function AiDistressExplainabilityPanel() {
                   type="checkbox"
                   checked={decliningEngagement}
                   onChange={e => setDecliningEngagement(e.target.checked)}
-                  className="w-4 h-4 text-emerald-600 rounded cursor-pointer"
+                  className="w-4 h-4 accent-[#FD1053] rounded cursor-pointer"
                 />
               </div>
             </div>

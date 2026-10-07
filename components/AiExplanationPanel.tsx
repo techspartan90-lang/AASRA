@@ -2,17 +2,15 @@
 
 import React, { useState } from 'react';
 import { RiskLevel } from '@/types';
+import { PremiumBadge } from '@/components/design-system/PremiumBadge';
+import { LuxuryButton } from '@/components/design-system/LuxuryButton';
 import {
-  ShieldAlert,
-  AlertTriangle,
-  CheckCircle,
-  Info,
   Sparkles,
   BarChart2,
   TrendingUp,
   History,
   UserCheck,
-  HelpCircle,
+  Info,
 } from 'lucide-react';
 import { PredictionHistoryModal } from './PredictionHistoryModal';
 import { HumanOverrideModal } from './HumanOverrideModal';
@@ -41,147 +39,122 @@ export function AiExplanationPanel({
 
   const delta = currentScore - baselineScore;
 
-  // Interpretable feature importance weights
   const featureWeights = [
     { name: 'Baseline Deviation (+33 pts)', weight: 94, impact: 'High upward shift' },
-    { name: 'Trajectory Persistence (3 increases)', weight: 82, impact: 'Consecutive escalation' },
+    { name: 'Trajectory Persistence (3 cycles)', weight: 82, impact: 'Consecutive escalation' },
     { name: 'Linear Slope Gradient', weight: 76, impact: 'Positive rate of change' },
     { name: 'Acute Fear Response (4/5)', weight: 68, impact: 'Hypervigilance signal' },
     { name: 'Sleep Impairment (Severe)', weight: 62, impact: 'Somatic disturbance' },
     { name: 'Missed Monitoring Check-ins (1)', weight: 48, impact: 'Avoidance indicator' },
   ];
 
-  const getRiskLabel = (level: RiskLevel) => {
+  const getRiskTone = (level: RiskLevel): 'elevated' | 'medium' | 'low' | 'stable' => {
     switch (level) {
       case 'critical':
-        return 'Critical Concern';
       case 'high':
-        return 'High Concern';
+        return 'elevated';
       case 'elevated':
-        return 'Elevated Concern';
       case 'moderate':
-        return 'Moderate Concern';
+        return 'medium';
       case 'mild':
-        return 'Mild Concern';
+        return 'low';
       case 'stable':
       default:
-        return 'Stable';
-    }
-  };
-
-  const getRiskBadgeColor = (level: RiskLevel) => {
-    switch (level) {
-      case 'critical':
-        return 'bg-rose-200 text-rose-900 dark:bg-rose-950 dark:text-rose-200 border-rose-300 dark:border-rose-800';
-      case 'high':
-        return 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-900';
-      case 'elevated':
-        return 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-900';
-      case 'moderate':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950/60 dark:text-yellow-300 border-yellow-200 dark:border-yellow-900';
-      case 'mild':
-        return 'bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300 border-sky-200 dark:border-sky-900';
-      case 'stable':
-      default:
-        return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900';
+        return 'stable';
     }
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 space-y-6 shadow-xs">
+    <div className="rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#252525] p-5 sm:p-6 space-y-6 shadow-sm">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[rgba(255,255,255,0.08)]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/50 flex items-center justify-center text-amber-600 dark:text-amber-400">
+          <div className="w-8 h-8 rounded-xl bg-[#333333] border border-[rgba(253,16,83,0.30)] flex items-center justify-center text-[#FD1053]">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+            <h3 className="text-sm font-bold text-white">
               Why was this case flagged?
             </h3>
-            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
-              Interpretable Machine Learning & Screening Summary · Case {caseId}
+            <p className="text-xs text-[#D6D6D6]">
+              Interpretable Machine Learning &amp; Screening Summary · Case {caseId}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">Current Status:</span>
-          <span
-            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${getRiskBadgeColor(
-              riskLevel
-            )}`}
-          >
-            {getRiskLabel(riskLevel)} ({currentScore}/100)
-          </span>
+          <span className="text-xs font-semibold text-[#888888]">Status:</span>
+          <PremiumBadge tone={getRiskTone(riskLevel)}>
+            {riskLevel.toUpperCase()} ({currentScore}/100)
+          </PremiumBadge>
         </div>
       </div>
 
-      {/* Trajectory Prediction Banner (Section 8, 9, 10) */}
-      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
+      {/* Trajectory Prediction Banner */}
+      <div className="p-4 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-rose-600" />
-            <span className="text-xs font-bold text-slate-900 dark:text-slate-200">
+            <TrendingUp className="w-4 h-4 text-[#FD1053]" />
+            <span className="text-xs font-bold text-white">
               Projected Trajectory: Increasing (Next 7–14 days)
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-900 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-[#333333] text-[#FD1053] border border-[rgba(253,16,83,0.30)]">
               Model Confidence: 74%
             </span>
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-200 dark:border-amber-900">
-              Uncertainty: Moderate
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-[#252525] text-[#D6D6D6] border border-[rgba(255,255,255,0.10)]">
+              Uncertainty: ±4.2 pts
             </span>
           </div>
         </div>
-        <p className="text-xs text-slate-700 dark:text-slate-300 font-medium">
+        <p className="text-xs text-[#D6D6D6] leading-relaxed">
           Target: <em>Likelihood of increased distress indicators in upcoming monitoring window</em> based on persistent upward momentum across 3 consecutive cycles.
         </p>
-        <div className="text-[11px] text-slate-600 dark:text-slate-400 font-mono font-medium flex items-center justify-between">
-          <span>Model: LogisticRiskModel (v1.2-prototype)</span>
+        <div className="text-[11px] text-[#888888] font-mono flex items-center justify-between">
+          <span>Model: LogisticRiskModel (v1.2-sovereign)</span>
           <span>Feature Set: features-v1</span>
         </div>
       </div>
 
-      {/* Baseline Deviation Overview (Section 4 & 5) */}
-      <div className="grid grid-cols-3 gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs">
+      {/* Baseline Deviation Overview */}
+      <div className="grid grid-cols-3 gap-3 p-3.5 rounded-2xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.08)] text-xs">
         <div>
-          <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Personal Baseline</span>
-          <p className="text-sm font-bold text-slate-900 dark:text-slate-200 mt-0.5">{baselineScore}/100</p>
+          <span className="text-[11px] font-semibold text-[#888888]">Personal Baseline</span>
+          <p className="text-sm font-bold text-white mt-0.5">{baselineScore}/100</p>
         </div>
         <div>
-          <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Current Score</span>
-          <p className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">{currentScore}/100</p>
+          <span className="text-[11px] font-semibold text-[#888888]">Current Score</span>
+          <p className="text-sm font-bold text-white mt-0.5">{currentScore}/100</p>
         </div>
         <div>
-          <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Baseline Delta</span>
-          <p className={`text-sm font-bold mt-0.5 ${delta > 0 ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'}`}>
+          <span className="text-[11px] font-semibold text-[#888888]">Baseline Delta</span>
+          <p className={`text-sm font-mono font-bold mt-0.5 ${delta > 0 ? 'text-[#FD1053]' : 'text-white'}`}>
             {delta > 0 ? '+' : ''}{delta} pts
           </p>
         </div>
       </div>
 
-      {/* Feature Importance Visualizer (Section 11) */}
+      {/* Feature Importance Visualizer */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-            <BarChart2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>Feature Importance & Prediction Contributors</span>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white">
+            <BarChart2 className="w-3.5 h-3.5 text-[#FD1053]" />
+            <span>Feature Importance &amp; Prediction Contributors</span>
           </div>
-          <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">Interpretable Weights</span>
+          <span className="text-[11px] font-semibold text-[#888888]">Interpretable Weights</span>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {featureWeights.map((fw, idx) => (
             <div key={idx} className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-800 dark:text-slate-200">{fw.name}</span>
-                <span className="text-[11px] font-mono font-medium text-slate-600 dark:text-slate-400">{fw.impact}</span>
+                <span className="font-semibold text-white">{fw.name}</span>
+                <span className="text-[11px] font-mono text-[#D6D6D6]">{fw.impact}</span>
               </div>
-              <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+              <div className="w-full h-2 rounded-full bg-[#1E1E1E] border border-[rgba(255,255,255,0.06)] overflow-hidden">
                 <div
-                  className="h-full bg-linear-to-r from-emerald-500 via-amber-500 to-rose-500 rounded-full"
+                  className="h-full bg-linear-to-r from-[#474747] via-[#FD1053] to-[#FD1053] rounded-full"
                   style={{ width: `${fw.weight}%` }}
                 />
               </div>
@@ -190,67 +163,69 @@ export function AiExplanationPanel({
         </div>
       </div>
 
-      {/* Contributing Signals (Section 12: Why is trajectory increasing?) */}
+      {/* Contributing Signals */}
       <div className="space-y-2">
-        <p className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+        <p className="text-xs font-bold text-white uppercase tracking-wider">
           Why is the trajectory increasing?
         </p>
         <ul className="space-y-2">
           {signals.map((signal, idx) => (
             <li
               key={idx}
-              className="flex items-start gap-2.5 text-xs text-slate-800 dark:text-slate-200 font-medium p-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800"
+              className="flex items-start gap-2.5 text-xs text-[#D6D6D6] p-2.5 rounded-xl bg-[#1E1E1E] border border-[rgba(255,255,255,0.06)]"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-600 mt-1.5 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FD1053] mt-1.5 shrink-0" />
               <span>{signal}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Recommended Next Step & Human Authority Action */}
-      <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800/60 space-y-2">
-        <p className="text-[11px] font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider">
+      {/* Recommended Next Step */}
+      <div className="p-4 rounded-2xl bg-[#1E1E1E] border border-[rgba(253,16,83,0.30)] space-y-2">
+        <p className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
           Recommended Human Action
         </p>
-        <p className="text-xs font-bold text-emerald-950 dark:text-emerald-100">
+        <p className="text-xs font-bold text-white">
           {recommendedNextStep || 'Conduct clinical triage interview to explore acute stressors and review legal security concerns.'}
         </p>
-        <p className="text-[11px] text-emerald-800 dark:text-emerald-400 font-medium">
+        <p className="text-[11px] text-[#D6D6D6]">
           The algorithm assists with early-warning signals. Authorized caseworkers retain sole authority over all interventions.
         </p>
       </div>
 
       {/* Model Transparency & Caseworker Tools */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[rgba(255,255,255,0.08)]">
         <div className="flex items-center gap-2">
-          <button
+          <LuxuryButton
             onClick={() => setIsHistoryOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 transition cursor-pointer"
+            variant="secondary"
+            leftIcon={<History className="w-3.5 h-3.5" />}
+            className="text-xs py-1 px-3 min-h-[34px]"
           >
-            <History className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
-            <span>Prediction History</span>
-          </button>
+            Prediction History
+          </LuxuryButton>
 
-          <button
+          <LuxuryButton
             onClick={() => setIsOverrideOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800 transition cursor-pointer"
+            variant="secondary"
+            leftIcon={<UserCheck className="w-3.5 h-3.5 text-[#FD1053]" />}
+            className="text-xs py-1 px-3 min-h-[34px]"
           >
-            <UserCheck className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
-            <span>Record Human Override</span>
-          </button>
+            Record Human Override
+          </LuxuryButton>
         </div>
 
-        <span className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">
+        <span className="text-[11px] font-mono text-[#888888]">
           AI assists. Humans decide.
         </span>
       </div>
 
       {/* Ethical Safeguard Notice */}
-      <div className="flex items-start gap-2 text-[11px] text-slate-700 dark:text-slate-300 font-medium bg-slate-50 dark:bg-slate-850 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
-        <Info className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-2 text-[11px] text-[#D6D6D6] bg-[#1E1E1E] p-3 rounded-xl border border-[rgba(255,255,255,0.08)]">
+        <Info className="w-4 h-4 text-[#FD1053] shrink-0 mt-0.5" />
         <span>
-          <strong>Ethical Safeguard & Non-Diagnostic Principle:</strong> Model output confidence reflects probabilistic trajectory correlation, not clinical certainty or psychological diagnosis. AI outputs are screening aids only.
+          <strong>Ethical Safeguard &amp; Non-Diagnostic Principle:</strong> Model output confidence reflects probabilistic trajectory correlation, not clinical certainty or psychological diagnosis. AI outputs are screening aids only.
         </span>
       </div>
 
@@ -266,7 +241,7 @@ export function AiExplanationPanel({
         <HumanOverrideModal
           caseId={caseId}
           currentScore={currentScore}
-          currentLevel={getRiskLabel(riskLevel)}
+          currentLevel={riskLevel}
           currentTrajectory="Increasing"
           onClose={() => setIsOverrideOpen(false)}
         />
