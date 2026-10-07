@@ -434,7 +434,7 @@ export function PredictiveRiskDashboard({ onOpenCaseworkerModal }: PredictiveRis
           ========================================================================= */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <GlassPanel
-          title="Weighted Contributing Signals"
+          title="Contributing Signals"
           subtitle="Top predictive indicators driving the current trajectory calculation."
         >
           <div className="space-y-3">
@@ -449,10 +449,8 @@ export function PredictiveRiskDashboard({ onOpenCaseworkerModal }: PredictiveRis
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-bold text-[#FD1053]">
-                    +{15 + idx * 8}%
-                  </span>
-                  <span className="text-[10px] text-[#6B7280] block">weight</span>
+                  <span className="text-xs font-bold text-[#FD1053]">Signal</span>
+                  <span className="text-[10px] text-[#6B7280] block">contributor</span>
                 </div>
               </LuxuryCard>
             ))}
@@ -476,7 +474,7 @@ export function PredictiveRiskDashboard({ onOpenCaseworkerModal }: PredictiveRis
                   {prediction.modelExplanation?.plainLanguageSummary || 'Proactive trauma-informed clinical engagement recommended.'}
                 </p>
                 <span className="text-[10px] font-bold text-[#FD1053] uppercase tracking-wider block pt-1">
-                  Priority: High (Next 48h)
+                  Priority: {prediction.recommendedFollowUp.toLowerCase().includes('within 48 hours') ? 'High · Next 48h' : prediction.recommendedFollowUp.toLowerCase().includes('mid-week') ? 'Standard · Mid-week' : 'Routine'}
                 </span>
               </div>
             </LuxuryCard>
