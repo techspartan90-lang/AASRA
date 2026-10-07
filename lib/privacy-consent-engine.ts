@@ -17,9 +17,9 @@ import { UserRole } from '@/types';
 
 export type ConsentStatus = 'active' | 'partial' | 'withdrawn' | 'pending';
 
-export type CommunicationChannelType = 'sms' | 'ivrs' | 'chatbot' | 'app' | 'web';
+export type CommunicationChannelType = 'sms' | 'ivrs' | 'chatbot' | 'app' | 'web' | 'whatsapp' | 'web_portal';
 
-export type CheckInFrequencyType = 'daily' | 'every_3_days' | 'weekly' | 'custom';
+export type CheckInFrequencyType = 'daily' | 'every_3_days' | 'weekly' | 'custom' | 'every_other_day' | 'on_demand_only';
 
 export type DataCategoryType = 
   | 'distress_indicators' 

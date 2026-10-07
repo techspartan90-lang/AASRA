@@ -10,18 +10,25 @@ import {
   Shield,
   Moon,
   AlertTriangle,
-  UserX,
   PhoneCall,
-  MessageSquare,
   ArrowRight,
   ArrowLeft,
   CheckCircle2,
   Mic,
   MicOff,
   Volume2,
-  RefreshCw,
   Sparkles,
 } from 'lucide-react';
+import {
+  LuxuryCard,
+  GlassPanel,
+  GlassInput,
+  GlassTextarea,
+  LuxuryButton,
+  PremiumBadge,
+  ThreeDVoiceWave,
+  AiAnalysisAnimation,
+} from '@/components/design-system';
 
 interface CheckInWizardProps {
   onComplete: (result: AnalysisResult) => void;
@@ -29,7 +36,7 @@ interface CheckInWizardProps {
 }
 
 export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
-  const { language, submitVictimCheckIn, selectedCaseId, consent, setIsEmergencyModalOpen } = useApp();
+  const { language, submitVictimCheckIn, selectedCaseId, setIsEmergencyModalOpen, consent } = useApp();
   const t = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   const [step, setStep] = useState(1);
@@ -93,158 +100,181 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
         avoidanceScore,
         requestHelp,
         notes,
-        hasVoiceSample,
-        voiceDurationSeconds: recordedSeconds,
+        hasVoiceSample: consent.voiceAnalysis ? hasVoiceSample : false,
+        voiceDurationSeconds: consent.voiceAnalysis ? recordedSeconds : 0,
       };
 
       const result = await submitVictimCheckIn(input, selectedCaseId || 'CASE-002');
-      setCompletedResult(result);
+      // Give the multi-stage AiAnalysisAnimation time to complete smoothly
+      setTimeout(() => {
+        setCompletedResult(result);
+        setIsSubmitting(false);
+      }, 4000);
     } catch (e) {
       console.error('Check-in error', e);
-    } finally {
       setIsSubmitting(false);
     }
   };
 
+  // If submitting, display the sophisticated AI Analysis Animation (Section 26)
+  if (isSubmitting) {
+    return (
+      <div className="max-w-xl mx-auto rounded-3xl glass-panel p-8 sm:p-12 shadow-2xl border-[#FD1053]/30">
+        <AiAnalysisAnimation durationPerStageMs={800} />
+      </div>
+    );
+  }
+
+  // Completed Confirmation State
   if (completedResult) {
     return (
-      <div className="max-w-xl mx-auto p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl text-center space-y-6">
-        <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
+      <div className="max-w-xl mx-auto p-8 rounded-3xl glass-panel text-center space-y-6 shadow-2xl border-[#FD1053]/30">
+        <div className="w-16 h-16 rounded-full bg-[#FD1053]/15 text-[#FD1053] mx-auto flex items-center justify-center border border-[#FD1053]/30 shadow-[0_0_20px_rgba(253,16,83,0.3)]">
           <CheckCircle2 className="w-8 h-8" />
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+          <h2 className="text-2xl font-bold text-[#333333] dark:text-white">
             {t.thankYouCheckIn}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-300">
+          <p className="text-sm text-[#474747] dark:text-[#D6D6D6]">
             {t.responsesRecorded}
           </p>
         </div>
 
-        {/* Trauma-sensitive gentle notification if elevated indicators were found */}
         {(completedResult.riskLevel === 'elevated' || completedResult.riskLevel === 'high') && (
-          <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-left text-xs text-amber-900 dark:text-amber-200 space-y-2">
-            <div className="flex items-center gap-2 font-semibold">
-              <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+          <div className="p-4 rounded-2xl glass-card border-[#FD1053]/35 text-left text-xs text-[#333333] dark:text-[#D6D6D6] space-y-2">
+            <div className="flex items-center gap-2 font-bold text-[#FD1053]">
+              <Sparkles className="w-4 h-4" />
               <span>Support Follow-Up</span>
             </div>
             <p className="leading-relaxed">
               {t.changesNoticed}
             </p>
-            <p className="text-[11px] text-amber-700 dark:text-amber-300">
-              Your assigned counsellor will review and may arrange a comfortable check-in call with you.
+            <p className="text-[11px] text-[#474747] dark:text-[#A3A3A3]">
+              Your assigned caseworker will review and coordinate any supportive check-in required.
             </p>
           </div>
         )}
 
         <div className="pt-4">
-          <button
+          <LuxuryButton
+            variant="primary"
+            size="lg"
+            className="w-full"
             onClick={() => onComplete(completedResult)}
-            className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium text-sm transition cursor-pointer"
           >
             Return to Your Well-Being Dashboard
-          </button>
+          </LuxuryButton>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+    <div className="max-w-2xl mx-auto rounded-3xl glass-panel shadow-2xl border-[#474747]/20 dark:border-white/10 overflow-hidden select-none">
       {/* Top Header with Progress */}
-      <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+      <div className="px-6 py-4 border-b border-[#474747]/15 dark:border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+          <PremiumBadge tone="live" size="sm">
+            Step {step} of {totalSteps}
+          </PremiumBadge>
+          <span className="text-xs text-[#6B7280]">·</span>
+          <span className="text-xs font-semibold text-[#333333] dark:text-white">
             Periodic Check-In
-          </span>
-          <span className="text-xs text-slate-400">·</span>
-          <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
-            {step} / {totalSteps}
           </span>
         </div>
 
         <button
+          type="button"
           onClick={onCancel}
-          className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+          className="text-xs text-[#6B7280] hover:text-[#FD1053] transition cursor-pointer"
         >
           Cancel
         </button>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5">
+      <div className="w-full bg-[#474747]/10 dark:bg-white/10 h-1.5">
         <div
-          className="bg-emerald-500 h-1.5 transition-all duration-300 ease-out"
+          className="bg-[#FD1053] h-1.5 transition-all duration-300 ease-out shadow-[0_0_8px_#FD1053]"
           style={{ width: `${(step / totalSteps) * 100}%` }}
         />
       </div>
 
       {/* Step Content */}
       <div className="p-6 sm:p-10 space-y-6">
+        {/* Step 1: Feeling Today (Section 27) */}
         {step === 1 && (
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Step 1
+                <span className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
+                  Step 1 · Emotional Horizon
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                  {t.step1Question}
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#333333] dark:text-white">
+                  How are you feeling today?
                 </h3>
               </div>
               <button
-                onClick={() => handleReadQuestion(t.step1Question)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                type="button"
+                onClick={() => handleReadQuestion('How are you feeling today?')}
+                className="p-2 rounded-xl text-[#6B7280] hover:text-[#FD1053] hover:bg-black/5 dark:hover:bg-white/5 transition"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
               </button>
             </div>
 
+            {/* 5 Response Options per Section 27: Doing well, Okay, A little stressed, Struggling, Very distressed */}
             <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
               {[
-                { val: 5, label: t.doingWell, emoji: '😊', desc: 'Feeling balanced' },
-                { val: 4, label: t.okay, emoji: '🙂', desc: 'Managing okay' },
-                { val: 3, label: t.notSure, emoji: '😐', desc: 'Mixed feelings' },
-                { val: 2, label: t.struggling, emoji: '😟', desc: 'Feeling heavy' },
-                { val: 1, label: t.veryDistressed, emoji: '😣', desc: 'Very distressed' },
-              ].map(opt => (
-                <button
-                  key={opt.val}
-                  type="button"
-                  onClick={() => setFeelingScore(opt.val)}
-                  className={`p-4 rounded-2xl border text-center transition flex flex-col items-center justify-center min-h-[100px] cursor-pointer ${
-                    feelingScore === opt.val
-                      ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-950 dark:text-emerald-100 ring-2 ring-emerald-500/20'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-slate-50/50 dark:bg-slate-850'
-                  }`}
-                >
-                  <span className="text-3xl mb-1">{opt.emoji}</span>
-                  <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                    {opt.label}
-                  </span>
-                  <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium mt-0.5">{opt.desc}</span>
-                </button>
-              ))}
+                { val: 5, label: 'Doing well', emoji: '😊', desc: 'Balanced & steady' },
+                { val: 4, label: 'Okay', emoji: '🙂', desc: 'Managing well' },
+                { val: 3, label: 'A little stressed', emoji: '😐', desc: 'Slight pressure' },
+                { val: 2, label: 'Struggling', emoji: '😟', desc: 'Feeling heavy' },
+                { val: 1, label: 'Very distressed', emoji: '😣', desc: 'Severe distress' },
+              ].map(opt => {
+                const isSelected = feelingScore === opt.val;
+                return (
+                  <button
+                    key={opt.val}
+                    type="button"
+                    onClick={() => setFeelingScore(opt.val)}
+                    className={`p-4 rounded-2xl glass-card text-center transition flex flex-col items-center justify-center min-h-[110px] cursor-pointer ${
+                      isSelected
+                        ? 'border-[#FD1053] bg-[#FD1053]/15 text-[#FD1053] ring-2 ring-[#FD1053]/30 shadow-[0_0_15px_rgba(253,16,83,0.2)]'
+                        : 'border-[#474747]/20 hover:border-[#FD1053]/40'
+                    }`}
+                  >
+                    <span className="text-3xl mb-1.5">{opt.emoji}</span>
+                    <span className="text-xs font-bold text-[#333333] dark:text-white">
+                      {opt.label}
+                    </span>
+                    <span className="text-[10px] text-[#6B7280] dark:text-[#A3A3A3] mt-0.5">{opt.desc}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
+        {/* Step 2: Safety */}
         {step === 2 && (
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                  Step 2
+                <span className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
+                  Step 2 · Personal Safety
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#333333] dark:text-white">
                   {t.step2Question}
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => handleReadQuestion(t.step2Question)}
-                className="p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-xl text-[#6B7280] hover:text-[#FD1053] hover:bg-black/5 dark:hover:bg-white/5 transition"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
@@ -258,81 +288,85 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
                 { val: 3, label: 'Moderate uneasiness in certain places', sub: 'Uneasy when traveling outside' },
                 { val: 2, label: 'Unsafe or frequently worried about security', sub: 'Notice suspicious people or tension' },
                 { val: 1, label: 'I feel severely unsafe or threatened', sub: 'Immediate safety worries' },
-              ].map(opt => (
-                <button
-                  key={opt.val}
-                  type="button"
-                  onClick={() => setSafetyScore(opt.val)}
-                  className={`w-full p-4 rounded-xl border text-left transition flex items-center justify-between cursor-pointer ${
-                    safetyScore === opt.val
-                      ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30 ring-2 ring-emerald-500/20'
-                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850'
-                  }`}
-                >
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                      {opt.label}
-                    </p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">{opt.sub}</p>
-                  </div>
-                  <div
-                    className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ml-3 ${
-                      safetyScore === opt.val
-                        ? 'border-emerald-500 bg-emerald-500 text-white'
-                        : 'border-slate-300 dark:border-slate-600'
+              ].map(opt => {
+                const isSelected = safetyScore === opt.val;
+                return (
+                  <button
+                    key={opt.val}
+                    type="button"
+                    onClick={() => setSafetyScore(opt.val)}
+                    className={`w-full p-4 rounded-2xl glass-card text-left transition flex items-center justify-between cursor-pointer ${
+                      isSelected
+                        ? 'border-[#FD1053] bg-[#FD1053]/15 ring-2 ring-[#FD1053]/30 shadow-[0_0_15px_rgba(253,16,83,0.15)]'
+                        : 'border-[#474747]/20 hover:border-[#FD1053]/40'
                     }`}
                   >
-                    {safetyScore === opt.val && <div className="w-2 h-2 rounded-full bg-white" />}
-                  </div>
-                </button>
-              ))}
+                    <div>
+                      <p className="text-sm font-semibold text-[#333333] dark:text-white">
+                        {opt.label}
+                      </p>
+                      <p className="text-xs text-[#6B7280] dark:text-[#A3A3A3]">{opt.sub}</p>
+                    </div>
+                    <div
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ml-3 ${
+                        isSelected
+                          ? 'border-[#FD1053] bg-[#FD1053] text-white'
+                          : 'border-[#474747]/40'
+                      }`}
+                    >
+                      {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Supportive immediate safety escalation (Section 27 & 28) */}
             {safetyScore === 1 && (
-              <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 space-y-2 text-xs animate-in fade-in">
-                <div className="flex items-center gap-2 font-bold text-rose-800 dark:text-rose-200">
-                  <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+              <div className="p-4 rounded-2xl bg-[#FD1053]/10 border border-[#FD1053]/35 space-y-2 text-xs">
+                <div className="flex items-center gap-2 font-bold text-[#FD1053]">
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
                   <span>Immediate Safety Support Available</span>
                 </div>
-                <p className="text-rose-700 dark:text-rose-300 text-[11px]">
-                  We noticed your personal safety response indicates acute worry or direct threats. Emergency police liaison and 24/7 helpline assistance are accessible immediately.
+                <p className="text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
+                  We noticed your personal safety response indicates acute worry. Emergency police liaison and 24/7 helpline assistance are accessible immediately.
                 </p>
                 <div className="flex flex-wrap items-center gap-2 pt-1">
-                  <button
-                    type="button"
+                  <LuxuryButton
+                    size="sm"
+                    variant="primary"
                     onClick={() => setIsEmergencyModalOpen(true)}
-                    className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs transition"
                   >
                     Connect 24/7 Helpline
-                  </button>
-                  <button
-                    type="button"
+                  </LuxuryButton>
+                  <LuxuryButton
+                    size="sm"
+                    variant="secondary"
                     onClick={() => setRequestHelp(true)}
-                    className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-rose-800 dark:text-rose-200 border border-rose-300 dark:border-rose-800 font-medium text-xs hover:bg-rose-100"
                   >
                     Request Urgent Caseworker Callback
-                  </button>
+                  </LuxuryButton>
                 </div>
               </div>
             )}
           </div>
         )}
 
+        {/* Step 3: Sleep */}
         {step === 3 && (
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Step 3
+                <span className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
+                  Step 3 · Rest & Sleep
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#333333] dark:text-white">
                   {t.step3Question}
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => handleReadQuestion(t.step3Question)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-xl text-[#6B7280] hover:text-[#FD1053] transition"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
@@ -346,52 +380,57 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
                 { val: 3, label: 'Restless sleep or waking up multiple times', icon: '🥱' },
                 { val: 2, label: 'Severe sleep trouble or disturbing thoughts', icon: '🌑' },
                 { val: 1, label: 'Almost unable to sleep / frequent nightmares', icon: '⚡' },
-              ].map(opt => (
-                <button
-                  key={opt.val}
-                  type="button"
-                  onClick={() => setSleepScore(opt.val)}
-                  className={`w-full p-4 rounded-xl border text-left transition flex items-center justify-between cursor-pointer ${
-                    sleepScore === opt.val
-                      ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30 ring-2 ring-emerald-500/20'
-                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl">{opt.icon}</span>
-                    <span className="text-sm font-medium text-slate-900 dark:text-white">
-                      {opt.label}
-                    </span>
-                  </div>
-                  <div
-                    className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ml-3 ${
-                      sleepScore === opt.val
-                        ? 'border-emerald-500 bg-emerald-500 text-white'
-                        : 'border-slate-300 dark:border-slate-600'
+              ].map(opt => {
+                const isSelected = sleepScore === opt.val;
+                return (
+                  <button
+                    key={opt.val}
+                    type="button"
+                    onClick={() => setSleepScore(opt.val)}
+                    className={`w-full p-4 rounded-2xl glass-card text-left transition flex items-center justify-between cursor-pointer ${
+                      isSelected
+                        ? 'border-[#FD1053] bg-[#FD1053]/15 ring-2 ring-[#FD1053]/30'
+                        : 'border-[#474747]/20 hover:border-[#FD1053]/40'
                     }`}
                   >
-                    {sleepScore === opt.val && <div className="w-2 h-2 rounded-full bg-white" />}
-                  </div>
-                </button>
-              ))}
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl">{opt.icon}</span>
+                      <span className="text-sm font-semibold text-[#333333] dark:text-white">
+                        {opt.label}
+                      </span>
+                    </div>
+                    <div
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ml-3 ${
+                        isSelected
+                          ? 'border-[#FD1053] bg-[#FD1053] text-white'
+                          : 'border-[#474747]/40'
+                      }`}
+                    >
+                      {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
+        {/* Step 4: Fear / Intrusive Thoughts */}
         {step === 4 && (
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Step 4
+                <span className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
+                  Step 4 · Anxiety & Distress
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#333333] dark:text-white">
                   {t.step4Question}
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => handleReadQuestion(t.step4Question)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-xl text-[#6B7280] hover:text-[#FD1053] transition"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
@@ -405,41 +444,46 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
                 { val: 3, label: 'Moderately', sub: 'Frequent' },
                 { val: 4, label: 'A lot', sub: 'Difficult' },
                 { val: 5, label: 'Constantly', sub: 'Overwhelming' },
-              ].map(opt => (
-                <button
-                  key={opt.val}
-                  type="button"
-                  onClick={() => setFearScore(opt.val)}
-                  className={`p-4 rounded-xl border text-center transition flex flex-col items-center justify-center cursor-pointer ${
-                    fearScore === opt.val
-                      ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30 ring-2 ring-emerald-500/20'
-                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850'
-                  }`}
-                >
-                  <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                    {opt.label}
-                  </span>
-                  <span className="text-[11px] text-slate-400 mt-1">{opt.sub}</span>
-                </button>
-              ))}
+              ].map(opt => {
+                const isSelected = fearScore === opt.val;
+                return (
+                  <button
+                    key={opt.val}
+                    type="button"
+                    onClick={() => setFearScore(opt.val)}
+                    className={`p-4 rounded-2xl glass-card text-center transition flex flex-col items-center justify-center cursor-pointer ${
+                      isSelected
+                        ? 'border-[#FD1053] bg-[#FD1053]/15 text-[#FD1053] ring-2 ring-[#FD1053]/30'
+                        : 'border-[#474747]/20 hover:border-[#FD1053]/40'
+                    }`}
+                  >
+                    <span className="text-sm font-bold text-[#333333] dark:text-white">
+                      {opt.label}
+                    </span>
+                    <span className="text-[11px] text-[#6B7280] dark:text-[#A3A3A3] mt-1">{opt.sub}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
+        {/* Step 5: Avoidance */}
         {step === 5 && (
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Step 5
+                <span className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
+                  Step 5 · Social Connection
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#333333] dark:text-white">
                   {t.step5Question}
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => handleReadQuestion(t.step5Question)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-xl text-[#6B7280] hover:text-[#FD1053] transition"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
@@ -448,54 +492,59 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
 
             <div className="space-y-3 pt-2">
               {[
-                { val: 1, label: 'No, engaging normally with family and work' },
+                { val: 1, label: 'Engaging normally with family and work' },
                 { val: 2, label: 'Slightly less active than usual' },
                 { val: 3, label: 'Avoiding specific places or crowded spaces' },
-                { val: 4, label: 'Avoiding most social interactions or staying indoors' },
-                { val: 5, label: 'Complete withdrawal from friends, family, or leaving the house' },
-              ].map(opt => (
-                <button
-                  key={opt.val}
-                  type="button"
-                  onClick={() => setAvoidanceScore(opt.val)}
-                  className={`w-full p-4 rounded-xl border text-left transition flex items-center justify-between cursor-pointer ${
-                    avoidanceScore === opt.val
-                      ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30 ring-2 ring-emerald-500/20'
-                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850'
-                  }`}
-                >
-                  <span className="text-sm font-medium text-slate-900 dark:text-white">
-                    {opt.label}
-                  </span>
-                  <div
-                    className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ml-3 ${
-                      avoidanceScore === opt.val
-                        ? 'border-emerald-500 bg-emerald-500 text-white'
-                        : 'border-slate-300 dark:border-slate-600'
+                { val: 4, label: 'Avoiding most social interactions' },
+                { val: 5, label: 'Complete withdrawal from friends or leaving the house' },
+              ].map(opt => {
+                const isSelected = avoidanceScore === opt.val;
+                return (
+                  <button
+                    key={opt.val}
+                    type="button"
+                    onClick={() => setAvoidanceScore(opt.val)}
+                    className={`w-full p-4 rounded-2xl glass-card text-left transition flex items-center justify-between cursor-pointer ${
+                      isSelected
+                        ? 'border-[#FD1053] bg-[#FD1053]/15 ring-2 ring-[#FD1053]/30'
+                        : 'border-[#474747]/20 hover:border-[#FD1053]/40'
                     }`}
                   >
-                    {avoidanceScore === opt.val && <div className="w-2 h-2 rounded-full bg-white" />}
-                  </div>
-                </button>
-              ))}
+                    <span className="text-sm font-semibold text-[#333333] dark:text-white">
+                      {opt.label}
+                    </span>
+                    <div
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ml-3 ${
+                        isSelected
+                          ? 'border-[#FD1053] bg-[#FD1053] text-white'
+                          : 'border-[#474747]/40'
+                      }`}
+                    >
+                      {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
+        {/* Step 6: Caseworker Outreach */}
         {step === 6 && (
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Step 6
+                <span className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
+                  Step 6 · Counsellor Linkage
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#333333] dark:text-white">
                   {t.step6Question}
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => handleReadQuestion(t.step6Question)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-xl text-[#6B7280] hover:text-[#FD1053] transition"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
@@ -506,20 +555,20 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
               <button
                 type="button"
                 onClick={() => setRequestHelp(true)}
-                className={`p-6 rounded-2xl border text-left transition flex flex-col justify-between cursor-pointer ${
+                className={`p-6 rounded-2xl glass-card text-left transition flex flex-col justify-between cursor-pointer ${
                   requestHelp
-                    ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30 ring-2 ring-emerald-500/20'
-                    : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850'
+                    ? 'border-[#FD1053] bg-[#FD1053]/15 ring-2 ring-[#FD1053]/30'
+                    : 'border-[#474747]/20 hover:border-[#FD1053]/40'
                 }`}
               >
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
+                <div className="w-10 h-10 rounded-xl bg-[#FD1053]/15 text-[#FD1053] flex items-center justify-center mb-3">
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-base font-semibold text-slate-900 dark:text-white">
+                  <h4 className="text-base font-bold text-[#333333] dark:text-white">
                     Yes, request a contact
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <p className="text-xs text-[#6B7280] dark:text-[#A3A3A3] mt-1">
                     Your assigned caseworker or clinical counsellor will schedule a call.
                   </p>
                 </div>
@@ -528,20 +577,20 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
               <button
                 type="button"
                 onClick={() => setRequestHelp(false)}
-                className={`p-6 rounded-2xl border text-left transition flex flex-col justify-between cursor-pointer ${
+                className={`p-6 rounded-2xl glass-card text-left transition flex flex-col justify-between cursor-pointer ${
                   !requestHelp
-                    ? 'border-slate-400 dark:border-slate-600 bg-slate-50 dark:bg-slate-800'
-                    : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850'
+                    ? 'border-[#474747]/50 bg-black/5 dark:bg-white/5 ring-1 ring-white/10'
+                    : 'border-[#474747]/20 hover:border-[#FD1053]/40'
                 }`}
               >
-                <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center mb-3">
+                <div className="w-10 h-10 rounded-xl bg-[#474747]/10 text-[#6B7280] flex items-center justify-center mb-3">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-base font-semibold text-slate-900 dark:text-white">
+                  <h4 className="text-base font-bold text-[#333333] dark:text-white">
                     Not right now
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <p className="text-xs text-[#6B7280] dark:text-[#A3A3A3] mt-1">
                     Just recording my check-in. I will reach out if I need help.
                   </p>
                 </div>
@@ -550,145 +599,120 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
           </div>
         )}
 
+        {/* Step 7: Trauma Voice & Notes (Sections 27 & 28) */}
         {step === 7 && (
           <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Step 7 (Optional)
+                <span className="text-[11px] font-bold text-[#FD1053] uppercase tracking-wider">
+                  Step 7 (Optional) · Trauma Voice & Notes
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#333333] dark:text-white">
                   {t.step7Question}
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => handleReadQuestion(t.step7Question)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-xl text-[#6B7280] hover:text-[#FD1053] transition"
                 title="Read aloud"
               >
                 <Volume2 className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-4 pt-1">
-              <div>
-                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-                  Text Response (Optional)
-                </label>
-                <textarea
-                  value={notes}
-                  onChange={e => setNotes(e.target.value)}
-                  placeholder="You can describe how you feel, any concerns about upcoming court dates, or questions for your welfare officer..."
-                  rows={4}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 p-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
-                />
-
-                {/* Multilingual NLP Detection Badge (Section 18 & 19) */}
-                {notes.trim().length > 3 && (
-                  <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 mt-2">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                    <span>
-                      Detected Language: <strong>{SUPPORTED_LANGUAGES.find(l => l.code === detectLanguage(notes, language).detectedLanguage)?.name || 'Auto'}</strong>
-                      {' '}({Math.round(detectLanguage(notes, language).confidence * 100)}% match)
-                      {detectLanguage(notes, language).isLowConfidence && (
-                        <span className="text-amber-600 dark:text-amber-400 ml-1">· Confirm language in header if needed</span>
-                      )}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Voice Record Feature with Consent Check (Section 21 & 22) */}
-              {!consent?.voiceAnalysis ? (
-                <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
-                  <div className="space-y-0.5">
-                    <p className="font-semibold text-slate-700 dark:text-slate-300">
-                      Voice Recording Disabled
-                    </p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                      Voice analysis is currently turned off in your privacy settings. You can enter remarks as text above.
-                    </p>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-slate-200 dark:bg-slate-750 text-slate-600 dark:text-slate-300">
-                    Consent Protected
+            {consent.voiceAnalysis && (
+              /* Trauma Voice 3D Waveform (Section 28) */
+              <div className="p-6 rounded-2xl glass-card border-[#FD1053]/25 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Mic className="w-4 h-4 text-[#FD1053]" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#333333] dark:text-white">
+                    Trauma Voice Audio Interaction
                   </span>
                 </div>
-              ) : (
-                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <p className="text-xs font-semibold text-slate-900 dark:text-white">
-                      Voice Note (Optional)
-                    </p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                      {isRecording
-                        ? `Recording in progress... (${recordedSeconds}s / 15s)`
-                        : hasVoiceSample
-                        ? `Voice response recorded (${recordedSeconds}s)`
-                        : 'Tap to speak your response in your preferred language'}
-                    </p>
-                  </div>
+                <PremiumBadge tone="live" size="sm">
+                  Zero Retention Raw Audio
+                </PremiumBadge>
+              </div>
 
-                  <button
-                    type="button"
-                    onClick={handleToggleRecord}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer min-h-[44px] ${
-                      isRecording
-                        ? 'bg-rose-600 text-white animate-pulse'
-                        : hasVoiceSample
-                        ? 'bg-emerald-600 text-white'
-                        : 'bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200'
-                    }`}
-                  >
-                    {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                    <span>{isRecording ? 'Stop' : hasVoiceSample ? 'Re-record' : 'Speak'}</span>
-                  </button>
+              {/* 3D Waveform */}
+              <ThreeDVoiceWave
+                isListening={isRecording}
+                isProcessing={hasVoiceSample && !isRecording}
+              />
+
+              <div className="flex items-center justify-center gap-3 pt-2">
+                <LuxuryButton
+                  size="md"
+                  variant={isRecording ? 'danger' : 'primary'}
+                  onClick={handleToggleRecord}
+                  leftIcon={isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                >
+                  {isRecording ? `Stop Recording (${15 - recordedSeconds}s left)` : hasVoiceSample ? 'Re-Record Voice Sample' : 'Start Voice Check-In'}
+                </LuxuryButton>
+              </div>
+            </div>
+
+            )}
+
+            {/* Optional Text Notes */}
+            <div className="space-y-2">
+              <GlassTextarea
+                label="Text Notes (Optional)"
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
+                placeholder="You can describe how you feel, concerns regarding upcoming court milestones, or questions for your caseworker..."
+                rows={3}
+              />
+
+              {notes.trim().length > 3 && (
+                <div className="flex items-center gap-2 p-2 rounded-xl glass-card text-xs text-[#6B7280] dark:text-[#D6D6D6]">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FD1053] shrink-0" />
+                  <span>
+                    Detected Language: <strong>{SUPPORTED_LANGUAGES.find(l => l.code === detectLanguage(notes, language).detectedLanguage)?.name || 'Auto'}</strong>
+                  </span>
                 </div>
               )}
             </div>
           </div>
         )}
-      </div>
 
-      {/* Footer Navigation Buttons */}
-      <div className="px-6 py-4 bg-slate-50 dark:bg-slate-850 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => (step > 1 ? setStep(step - 1) : onCancel())}
-          className="flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition cursor-pointer min-h-[44px]"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>{step > 1 ? 'Previous' : 'Cancel'}</span>
-        </button>
+        {/* Stepper Navigation Buttons */}
+        <div className="flex items-center justify-between pt-6 border-t border-[#474747]/15 dark:border-white/10">
+          {step > 1 ? (
+            <LuxuryButton
+              variant="secondary"
+              size="md"
+              onClick={() => setStep(prev => prev - 1)}
+              leftIcon={<ArrowLeft className="w-4 h-4" />}
+            >
+              Previous
+            </LuxuryButton>
+          ) : (
+            <div />
+          )}
 
-        {step < totalSteps ? (
-          <button
-            type="button"
-            onClick={() => setStep(step + 1)}
-            className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white text-xs font-semibold transition cursor-pointer min-h-[44px]"
-          >
-            <span>Continue</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        ) : (
-          <button
-            type="button"
-            disabled={isSubmitting}
-            onClick={handleSubmit}
-            className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition cursor-pointer shadow-md disabled:opacity-50 min-h-[44px]"
-          >
-            {isSubmitting ? (
-              <>
-                <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                <span>Recording Responses...</span>
-              </>
-            ) : (
-              <>
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Submit Check-In</span>
-              </>
-            )}
-          </button>
-        )}
+          {step < totalSteps ? (
+            <LuxuryButton
+              variant="primary"
+              size="md"
+              onClick={() => setStep(prev => prev + 1)}
+              rightIcon={<ArrowRight className="w-4 h-4" />}
+            >
+              Next Step
+            </LuxuryButton>
+          ) : (
+            <LuxuryButton
+              variant="primary"
+              size="lg"
+              onClick={handleSubmit}
+              rightIcon={<CheckCircle2 className="w-4 h-4" />}
+            >
+              Complete Check-In
+            </LuxuryButton>
+          )}
+        </div>
       </div>
     </div>
   );

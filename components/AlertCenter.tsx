@@ -11,6 +11,14 @@ import {
   WorkflowStage,
 } from '@/lib/alert-management-system';
 import {
+  GlassPanel,
+  LuxuryCard,
+  LuxuryButton,
+  GlassInput,
+  GlassTextarea,
+  PremiumBadge,
+} from '@/components/design-system';
+import {
   ShieldAlert,
   AlertTriangle,
   AlertCircle,
@@ -63,10 +71,6 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
     setAlerts(alertManagementSystem.getAlerts());
   };
 
-  const selectedAlert = useMemo(() => {
-    return alerts.find(a => a.alertId === selectedAlertId) || alerts[0];
-  }, [alerts, selectedAlertId]);
-
   const filteredAlerts = useMemo(() => {
     return alerts.filter(a => {
       const matchSeverity = severityFilter === 'all' || a.severity === severityFilter;
@@ -83,6 +87,10 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
       return matchSeverity && matchStatus && matchSearch;
     });
   }, [alerts, severityFilter, statusFilter, searchQuery]);
+
+  const selectedAlert = useMemo(() => {
+    return filteredAlerts.find(a => a.alertId === selectedAlertId) || filteredAlerts[0];
+  }, [filteredAlerts, selectedAlertId]);
 
   // Action handlers
   const handleAcknowledge = (alertId: string) => {
@@ -123,41 +131,56 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
     refreshAlerts();
   };
 
-  const renderSeverityIcon = (iconName: string, className = 'w-4 h-4') => {
-    switch (iconName) {
-      case 'Info':
-        return <Info className={className} aria-hidden="true" />;
-      case 'AlertCircle':
-        return <AlertCircle className={className} aria-hidden="true" />;
-      case 'AlertTriangle':
-        return <AlertTriangle className={className} aria-hidden="true" />;
-      case 'ShieldAlert':
-        return <ShieldAlert className={className} aria-hidden="true" />;
-      default:
-        return <Info className={className} aria-hidden="true" />;
+  const renderSeverityBadge = (severity: AlertSeverity) => {
+    if (severity === 'Critical review') {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white bg-[#FD1053] px-2.5 py-0.5 rounded-full shadow-[0_0_8px_rgba(253,16,83,0.35)]">
+          <ShieldAlert className="w-3.5 h-3.5" />
+          Critical Review
+        </span>
+      );
     }
+    if (severity === 'Urgent review') {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#FD1053] bg-[#FD1053]/15 px-2.5 py-0.5 rounded-full border border-[#FD1053]/35">
+          <AlertTriangle className="w-3.5 h-3.5" />
+          Urgent Review
+        </span>
+      );
+    }
+    if (severity === 'Attention required') {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-500/30">
+          <AlertCircle className="w-3.5 h-3.5" />
+          Attention Required
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#D6D6D6] bg-[#474747]/60 px-2.5 py-0.5 rounded-full border border-white/10">
+        <Info className="w-3.5 h-3.5" />
+        Information
+      </span>
+    );
   };
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* =========================================================================
           HEADER & GOVERNANCE MANDATE
-          "AI cannot independently make irreversible decisions."
-          "Require human review for consequential intervention."
-          "Do not make the interface unnecessarily alarming."
           ========================================================================= */}
       <section
         aria-labelledby="alert-center-heading"
-        className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-4"
+        className="rounded-3xl bg-[#333333]/90 dark:bg-[#1E1E1E]/95 border border-[#474747]/30 dark:border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-xl text-white space-y-4"
       >
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#FD1053]/15 text-[#FD1053] border border-[#FD1053]/30">
                 <ShieldAlert className="w-3.5 h-3.5" aria-hidden="true" />
                 Phase 8: Real-Time Alerts
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#474747]/60 text-emerald-400 border border-emerald-500/30">
                 <UserCheck className="w-3.5 h-3.5" aria-hidden="true" />
                 Human Review Mandatory
               </span>
@@ -165,17 +188,18 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
 
             <h1
               id="alert-center-heading"
-              className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight"
+              className="text-2xl sm:text-3xl font-bold text-white tracking-tight"
             >
               Real-Time Alert Management
             </h1>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium mt-1 max-w-3xl leading-relaxed">
+            <p className="text-sm text-[#D6D6D6] font-medium mt-1 max-w-3xl leading-relaxed">
               Continuous operational triage for caseworkers. Designed with a calm aesthetic that prioritizes human safety and deliberate review without inducing panic.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono font-bold px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span className="text-xs font-mono font-bold px-3.5 py-2.5 rounded-2xl bg-[#474747]/60 text-white border border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#FD1053] animate-pulse" />
               {alerts.filter(a => a.status !== 'Resolved').length} Active Alerts
             </span>
           </div>
@@ -185,28 +209,25 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
         <div
           role="note"
           aria-label="Human governance mandate"
-          className="p-4 rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 flex items-start gap-3"
+          className="p-4 rounded-2xl bg-[#474747]/30 border border-[#FD1053]/30 flex items-start gap-3"
         >
-          <Info className="w-5 h-5 text-amber-700 dark:text-amber-400 shrink-0 mt-0.5" aria-hidden="true" />
+          <Info className="w-5 h-5 text-[#FD1053] shrink-0 mt-0.5" aria-hidden="true" />
           <div className="space-y-1 text-xs">
-            <p className="font-black text-amber-900 dark:text-amber-200 uppercase tracking-wide">
+            <p className="font-bold text-[#FD1053] uppercase tracking-wide">
               GOVERNANCE MANDATE: AI CANNOT INDEPENDENTLY MAKE IRREVERSIBLE DECISIONS
             </p>
-            <p className="text-amber-800 dark:text-amber-300 leading-relaxed font-medium">
+            <p className="text-[#D6D6D6] leading-relaxed font-medium">
               Every alert requires human review before consequential or irreversible caseworker intervention. AI models assist in early recognition, but all outreach, case context escalations, and support plans are authorized by licensed counsellors and district officers under the SC/ST PoA Act.
             </p>
           </div>
         </div>
 
-        {/* =====================================================================
-            FILTER TOOLBAR: Alert Types & Statuses
-            ===================================================================== */}
+        {/* Filter Toolbar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-2">
           <div className="flex flex-wrap items-center gap-2">
-            {/* Severity Filter */}
-            <div className="flex items-center gap-1.5 text-xs font-semibold">
-              <Filter className="w-3.5 h-3.5 text-slate-500" />
-              <span className="text-slate-500">Type:</span>
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#D6D6D6]">
+              <Filter className="w-3.5 h-3.5 text-[#FD1053]" />
+              <span>Type:</span>
             </div>
             {(['all', 'Information', 'Attention required', 'Urgent review', 'Critical review'] as (
               | 'all'
@@ -215,10 +236,10 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
               <button
                 key={sev}
                 onClick={() => setSeverityFilter(sev)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer min-h-[38px] ${
                   severityFilter === sev
-                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
+                    ? 'bg-[#FD1053] text-white shadow-md shadow-[#FD1053]/25'
+                    : 'bg-[#474747]/40 text-[#D6D6D6] hover:text-white hover:bg-[#474747]'
                 }`}
               >
                 {sev === 'all' ? 'All Types' : sev}
@@ -227,14 +248,14 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
           </div>
 
           {/* Search Box */}
-          <div className="relative min-w-[220px]">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <div className="relative min-w-[240px]">
+            <Search className="w-4 h-4 text-[#D6D6D6] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search by ID, survivor, trigger..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#474747]/40 border border-white/10 text-xs font-medium text-white placeholder:text-[#D6D6D6]/60 focus:outline-hidden focus:border-[#FD1053]/40 min-h-[38px]"
             />
           </div>
         </div>
@@ -247,381 +268,288 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
         {/* Left Column: Alert Cards List (5 Cols) */}
         <div className="lg:col-span-5 space-y-4">
           <div className="flex items-center justify-between px-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Alert Queue ({filteredAlerts.length})
+            <span className="text-xs font-bold uppercase tracking-wider text-[#D6D6D6]">
+              Operational Alert Feed ({filteredAlerts.length})
             </span>
-            <span className="text-xs text-slate-400 font-medium">Sorted by recency</span>
           </div>
 
-          <div className="space-y-3.5 max-h-[820px] overflow-y-auto pr-1">
+          <div className="space-y-3">
             {filteredAlerts.length === 0 ? (
-              <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500">
-                No alerts match the selected criteria.
-              </div>
-            ) : (
-              filteredAlerts.map(alert => {
-                const config = SEVERITY_CONFIGS[alert.severity];
-                const isSelected = selectedAlert.alertId === alert.alertId;
-                return (
-                  <div
-                    key={alert.alertId}
-                    onClick={() => setSelectedAlertId(alert.alertId)}
-                    className={`p-5 rounded-3xl border-2 transition-all cursor-pointer space-y-3 ${
-                      isSelected
-                        ? 'border-indigo-600 dark:border-indigo-400 shadow-md bg-indigo-50/20 dark:bg-indigo-950/20'
-                        : `${config.borderClass} hover:border-slate-400 dark:hover:border-slate-600`
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${config.badgeClass}`}
-                        >
-                          {renderSeverityIcon(config.iconName, 'w-3 h-3')}
-                          <span>{alert.severity}</span>
-                        </span>
-                        <span className="text-xs font-mono font-bold text-slate-500">
-                          {alert.alertId}
-                        </span>
-                      </div>
-
-                      <span
-                        className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                          alert.status === 'Resolved'
-                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                            : alert.status === 'Escalated'
-                            ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
-                            : alert.status === 'Acknowledged'
-                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
-                            : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300'
-                        }`}
-                      >
-                        {alert.status}
+              <LuxuryCard className="p-6 text-center">
+                <p className="text-sm font-semibold text-white">No alerts match the current filters.</p>
+                <p className="text-xs text-[#D6D6D6] mt-1">Adjust the filters or search terms to view other alerts.</p>
+              </LuxuryCard>
+            ) : filteredAlerts.map(alert => {
+              const isSelected = selectedAlert?.alertId === alert.alertId;
+              return (
+                <LuxuryCard
+                  key={alert.alertId}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedAlertId(alert.alertId);
+                    }
+                  }}
+                  onClick={() => setSelectedAlertId(alert.alertId)}
+                  className={`p-4 space-y-2.5 cursor-pointer transition ${
+                    isSelected
+                      ? 'border-[#FD1053] shadow-lg shadow-[#FD1053]/20 bg-[#333333]'
+                      : 'hover:border-white/20'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      {renderSeverityBadge(alert.severity)}
+                      <span className="font-mono text-xs font-bold text-white">
+                        {alert.alertId}
                       </span>
                     </div>
-
-                    <div>
-                      <h2 className="text-sm font-black text-slate-900 dark:text-white">
-                        {alert.survivorReference}
-                      </h2>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mt-1 font-medium">
-                        {alert.trigger}
-                      </p>
-                    </div>
-
-                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <User className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="truncate max-w-[140px]">{alert.assignedCounsellor}</span>
-                      </span>
-                      <span>Action: <strong className="text-indigo-600 dark:text-indigo-400">{alert.recommendedAction}</strong></span>
-                    </div>
+                    <span className="text-[10px] text-[#D6D6D6] font-mono">
+                      {new Date(alert.createdTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
                   </div>
-                );
-              })
-            )}
+
+                  <h3 className="text-xs sm:text-sm font-bold text-white">
+                    {alert.trigger}
+                  </h3>
+
+                  <div className="flex items-center justify-between text-xs text-[#D6D6D6] pt-1 border-t border-white/5">
+                    <span>Survivor: <strong className="text-white">{alert.survivorReference}</strong></span>
+                    <span
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        alert.status === 'Resolved'
+                          ? 'bg-emerald-500/20 text-emerald-300'
+                          : alert.status === 'Acknowledged'
+                          ? 'bg-sky-500/20 text-sky-300'
+                          : 'bg-[#FD1053]/20 text-[#FD1053]'
+                      }`}
+                    >
+                      {alert.status}
+                    </span>
+                  </div>
+                </LuxuryCard>
+              );
+            })}
           </div>
         </div>
 
-        {/* Right Column: Detailed Alert Inspection, Workflow & Action Center (7 Cols) */}
-        <div className="lg:col-span-7 space-y-6">
-          {selectedAlert && (
-            <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-6">
-              {/* Alert Meta Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className={`inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold border ${
-                        SEVERITY_CONFIGS[selectedAlert.severity].badgeClass
-                      }`}
-                    >
-                      {renderSeverityIcon(SEVERITY_CONFIGS[selectedAlert.severity].iconName, 'w-3.5 h-3.5')}
-                      <span>{selectedAlert.severity}</span>
-                    </span>
-                    <span className="text-xs font-mono font-bold text-slate-500">
-                      {selectedAlert.alertId}
-                    </span>
+        {/* Right Column: Alert Detail & Resolution Workflow (7 Cols) */}
+        <div className="lg:col-span-7 space-y-4">
+          {selectedAlert ? (
+            <GlassPanel
+              title={`Alert Triage: ${selectedAlert.alertId}`}
+              subtitle={`Trigger: ${selectedAlert.trigger}`}
+              badge={renderSeverityBadge(selectedAlert.severity)}
+            >
+              <div className="space-y-6 pt-2">
+                {/* 5-Stage Visual Workflow */}
+                <div className="space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#D6D6D6] block">
+                    Workflow Resolution Stages
+                  </span>
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+                    {WORKFLOW_STAGES.map((stg, idx) => {
+                      const isCompleted =
+                        (selectedAlert.status === 'Acknowledged' && idx <= 1) ||
+                        (selectedAlert.status === 'Under Review' && idx <= 2) ||
+                        (selectedAlert.status === 'Action Taken' && idx <= 3) ||
+                        (selectedAlert.status === 'Escalated' && idx <= 4) ||
+                        selectedAlert.status === 'Resolved';
+                      const isCurrent =
+                        (selectedAlert.status === 'New' && idx === 0) ||
+                        (selectedAlert.status === 'Acknowledged' && idx === 1) ||
+                        (selectedAlert.status === 'Under Review' && idx === 2) ||
+                        (selectedAlert.status === 'Action Taken' && idx === 3) ||
+                        (selectedAlert.status === 'Escalated' && idx === 4) ||
+                        (selectedAlert.status === 'Resolved' && idx === 5);
+
+                      return (
+                        <div
+                          key={stg}
+                          className={`p-2 rounded-xl text-center border text-[10px] font-bold transition ${
+                            isCurrent
+                              ? 'bg-[#FD1053] text-white border-[#FD1053] shadow-xs'
+                              : isCompleted
+                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                              : 'bg-[#474747]/30 text-[#D6D6D6] border-white/5'
+                          }`}
+                        >
+                          <span className="block truncate">{stg}</span>
+                        </div>
+                      );
+                    })}
                   </div>
-                  <h2 className="text-2xl font-black text-slate-900 dark:text-white">
-                    {selectedAlert.survivorReference}
-                  </h2>
-                  <span className="text-xs text-slate-500 flex items-center gap-1.5 mt-1">
-                    <Clock className="w-3.5 h-3.5" />
-                    <span>Created: {new Date(selectedAlert.createdTime).toLocaleString()}</span>
-                  </span>
                 </div>
 
-                {onSelectCase && (
-                  <button
-                    onClick={() => onSelectCase(selectedAlert.caseId)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 transition cursor-pointer self-start"
-                  >
-                    <span>View Case File</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
+                {/* Key Context Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <LuxuryCard className="p-4 space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-[#D6D6D6]">Survivor Reference</span>
+                    <p className="text-sm font-bold text-white">{selectedAlert.survivorReference}</p>
+                    <span className="text-[11px] text-[#D6D6D6]">Case: {selectedAlert.caseId} · {selectedAlert.district}</span>
+                  </LuxuryCard>
 
-              {/* =================================================================
-                  WORKFLOW STAGE PROGRESSION
-                  Signal detected → Alert generated → Human review → Counsellor action → Follow-up → Resolution
-                  ================================================================= */}
-              <div className="space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                  Alert Lifecycle Workflow Stage:
-                </span>
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-center">
-                  {WORKFLOW_STAGES.map((stage, idx) => {
-                    const currentIdx = WORKFLOW_STAGES.indexOf(selectedAlert.currentWorkflowStage);
-                    const isPassed = idx <= currentIdx;
-                    const isCurrent = idx === currentIdx;
-                    return (
-                      <div
-                        key={stage}
-                        className={`p-2 rounded-xl text-[10px] font-bold border transition ${
-                          isCurrent
-                            ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
-                            : isPassed
-                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
-                            : 'bg-slate-50 text-slate-400 border-slate-200 dark:bg-slate-850 dark:text-slate-500 dark:border-slate-800'
-                        }`}
-                      >
-                        <span className="block">{stage}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Trigger & Recommended Action Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
-                    Trigger Event
-                  </span>
-                  <p className="text-xs font-bold text-slate-900 dark:text-white leading-relaxed">
-                    {selectedAlert.trigger}
-                  </p>
+                  <LuxuryCard className="p-4 space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-[#D6D6D6]">Assigned Counsellor</span>
+                    <p className="text-sm font-bold text-white">{selectedAlert.assignedCounsellor}</p>
+                    <span className="text-[11px] text-[#D6D6D6]">Gateway: Primary Multi-Channel</span>
+                  </LuxuryCard>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 block">
-                    Recommended Action
+                {/* Recommended Operational Action */}
+                <div className="p-4 rounded-2xl bg-[#474747]/40 border border-white/10 space-y-1">
+                  <span className="text-xs font-bold text-[#FD1053] block uppercase tracking-wider">
+                    Recommended Clinical / Welfare Follow-up
                   </span>
-                  <p className="text-xs font-black text-indigo-900 dark:text-indigo-200 uppercase tracking-wide">
+                  <p className="text-xs text-white leading-relaxed font-medium">
                     {selectedAlert.recommendedAction}
                   </p>
-                  <span className="text-[10px] text-slate-500 block">Requires human authorized execution</span>
                 </div>
-              </div>
 
-              {/* Supporting Signals List */}
-              <div className="space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                  Supporting Multi-Modal Signals:
-                </span>
-                <ul className="space-y-1.5" aria-label="Supporting signals list">
-                  {selectedAlert.supportingSignals.map((signal, sIdx) => (
-                    <li
-                      key={sIdx}
-                      className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 font-medium"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span>{signal}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Assigned Counsellor Info */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
-                  <UserCheck className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">
-                    Assigned: <strong>{selectedAlert.assignedCounsellor}</strong>
+                {/* Resolution History / Casework Notes */}
+                <div className="space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#D6D6D6] block">
+                    Casework Audit Trail
                   </span>
-                </div>
-                <span className="text-[11px] text-slate-500">Status: {selectedAlert.status}</span>
-              </div>
-
-              {/* =================================================================
-                  5 REQUIRED ACTIONS TOOLBAR
-                  - Acknowledge
-                  - Assign
-                  - Escalate
-                  - Resolve
-                  - Add Note
-                  ================================================================= */}
-              <div className="space-y-3 pt-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                  Authorized Caseworker Actions (Audited):
-                </span>
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                  <button
-                    onClick={() => setActiveModalAction('acknowledge')}
-                    className="p-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:hover:bg-blue-900 dark:text-blue-300 text-xs font-bold border border-blue-200 dark:border-blue-800 transition cursor-pointer min-h-[40px]"
-                  >
-                    Acknowledge
-                  </button>
-                  <button
-                    onClick={() => setActiveModalAction('assign')}
-                    className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-slate-700 transition cursor-pointer min-h-[40px]"
-                  >
-                    Assign
-                  </button>
-                  <button
-                    onClick={() => setActiveModalAction('escalate')}
-                    className="p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:hover:bg-amber-900 dark:text-amber-300 text-xs font-bold border border-amber-200 dark:border-amber-800 transition cursor-pointer min-h-[40px]"
-                  >
-                    Escalate
-                  </button>
-                  <button
-                    onClick={() => setActiveModalAction('resolve')}
-                    className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:hover:bg-emerald-900 dark:text-emerald-300 text-xs font-bold border border-emerald-200 dark:border-emerald-800 transition cursor-pointer min-h-[40px]"
-                  >
-                    Resolve
-                  </button>
-                  <button
-                    onClick={() => setActiveModalAction('add_note')}
-                    className="p-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 dark:bg-indigo-950/60 dark:hover:bg-indigo-900 dark:text-indigo-300 text-xs font-bold border border-indigo-200 dark:border-indigo-800 transition cursor-pointer min-h-[40px]"
-                  >
-                    Add Note
-                  </button>
-                </div>
-              </div>
-
-              {/* =================================================================
-                  IMMUTABLE AUDIT TRAIL
-                  "Audit every action."
-                  ================================================================= */}
-              <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    <History className="w-4 h-4 text-indigo-500" />
-                    <span>Audit Provenance Log ({selectedAlert.auditHistory.length})</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400 font-mono">IMMUTABLE LOG</span>
-                </div>
-
-                <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-                  {selectedAlert.auditHistory.map(entry => (
-                    <div
-                      key={entry.id}
-                      className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs space-y-1"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                          [{entry.action}] · {entry.actor}
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-400">
-                          {new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </span>
+                  <div className="space-y-2">
+                    {selectedAlert.auditHistory.map((entry, idx) => (
+                      <div key={idx} className="p-3 rounded-xl bg-[#474747]/30 border border-white/5 text-xs space-y-1">
+                        <div className="flex items-center justify-between text-[10px] text-[#D6D6D6]">
+                          <span className="font-bold text-white">{entry.actor} ({entry.action})</span>
+                          <span className="font-mono">{new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <span className="text-white font-medium block">{entry.note}</span>
                       </div>
-                      <p className="text-slate-700 dark:text-slate-300 leading-snug">
-                        {entry.note}
-                      </p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Button Strip */}
+                <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-white/10">
+                  <LuxuryButton
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setActiveModalAction('acknowledge')}
+                    disabled={selectedAlert.status === 'Acknowledged' || selectedAlert.status === 'Resolved'}
+                  >
+                    Acknowledge Alert
+                  </LuxuryButton>
+
+                  <LuxuryButton
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setActiveModalAction('assign')}
+                    disabled={selectedAlert.status === 'Resolved'}
+                  >
+                    Reassign Lead
+                  </LuxuryButton>
+
+                  <LuxuryButton
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setActiveModalAction('escalate')}
+                    disabled={selectedAlert.status === 'Resolved'}
+                  >
+                    Escalate to Welfare
+                  </LuxuryButton>
+
+                  <LuxuryButton
+                    variant="primary"
+                    size="sm"
+                    onClick={() => setActiveModalAction('resolve')}
+                    disabled={selectedAlert.status === 'Resolved'}
+                  >
+                    {selectedAlert.status === 'Resolved' ? 'Alert Resolved' : 'Mark Resolved'}
+                  </LuxuryButton>
+
+                  <LuxuryButton
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setActiveModalAction('add_note')}
+                  >
+                    Add Clinical Note
+                  </LuxuryButton>
                 </div>
               </div>
+            </GlassPanel>
+          ) : (
+            <div className="p-8 text-center glass-panel text-[#D6D6D6]">
+              Select an alert from the feed to view clinical triage details.
             </div>
           )}
         </div>
       </div>
 
       {/* =========================================================================
-          INTERACTIVE ACTION MODAL (Acknowledge / Assign / Escalate / Resolve / Note)
+          ACTION MODALS
           ========================================================================= */}
       {activeModalAction && selectedAlert && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in"
         >
-          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <h2 className="text-lg font-black text-slate-900 dark:text-white capitalize">
-                {activeModalAction.replace('_', ' ')} Alert: {selectedAlert.alertId}
-              </h2>
+          <div className="w-full max-w-md rounded-3xl bg-[#333333] border border-white/10 p-6 sm:p-8 space-y-4 shadow-2xl text-white">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 className="text-base font-bold text-white capitalize">
+                {activeModalAction.replace('_', ' ')}: {selectedAlert.alertId}
+              </h3>
               <button
                 onClick={() => setActiveModalAction(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600"
+                className="p-1 rounded-xl text-[#D6D6D6] hover:text-white cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <p className="text-slate-600 dark:text-slate-400">
-                Action applies to survivor <strong>{selectedAlert.survivorReference}</strong>. Every modification is logged to the judicial audit trail.
-              </p>
+            <div className="space-y-3">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#D6D6D6] block">
+                Clinical Justification &amp; Action Notes
+              </label>
+              <GlassTextarea
+                value={actionNote}
+                onChange={e => setActionNote(e.target.value)}
+                placeholder="Document your clinical rationale (required for audit trail)..."
+                rows={3}
+              />
 
-              {/* Action-Specific Inputs */}
               {activeModalAction === 'assign' && (
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-700 dark:text-slate-300 block">
-                    Assignee Counsellor:
-                  </label>
-                  <select
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#D6D6D6] block">Assignee Name</label>
+                  <GlassInput
                     value={assigneeName}
                     onChange={e => setAssigneeName(e.target.value)}
-                    className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-semibold"
-                  >
-                    <option value="Dr. Priya Nair (Clinical Lead)">Dr. Priya Nair (Clinical Lead)</option>
-                    <option value="Dr. Rajesh Verma (District Officer)">Dr. Rajesh Verma (District Officer)</option>
-                    <option value="S. Meenakshi (Senior Counsellor)">S. Meenakshi (Senior Counsellor)</option>
-                    <option value="Amitabh Sen (Field Caseworker)">Amitabh Sen (Field Caseworker)</option>
-                  </select>
+                    placeholder="Enter counsellor or supervisor name"
+                  />
                 </div>
               )}
 
               {activeModalAction === 'escalate' && (
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-700 dark:text-slate-300 block">
-                    Escalation Authority Target:
-                  </label>
-                  <select
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#D6D6D6] block">Escalation Authority</label>
+                  <GlassInput
                     value={escalateRole}
                     onChange={e => setEscalateRole(e.target.value)}
-                    className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-semibold"
-                  >
-                    <option value="District Social Welfare Officer">District Social Welfare Officer</option>
-                    <option value="Special Public Prosecutor / Legal Aid Lead">Special Public Prosecutor / Legal Aid Lead</option>
-                    <option value="State Nodal Officer (SC/ST Protection)">State Nodal Officer (SC/ST Protection)</option>
-                    <option value="24x7 Tele-MANAS Crisis Coordinator">24x7 Tele-MANAS Crisis Coordinator</option>
-                  </select>
+                    placeholder="e.g. District Social Welfare Officer"
+                  />
                 </div>
               )}
-
-              <div className="space-y-1">
-                <label className="font-bold text-slate-700 dark:text-slate-300 block">
-                  {activeModalAction === 'resolve'
-                    ? 'Resolution Summary (Mandatory):'
-                    : 'Action Note / Justification (Audited):'}
-                </label>
-                <textarea
-                  rows={3}
-                  value={actionNote}
-                  onChange={e => setActionNote(e.target.value)}
-                  placeholder={
-                    activeModalAction === 'resolve'
-                      ? 'Summarize contact made, support resources shared, and survivor safety confirmation...'
-                      : 'Enter caseworker justification for audit record...'
-                  }
-                  className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/10">
+              <LuxuryButton
+                variant="ghost"
+                size="sm"
                 onClick={() => setActiveModalAction(null)}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer min-h-[40px]"
               >
                 Cancel
-              </button>
-              <button
+              </LuxuryButton>
+              <LuxuryButton
+                variant="primary"
+                size="sm"
                 onClick={() => {
                   if (activeModalAction === 'acknowledge') handleAcknowledge(selectedAlert.alertId);
                   else if (activeModalAction === 'assign') handleAssign(selectedAlert.alertId);
@@ -629,10 +557,9 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
                   else if (activeModalAction === 'resolve') handleResolve(selectedAlert.alertId);
                   else if (activeModalAction === 'add_note') handleAddNote(selectedAlert.alertId);
                 }}
-                className="px-5 py-2 rounded-xl text-xs font-black bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs transition cursor-pointer min-h-[40px]"
               >
-                Confirm {activeModalAction.replace('_', ' ')}
-              </button>
+                Confirm Action
+              </LuxuryButton>
             </div>
           </div>
         </div>

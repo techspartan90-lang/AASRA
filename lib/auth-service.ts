@@ -1,5 +1,5 @@
 import { getSupabaseClient } from './supabase';
-import { UserRole } from '@/types';
+import { UserRole, CanonicalRole, CANONICAL_ROLE_MAP, CanonicalUser } from '@/types';
 
 export interface AuthUserProfile {
   id: string;
@@ -12,6 +12,21 @@ export interface AuthUserProfile {
   createdAt: string;
   districtId?: string;
   stateId?: string;
+}
+
+export function toCanonicalUser(profile: AuthUserProfile): CanonicalUser {
+  return {
+    id: profile.id,
+    role: CANONICAL_ROLE_MAP[profile.role] || 'SURVIVOR',
+    systemRole: profile.role,
+    name: profile.name,
+    email: profile.email,
+    phone: profile.phone,
+    districtId: profile.districtId,
+    stateId: profile.stateId,
+    status: profile.status,
+    createdAt: profile.createdAt,
+  };
 }
 
 export interface AuthState {
