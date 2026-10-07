@@ -71,10 +71,6 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
     setAlerts(alertManagementSystem.getAlerts());
   };
 
-  const selectedAlert = useMemo(() => {
-    return alerts.find(a => a.alertId === selectedAlertId) || alerts[0];
-  }, [alerts, selectedAlertId]);
-
   const filteredAlerts = useMemo(() => {
     return alerts.filter(a => {
       const matchSeverity = severityFilter === 'all' || a.severity === severityFilter;
@@ -91,6 +87,10 @@ export function AlertCenter({ onSelectCase }: AlertCenterProps) {
       return matchSeverity && matchStatus && matchSearch;
     });
   }, [alerts, severityFilter, statusFilter, searchQuery]);
+
+  const selectedAlert = useMemo(() => {
+    return filteredAlerts.find(a => a.alertId === selectedAlertId) || filteredAlerts[0];
+  }, [filteredAlerts, selectedAlertId]);
 
   // Action handlers
   const handleAcknowledge = (alertId: string) => {
