@@ -1,4 +1,4 @@
-# CodeRabbit Review Configuration for MANAS SURAKSHA
+# CodeRabbit review configuration for MANAS SURAKSHA
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/code-reviews.v2.json
 
 language: "en-US"
@@ -7,7 +7,7 @@ early_access: false
 
 reviews:
   profile: "chill"
-  request_changes_workflow: false
+  request_changes_workflow: true
   high_level_summary: true
   poem: false
   review_status: true
@@ -24,19 +24,32 @@ reviews:
         MANAS SURAKSHA REVIEW CRITERIA:
         1. Privacy & Sensitive Data:
            - NEVER allow PII, mental health data, survivor case notes, or emergency contacts to be logged to console or telemetry.
-           - Enforce raw voice check-in zero-retention guarantee (voice audio must not be persisted).
+           - NEVER persist raw voice check-in audio.
         2. Security:
-           - Check Supabase role-based access control and RLS.
-           - Ensure no secrets, service role keys, or credentials exist in client bundles or public endpoints.
+           - Check authentication, authorization, Supabase RBAC and RLS.
+           - Ensure no secrets, service-role keys, or credentials exist in client bundles or public endpoints.
         3. Design System & UX:
-           - Check color compliance with luxury palette (#474747, #333333, #FD1053).
-           - Ensure components reuse `components/design-system/` primitives (GlassPanel, LuxuryButton, LuxuryCard, RiskIndicator).
-           - Verify day/night theme integrity without text contrast breakage.
+           - Check the luxury palette (#474747, #333333, #FD1053).
+           - Reuse existing design-system primitives where applicable.
+           - Verify day/night theme integrity without contrast or theme leakage.
         4. Accessibility (WCAG 2.1 AA):
-           - Accessible contrast, keyboard focus indicators, screen reader labels, and minimum 44px touch targets.
-           - Check that 3D/canvas animations respect `prefers-reduced-motion`.
+           - Check contrast, keyboard focus, screen-reader labels, and minimum 44px touch targets.
+           - Ensure 3D/canvas animation respects prefers-reduced-motion.
         5. TypeScript & React:
-           - Strict typing, no unsafe any casts, proper hook dependency arrays, and avoidance of unnecessary re-renders.
+           - Strict typing, no unsafe any casts, correct hook dependencies, and no unnecessary re-renders.
+        6. AI safety:
+           - Treat model outputs as risk indicators/predictions, never as definitive clinical diagnoses.
+           - Do not expose chain-of-thought or sensitive model reasoning.
+
+    - path: "app/**/*"
+      instructions: |
+        Review Next.js server/client boundaries, API validation, authentication,
+        authorization, error handling, and prevention of sensitive data exposure.
+
+    - path: "components/**/*"
+      instructions: |
+        Review React state safety, accessibility, responsive behavior,
+        theme integrity, reduced-motion behavior, and design-system consistency.
 
 chat:
   auto_reply: true
