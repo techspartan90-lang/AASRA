@@ -36,7 +36,7 @@ interface CheckInWizardProps {
 }
 
 export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
-  const { language, submitVictimCheckIn, selectedCaseId, setIsEmergencyModalOpen } = useApp();
+  const { language, submitVictimCheckIn, selectedCaseId, setIsEmergencyModalOpen, consent } = useApp();
   const t = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   const [step, setStep] = useState(1);
@@ -100,8 +100,8 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
         avoidanceScore,
         requestHelp,
         notes,
-        hasVoiceSample,
-        voiceDurationSeconds: recordedSeconds,
+        hasVoiceSample: consent.voiceAnalysis && hasVoiceSample,
+        voiceDurationSeconds: consent.voiceAnalysis ? recordedSeconds : 0,
       };
 
       const result = await submitVictimCheckIn(input, selectedCaseId || 'CASE-002');
