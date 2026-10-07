@@ -100,7 +100,7 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
         avoidanceScore,
         requestHelp,
         notes,
-        hasVoiceSample: consent.voiceAnalysis && hasVoiceSample,
+        hasVoiceSample: consent.voiceAnalysis ? hasVoiceSample : false,
         voiceDurationSeconds: consent.voiceAnalysis ? recordedSeconds : 0,
       };
 
@@ -621,6 +621,7 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
               </button>
             </div>
 
+            {consent.voiceAnalysis && (
             {/* Trauma Voice 3D Waveform (Section 28) */}
             <div className="p-6 rounded-2xl glass-card border-[#FD1053]/25 space-y-4">
               <div className="flex items-center justify-between">
@@ -652,6 +653,8 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
                 </LuxuryButton>
               </div>
             </div>
+
+            )}
 
             {/* Optional Text Notes */}
             <div className="space-y-2">
