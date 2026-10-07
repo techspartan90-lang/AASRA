@@ -775,7 +775,7 @@ export function PrivacyCenter() {
                 <label className="font-bold text-white block">Primary Medium</label>
                 <select
                   value={tempChannel}
-                  onChange={e => setTempChannel(e.target.value as any)}
+                  onChange={e => setTempChannel(e.target.value as CommunicationChannelType)}
                   className="w-full p-2.5 rounded-xl bg-[#474747] border border-white/10 text-white"
                 >
                   <option value="whatsapp">WhatsApp Interactive</option>
