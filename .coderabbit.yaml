@@ -1,0 +1,42 @@
+# CodeRabbit Review Configuration for MANAS SURAKSHA
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/code-reviews.v2.json
+
+language: "en-US"
+tone_instructions: "Thorough, constructive, security-critical, and accessibility-conscious."
+early_access: false
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "main"
+
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        MANAS SURAKSHA REVIEW CRITERIA:
+        1. Privacy & Sensitive Data:
+           - NEVER allow PII, mental health data, survivor case notes, or emergency contacts to be logged to console or telemetry.
+           - Enforce raw voice check-in zero-retention guarantee (voice audio must not be persisted).
+        2. Security:
+           - Check Supabase role-based access control and RLS.
+           - Ensure no secrets, service role keys, or credentials exist in client bundles or public endpoints.
+        3. Design System & UX:
+           - Check color compliance with luxury palette (#474747, #333333, #FD1053).
+           - Ensure components reuse `components/design-system/` primitives (GlassPanel, LuxuryButton, LuxuryCard, RiskIndicator).
+           - Verify day/night theme integrity without text contrast breakage.
+        4. Accessibility (WCAG 2.1 AA):
+           - Accessible contrast, keyboard focus indicators, screen reader labels, and minimum 44px touch targets.
+           - Check that 3D/canvas animations respect `prefers-reduced-motion`.
+        5. TypeScript & React:
+           - Strict typing, no unsafe any casts, proper hook dependency arrays, and avoidance of unnecessary re-renders.
+
+chat:
+  auto_reply: true

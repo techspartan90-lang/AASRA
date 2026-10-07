@@ -1,0 +1,17 @@
+# Ralph Configuration for MANAS SURAKSHA
+# Iterative execution loop configuration
+
+adapter = "claude"
+plansDir = ".plans"
+maxIterations = 10
+debug = false
+tui = true
+showUsage = false
+yolo = false
+transportLog = false
+
+[hooks]
+# Build and quality verification hooks executed by Ralph
+preBuild = "npm run typecheck"
+build = "npm run build"
+lint = "npm run lint"
