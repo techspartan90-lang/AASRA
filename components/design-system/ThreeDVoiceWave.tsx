@@ -61,14 +61,14 @@ export function ThreeDVoiceWave({
         return;
       }
 
-      step += isListening ? 0.05 : isProcessing ? 0.08 : 0.02;
+      step += activeListening ? 0.05 : isProcessing ? 0.08 : 0.02;
 
       const numWaves = 4;
-      const baseAmp = isListening ? 18 : isProcessing ? 12 : 5;
+      const baseAmp = activeListening ? 18 : isProcessing ? 12 : 5;
 
       for (let w = 0; w < numWaves; w++) {
         ctx.beginPath();
-        const opacity = (1 - w * 0.22) * (isListening ? 0.9 : 0.45);
+        const opacity = (1 - w * 0.22) * (activeListening ? 0.9 : 0.45);
         const color = w === 0 ? `rgba(253, 16, 83, ${opacity})` : `rgba(71, 71, 71, ${opacity * 0.7})`;
         ctx.strokeStyle = color;
         ctx.lineWidth = w === 0 ? 2.5 : 1.5;
@@ -100,7 +100,7 @@ export function ThreeDVoiceWave({
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resize);
     };
-  }, [isListening, isProcessing]);
+  }, [activeListening, isProcessing]);
 
   return (
     <div className={`relative flex flex-col items-center justify-center w-full ${className}`}>
@@ -109,7 +109,7 @@ export function ThreeDVoiceWave({
         className="w-full h-24 sm:h-28"
       />
       <div className="mt-2 flex items-center gap-2 text-xs font-semibold text-[#474747] dark:text-[#D6D6D6]">
-        {isListening ? (
+        {activeListening ? (
           <>
             <span className="w-2 h-2 rounded-full bg-[#FD1053] animate-ping" />
             <span className="text-[#FD1053]">Listening... Speak naturally in your language</span>
