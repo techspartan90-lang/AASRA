@@ -76,6 +76,15 @@ export function PrioritizationQueue({ onSelectCase }: PrioritizationQueueProps) 
           return (
             <LuxuryCard
               key={item.id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedCaseId(item.id);
+                  onSelectCase(item.id);
+                }
+              }}
               onClick={() => {
                 setSelectedCaseId(item.id);
                 onSelectCase(item.id);
