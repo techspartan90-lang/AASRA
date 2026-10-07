@@ -707,7 +707,7 @@ export function SurvivorOnboardingModal({
                         </span>
                         <span className="text-[11px] text-[#888888]">This preference does not control access to well-being and check-in records</span>
                       </div>
-                      <PremiumBadge tone="elevated"Not controlled here</PremiumBadge>
+                      <PremiumBadge tone="elevated">Not controlled here</PremiumBadge>
                     </div>
                   </div>
                 </div>

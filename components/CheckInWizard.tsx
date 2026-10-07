@@ -622,8 +622,8 @@ export function CheckInWizard({ onComplete, onCancel }: CheckInWizardProps) {
             </div>
 
             {consent.voiceAnalysis && (
-            {/* Trauma Voice 3D Waveform (Section 28) */}
-            <div className="p-6 rounded-2xl glass-card border-[#FD1053]/25 space-y-4">
+              /* Trauma Voice 3D Waveform (Section 28) */
+              <div className="p-6 rounded-2xl glass-card border-[#FD1053]/25 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Mic className="w-4 h-4 text-[#FD1053]" />

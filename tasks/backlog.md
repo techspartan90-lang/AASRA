@@ -10,7 +10,7 @@ This backlog organizes the MANAS SURAKSHA project into 8 core milestones (M1–M
 - [x] **M1.1 Application Shell & Navigation**: Modern sidebar, mobile navigation drawer, page header, and command palette.
 - [x] **M1.2 Luxury Design System**: Base tokens (`#474747`, `#333333`, `#FD1053`), glassmorphic panels, animated metrics, and 3D hero components.
 - [x] **M1.3 Theme Integrity**: Day/night switcher with zero split-theme leakage and WCAG 2.1 AA text contrast.
-- [ ] **M1.4 Authentication & Authorization**: Secure session management, role-based route guards (Survivor, Clinician, Admin).
+- [x] **M1.4 Authentication & Authorization**: Secure session management, canonical role representation (SURVIVOR, COUNSELLOR, ADMIN, SUPER_ADMIN), and server-side route guards.
 
 ---
 

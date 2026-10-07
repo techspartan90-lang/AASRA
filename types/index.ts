@@ -5,6 +5,37 @@ export type UserRole =
   | 'state_admin'
   | 'national_admin';
 
+export type CanonicalRole = 'SURVIVOR' | 'COUNSELLOR' | 'ADMIN' | 'SUPER_ADMIN';
+
+export const CANONICAL_ROLE_MAP: Record<UserRole, CanonicalRole> = {
+  victim: 'SURVIVOR',
+  counsellor: 'COUNSELLOR',
+  district_officer: 'ADMIN',
+  state_admin: 'ADMIN',
+  national_admin: 'SUPER_ADMIN',
+};
+
+export const ROLE_FROM_CANONICAL: Record<CanonicalRole, UserRole> = {
+  SURVIVOR: 'victim',
+  COUNSELLOR: 'counsellor',
+  ADMIN: 'district_officer',
+  SUPER_ADMIN: 'national_admin',
+};
+
+export interface CanonicalUser {
+  id: string;
+  role: CanonicalRole;
+  systemRole: UserRole;
+  name: string;
+  email: string;
+  phone?: string;
+  districtId?: string;
+  stateId?: string;
+  status: 'active' | 'suspended' | 'inactive';
+  createdAt: string;
+  updatedAt?: string;
+}
+
 export type CaseStage =
   | 'complaint'
   | 'investigation'

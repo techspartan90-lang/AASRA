@@ -60,6 +60,49 @@ export function getAuthenticatedActor(req: NextRequest): {
 }
 
 /**
+ * Server-side guard utility for API routes requiring specific role authorization
+ */
+export function enforceRoleGuard(
+  req: NextRequest,
+  allowedRoles: UserRole[]
+): {
+  authorized: boolean;
+  actor: { userId: string; userRole: UserRole; isServiceRole: boolean };
+  errorResponse?: NextResponse;
+} {
+  const actor = getAuthenticatedActor(req);
+
+  if (actor.isServiceRole) {
+    return { authorized: true, actor };
+  }
+
+  if (!allowedRoles.includes(actor.userRole)) {
+    logSecurityEvent({
+      action: 'ROLE_GUARD_VIOLATION',
+      actorId: actor.userId,
+      actorRole: actor.userRole,
+      resourceType: 'API_ENDPOINT',
+      result: 'DENY',
+      reason: `Role '${actor.userRole}' not in allowed roles: [${allowedRoles.join(', ')}]`,
+    });
+
+    return {
+      authorized: false,
+      actor,
+      errorResponse: NextResponse.json(
+        {
+          error: `Forbidden: role '${actor.userRole}' lacks required authorization for this operation.`,
+          code: 'INSUFFICIENT_ROLE_PERMISSIONS',
+        },
+        { status: 403 }
+      ),
+    };
+  }
+
+  return { authorized: true, actor };
+}
+
+/**
  * Sanitizes errors returned to API clients to prevent sensitive information leakage
  */
 export function sanitizeApiError(error: unknown, contextRequestId?: string): {
