@@ -705,9 +705,9 @@ export function SurvivorOnboardingModal({
                         <span className="font-semibold text-white block">
                           Police &amp; Prosecution Authorities
                         </span>
-                        <span className="text-[11px] text-[#888888]">Cryptographically blocked from well-being and check-in records</span>
+                        <span className="text-[11px] text-[#888888]">This preference does not control access to well-being and check-in records</span>
                       </div>
-                      <PremiumBadge tone="elevated">Strictly Blocked</PremiumBadge>
+                      <PremiumBadge tone="elevated"Not controlled here</PremiumBadge>
                     </div>
                   </div>
                 </div>
