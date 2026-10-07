@@ -936,15 +936,15 @@ export function CounsellorWorkspace({ onSelectCase }: CounsellorWorkspaceProps) 
                     <div className="space-y-1 text-[#D6D6D6]">
                       <div className="flex justify-between">
                         <span>Check-In Reminders:</span>
-                        <span className="text-emerald-400 font-bold">Active</span>
+                        <span className="text-emerald-400 font-bold">{selectedSurvivor.privacy.automatedRemindersAllowed ? 'Permitted' : 'Denied'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Voice Cadence Screening:</span>
-                        <span className="text-emerald-400 font-bold">Active (0-day audio retention)</span>
+                        <span className="text-emerald-400 font-bold">{selectedSurvivor.privacy.voiceAnalysisAllowed ? 'Permitted' : 'Denied'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Casework Access:</span>
-                        <span className="text-emerald-400 font-bold">Granted to Dr. Priya Nair</span>
+                        <span className="text-emerald-400 font-bold">{selectedSurvivor.privacy.caseworkerAccessGranted ? 'Granted' : 'Not granted'}</span>
                       </div>
                     </div>
                   </div>
