@@ -4,6 +4,7 @@ import React from 'react';
 import { useApp } from '@/lib/store';
 import { Sun, Moon, Laptop } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/hooks/use-i18n';
 
 interface ThemeToggleProps {
   isCollapsed?: boolean;
@@ -17,6 +18,7 @@ export function ThemeToggle({
   showLabel = true,
 }: ThemeToggleProps) {
   const { theme, setTheme } = useApp();
+  const { t } = useTranslation();
 
   const isDark = theme === 'dark';
 
@@ -32,8 +34,8 @@ export function ThemeToggle({
         type="button"
         role="switch"
         aria-checked={isDark}
-        aria-label={`Switch to ${isDark ? 'Day' : 'Night'} Mode`}
-        title={`Switch to ${isDark ? 'Day' : 'Night'} Mode`}
+        aria-label={`Switch to ${isDark ? t('theme.day', 'Day') : t('theme.night', 'Night')} Mode`}
+        title={`Switch to ${isDark ? t('theme.day', 'Day') : t('theme.night', 'Night')} Mode`}
         className={`group relative flex h-10 w-10 items-center justify-center rounded-xl border transition-all duration-200 cursor-pointer ${
           isDark
             ? 'bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-[#FD1053]/40'
@@ -73,7 +75,7 @@ export function ThemeToggle({
         }`}
       >
         <Sun className={`h-3.5 w-3.5 ${!isDark ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
-        {showLabel && <span>Day</span>}
+        {showLabel && <span>{t('theme.day', 'Day')}</span>}
       </button>
 
       <button
@@ -87,7 +89,7 @@ export function ThemeToggle({
         }`}
       >
         <Moon className={`h-3.5 w-3.5 ${isDark ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
-        {showLabel && <span>Night</span>}
+        {showLabel && <span>{t('theme.night', 'Night')}</span>}
       </button>
     </div>
   );

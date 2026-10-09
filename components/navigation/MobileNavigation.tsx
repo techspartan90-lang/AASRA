@@ -23,17 +23,35 @@ import {
   Radio,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/hooks/use-i18n';
 
 interface MobileNavigationProps {
   currentView: string;
   onNavigate: (viewId: string) => void;
 }
 
+const NAV_KEY_MAP: Record<string, string> = {
+  dashboard: 'nav.home',
+  distress_score: 'nav.distress_score',
+  predictive_risk: 'nav.predictive_risk',
+  channels: 'nav.channels',
+  checkin_wizard: 'nav.checkin_wizard',
+  support: 'nav.support',
+  privacy: 'nav.privacy',
+  public: 'nav.about',
+  cases: 'nav.counsellor_workspace',
+  alerts: 'nav.alert_center',
+  prioritization: 'nav.prioritization',
+  analytics: 'nav.administrative_map',
+  ai_models: 'nav.ai_models',
+};
+
 export function MobileNavigation({
   currentView,
   onNavigate,
 }: MobileNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
   const {
     role,
     setIsDemoModalOpen,
@@ -92,14 +110,14 @@ export function MobileNavigation({
       {/* =========================================================================
           COMPACT MOBILE TOP BAR (< md)
          ========================================================================= */}
-      <header className="sticky top-0 z-40 flex h-14 w-full items-center justify-between border-b border-[#474747]/20 bg-white/90 px-3.5 backdrop-blur-md dark:border-white/10 dark:bg-[#1E1E1E]/95 md:hidden">
+      <header className="sticky top-0 z-40 flex h-14 w-full items-center justify-between border-b border-[#D9D9DE] bg-white/90 px-3.5 backdrop-blur-md dark:border-white/10 dark:bg-[#1E1E1E]/95 md:hidden">
         {/* Left: Hamburger & Minimal Luxury Emblem */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setIsOpen(true)}
             aria-label="Open navigation menu"
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#474747]/20 bg-black/5 text-[#333333] dark:border-white/10 dark:bg-white/5 dark:text-white transition cursor-pointer"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 bg-black/5 text-[#333333] dark:border-white/10 dark:bg-white/5 dark:text-white transition cursor-pointer"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -113,7 +131,7 @@ export function MobileNavigation({
               <Shield className="h-4 w-4" />
             </div>
             <div>
-              <span className="font-extrabold text-xs tracking-tight text-[#333333] dark:text-white uppercase">
+              <span className="font-extrabold text-xs tracking-tight text-[#151515] dark:text-white uppercase">
                 MANAS SURAKSHA
               </span>
               <p className="text-[10px] text-[#FD1053] font-semibold">
@@ -123,7 +141,7 @@ export function MobileNavigation({
           </button>
         </div>
 
-        {/* Right: Search & Emergency 112 */}
+        {/* Right: Search & Emergency 112 / NHAA 14566 */}
         <div className="flex items-center gap-1.5">
           <button
             type="button"
@@ -137,11 +155,11 @@ export function MobileNavigation({
           <button
             type="button"
             onClick={() => setIsEmergencyModalOpen(true)}
-            aria-label="24/7 Helpline"
+            aria-label="24/7 Helplines (112 / 14566)"
             className="flex h-9 items-center gap-1 px-2.5 rounded-xl bg-[#FD1053] text-white font-bold text-xs shadow-xs"
           >
             <PhoneCall className="h-3.5 w-3.5 fill-white" />
-            <span>112</span>
+            <span>112 / 14566</span>
           </button>
         </div>
       </header>
@@ -151,7 +169,7 @@ export function MobileNavigation({
          ========================================================================= */}
       <nav
         aria-label="Mobile Quick Navigation"
-        className="fixed bottom-0 left-0 right-0 z-30 flex h-16 items-center justify-around border-t border-[#474747]/20 bg-white/95 px-2 backdrop-blur-xl dark:border-white/10 dark:bg-[#1E1E1E]/95 md:hidden"
+        className="fixed bottom-0 left-0 right-0 z-30 flex h-16 items-center justify-around border-t border-[#D9D9DE] bg-white/95 px-2 backdrop-blur-xl dark:border-white/10 dark:bg-[#1E1E1E]/95 md:hidden"
       >
         <button
           type="button"
@@ -163,7 +181,7 @@ export function MobileNavigation({
           }`}
         >
           <Home className="h-4 w-4" />
-          <span className="mt-1">Home</span>
+          <span className="mt-1">{t('nav.home', 'Home')}</span>
         </button>
 
         <button
@@ -176,7 +194,7 @@ export function MobileNavigation({
           }`}
         >
           <Activity className="h-4 w-4" />
-          <span className="mt-1">Distress</span>
+          <span className="mt-1">{t('nav.distress_score', 'Distress')}</span>
         </button>
 
         <button
@@ -187,7 +205,7 @@ export function MobileNavigation({
           <div className="flex h-9 w-9 -mt-4 items-center justify-center rounded-full bg-[#FD1053] text-white shadow-[0_2px_12px_rgba(253,16,83,0.5)]">
             <ClipboardCheck className="h-4 w-4" />
           </div>
-          <span className="mt-1 text-[#FD1053] font-bold">Check-In</span>
+          <span className="mt-1 text-[#FD1053] font-bold">{t('nav.checkin_wizard', 'Check-In')}</span>
         </button>
 
         <button
@@ -200,7 +218,7 @@ export function MobileNavigation({
           }`}
         >
           <Radio className="h-4 w-4" />
-          <span className="mt-1">Channels</span>
+          <span className="mt-1">{t('nav.channels', 'Channels')}</span>
         </button>
 
         <button
@@ -235,16 +253,16 @@ export function MobileNavigation({
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-              className="absolute inset-y-0 left-0 flex w-full max-w-xs flex-col bg-[#333333] text-white shadow-2xl"
+              className="absolute inset-y-0 left-0 flex w-full max-w-xs flex-col bg-white dark:bg-[#333333] text-[#151515] dark:text-white shadow-2xl"
             >
               {/* Drawer Header */}
-              <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
+              <div className="flex h-16 items-center justify-between border-b border-[#D9D9DE] dark:border-white/10 px-4">
                 <div className="flex items-center gap-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#333333] via-[#474747] to-[#1E1E1E] text-white shadow-xs border border-white/15">
                     <Shield className="h-4 w-4" />
                   </div>
                   <div>
-                    <span className="font-extrabold text-sm tracking-tight text-white uppercase">
+                    <span className="font-extrabold text-sm tracking-tight text-[#151515] dark:text-white uppercase">
                       MANAS SURAKSHA
                     </span>
                     <p className="text-[10px] text-[#FD1053] font-semibold">
@@ -257,7 +275,7 @@ export function MobileNavigation({
                   type="button"
                   onClick={() => setIsOpen(false)}
                   aria-label="Close menu"
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/15 transition cursor-pointer"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-black/5 dark:bg-white/10 text-[#333333] dark:text-white hover:bg-black/10 dark:hover:bg-white/15 transition cursor-pointer"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -269,6 +287,7 @@ export function MobileNavigation({
                   {CORE_NAVIGATION_ITEMS.map(item => {
                     const Icon = item.icon;
                     const isActive = resolveIsActive(item.id);
+                    const label = t(NAV_KEY_MAP[item.id] || `nav.${item.id}`, item.label);
                     return (
                       <button
                         key={item.id}
@@ -277,11 +296,11 @@ export function MobileNavigation({
                         className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold text-left transition cursor-pointer min-h-[44px] ${
                           isActive
                             ? 'bg-[#FD1053]/15 text-[#FD1053] font-bold border border-[#FD1053]/35 shadow-[0_0_12px_rgba(253,16,83,0.15)]'
-                            : 'text-[#D6D6D6] hover:bg-white/10 hover:text-white'
+                            : 'text-[#474747] dark:text-[#D6D6D6] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#151515] dark:hover:text-white'
                         }`}
                       >
-                        <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
-                        <span className="flex-1 truncate">{item.label}</span>
+                        <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#FD1053]' : 'text-[#474747] dark:text-[#A3A3A3]'}`} />
+                        <span className="flex-1 truncate">{label}</span>
                         {item.badge && (
                           <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-[#FD1053]/20 text-[#FD1053] border border-[#FD1053]/30">
                             {item.badge}
@@ -294,13 +313,14 @@ export function MobileNavigation({
 
                 {/* Staff Workspaces */}
                 {isStaffRole && (
-                  <div className="pt-2 border-t border-white/10 space-y-1">
+                  <div className="pt-2 border-t border-[#D9D9DE] dark:border-white/10 space-y-1">
                     <span className="px-3 text-[10px] font-bold uppercase tracking-wider text-[#FD1053]">
                       Clinical & Governance
                     </span>
                     {STAFF_WORKSPACES.map(item => {
                       const Icon = item.icon;
                       const isActive = currentView === item.id;
+                      const label = t(NAV_KEY_MAP[item.id] || `nav.${item.id}`, item.label);
                       return (
                         <button
                           key={item.id}
@@ -312,11 +332,11 @@ export function MobileNavigation({
                           className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold text-left transition cursor-pointer min-h-[44px] ${
                             isActive
                               ? 'bg-[#FD1053]/15 text-[#FD1053] font-bold border border-[#FD1053]/35'
-                              : 'text-[#D6D6D6] hover:bg-white/10 hover:text-white'
+                              : 'text-[#474747] dark:text-[#D6D6D6] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#151515] dark:hover:text-white'
                           }`}
                         >
-                          <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#FD1053]' : 'text-[#A3A3A3]'}`} />
-                          <span className="flex-1 truncate">{item.label}</span>
+                          <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#FD1053]' : 'text-[#474747] dark:text-[#A3A3A3]'}`} />
+                          <span className="flex-1 truncate">{label}</span>
                         </button>
                       );
                     })}
@@ -325,7 +345,7 @@ export function MobileNavigation({
               </div>
 
               {/* Drawer Footer */}
-              <div className="border-t border-white/10 p-3 space-y-2 bg-[#252525]">
+              <div className="border-t border-[#D9D9DE] dark:border-white/10 p-3 space-y-2 bg-[#F0F0F2] dark:bg-[#252525]">
                 <ThemeToggle showLabel />
 
                 <div className="flex items-center gap-2">
@@ -335,9 +355,9 @@ export function MobileNavigation({
                       setIsDemoModalOpen(true);
                       setIsOpen(false);
                     }}
-                    className="flex flex-1 items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/30 text-xs font-semibold transition min-h-[44px]"
+                    className="flex flex-1 items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-semibold transition min-h-[44px]"
                   >
-                    <Sparkles className="h-4 w-4 text-amber-400" />
+                    <Sparkles className="h-4 w-4 text-amber-500 dark:text-amber-400" />
                     <span>Support Scenarios</span>
                   </button>
 
@@ -348,7 +368,7 @@ export function MobileNavigation({
                       setIsOpen(false);
                     }}
                     title="Reset State"
-                    className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-[#D6D6D6] hover:text-white"
+                    className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[#474747] dark:text-[#D6D6D6] hover:text-[#151515] dark:hover:text-white"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </button>
@@ -363,7 +383,7 @@ export function MobileNavigation({
                   className="flex w-full items-center justify-center gap-2 py-2 px-3 rounded-xl bg-[#FD1053] hover:bg-[#e00b46] text-white text-xs font-bold transition min-h-[44px] shadow-[0_2px_10px_rgba(253,16,83,0.35)]"
                 >
                   <PhoneCall className="h-4 w-4" />
-                  <span>24/7 Helpline (112)</span>
+                  <span>Helplines: 112 / 14566</span>
                 </button>
               </div>
             </motion.div>

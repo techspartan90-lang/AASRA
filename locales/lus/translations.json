@@ -1,0 +1,71 @@
+{
+  "locale": "lus",
+  "direction": "ltr",
+  "name": "Mizo",
+  "nativeName": "Mizo ṭawng",
+  "nav": {
+    "home": "Kawtchhuah",
+    "distress_score": "Rilru Hahna Tehna",
+    "predictive_risk": "Hma Hun Thlirna",
+    "channels": "Biakpawhna Hrang",
+    "checkin_wizard": "Nitinte Dinhmun",
+    "support": "Tanpuina & Counsellor",
+    "privacy": "Rukhmanna & Venhimna",
+    "about": "Platform Chungchang",
+    "counsellor_workspace": "Counsellor Hmun",
+    "alert_center": "Fimkhurna Hmun",
+    "prioritization": "Hmanhmawh Thlan Chhuah",
+    "administrative_map": "Roreina Map",
+    "ai_models": "AI & ML Hub",
+    "switch_language": "Ṭawng Thlakna"
+  },
+  "checkin": {
+    "title": "Vawiin engtin nge i awm le?",
+    "subtitle": "I chhanna zawng zawng hi a him a, counsellor-ten an tanpui vat theih nan che a ni.",
+    "calm": "Thlamuang",
+    "okay": "Ka tha tawk e",
+    "worried": "Mangang",
+    "overwhelmed": "Rilru buai takzet",
+    "very_distressed": "Hrehawm ti takzet",
+    "step1_question": "Nikum lamah rilru dinhmun engtin nge a awm?",
+    "step2_question": "I awmna hmunah hian engtiang fakauin nge i him?",
+    "step3_question": "Mut leh chawlh i hmu tha em?",
+    "step4_question": "Hlauhthawnna leh thlabarna i nei em?",
+    "step5_question": "I counsellor biak thuai i duh em?",
+    "speak_prompt": "Aw hmangin chhang rawh",
+    "read_aloud_prompt": "Zawhna hi chhiar chhuak rawh",
+    "optional_note": "Sawi belh duh i neih chuan (aw emaw ziak)",
+    "submit_checkin": "Thawn rawh",
+    "thank_you_title": "I chhanna avangin ka lawm e",
+    "thank_you_message": "I chhanna zawng zawng him takin dahthat a ni."
+  },
+  "alerts": {
+    "information": "Hriattirna",
+    "attention_required": "Ngaihsak ngaiah",
+    "urgent_review": "En thuai rawh",
+    "critical_review": "Hmanhmawh thil",
+    "human_review_notice": "AI hmanrua — mihring ngeiin a endik hmasak phawt a ngai.",
+    "acknowledge": "Pawm",
+    "assign": "Tirh",
+    "escalate": "Thuneitu sang zawk hnenah",
+    "resolve": "Chinfel",
+    "add_note": "Ziak belh rawh"
+  },
+  "a11y": {
+    "skip_to_content": "A laimu pan nghal rawh",
+    "select_language": "Ṭawng thlang rawh",
+    "close_dialog": "Khar rawh",
+    "toggle_menu": "Menu hawng/khar",
+    "distress_chart_description": "Rilru dinhmun tehna chart",
+    "emergency_quick_exit": "Chhuah thutna",
+    "increase_text_size": "Hawrawp ti lian",
+    "decrease_text_size": "Hawrawp ti te"
+  },
+  "common": {
+    "app_title": "MANAS SURAKSHA",
+    "app_subtitle": "Rilru Hriselna leh Venhimna Hmun",
+    "legal_notice": "SC/ST PoA Act Section 15A hnuaia tanpuina. Damdawi in enkawlna a ni lo.",
+    "privacy_guarantee": "DPDPA 2023 hnuaiah venhim tlat a ni",
+    "emergency_helpline": "24/7 Helpline: 112 | Tele-MANAS: 14416 | NHAA: 14566"
+  }
+}

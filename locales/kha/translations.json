@@ -1,0 +1,71 @@
+{
+  "locale": "kha",
+  "direction": "ltr",
+  "name": "Khasi",
+  "nativeName": "Ka Ktien Khasi",
+  "nav": {
+    "home": "Khyndew",
+    "distress_score": "Jingthew Jingkhuslai",
+    "predictive_risk": "Jingiohi Lypa",
+    "channels": "Ki Lad Jingiarap",
+    "checkin_wizard": "Check-In Mynsiem",
+    "support": "Jingiarap & Counsellor",
+    "privacy": "Jingiada & Jingriam",
+    "about": "Shaphang Platform",
+    "counsellor_workspace": "Kamra U Counsellor",
+    "alert_center": "Kyntiew Jingma",
+    "prioritization": "Ki Kam Ba Kongsan",
+    "administrative_map": "Map Jingpyniaid",
+    "ai_models": "AI & ML Hub",
+    "switch_language": "Kylla Ktien"
+  },
+  "checkin": {
+    "title": "Kumno phi sngew mynta ka sngi?",
+    "subtitle": "Ki jubab jong phi ki rieh skhem bad iarap ia u counsellor ban ai jingiarap kloi.",
+    "calm": "Jai jai",
+    "okay": "Bha beit",
+    "worried": "Khuslai",
+    "overwhelmed": "Dap jingmut jur",
+    "very_distressed": "Jynjar palat",
+    "step1_question": "Kumno phi sngew ha kine ki sngi ba la leit?",
+    "step2_question": "Phi sngew shngain ne em ha ka jaka ba phi don?",
+    "step3_question": "Kumno ka jingiohthiah bad ka jingshongthait jong phi?",
+    "step4_question": "Phi sngew shepteng ne khuslai palat ha kine ki sngi?",
+    "step5_question": "Phi kwah ban ia kren bad u counsellor jong phi kloi?",
+    "speak_prompt": "Kren ia ka jubab",
+    "read_aloud_prompt": "Pule jam ia ka jingkylli",
+    "optional_note": "Iathuh eiei shuh shuh ia ka kynhun iarap (voice ne text)",
+    "submit_checkin": "Phah ka Check-In",
+    "thank_you_title": "Khublei shibun ba phi la iathuh",
+    "thank_you_message": "La kynshew skhem ia ki jubab jong phi da ka jingiada ba pura."
+  },
+  "alerts": {
+    "information": "Jingtip",
+    "attention_required": "Donkam Jingpeit",
+    "urgent_review": "Peit Kloi",
+    "critical_review": "Jingma Khraw",
+    "human_review_notice": "Jingiarap AI — donkam beit ka jingpeit u briew shwa ban leh eiei.",
+    "acknowledge": "Pdiang",
+    "assign": "Aiti",
+    "escalate": "Pynkiew sha jrong",
+    "resolve": "Pynbha",
+    "add_note": "Buh jingthoh"
+  },
+  "a11y": {
+    "skip_to_content": "Ruta sha kaba kongsan",
+    "select_language": "Jied ktien",
+    "close_dialog": "Khnang",
+    "toggle_menu": "Plie/Khnang menu",
+    "distress_chart_description": "Ka chart ban thew ia ka jinglong jingmut",
+    "emergency_quick_exit": "Mih Kloi (sha Google/Weather)",
+    "increase_text_size": "Pynheh dak",
+    "decrease_text_size": "Pynrit dak"
+  },
+  "common": {
+    "app_title": "MANAS SURAKSHA",
+    "app_subtitle": "Jingiada bad Jingiarap ia ka Jingkoit Jingkhiah Mynsiem",
+    "legal_notice": "Jingiarap hapoh Section 15A jong ka SC/ST PoA Act. Ym dei ka dawai doctor.",
+    "privacy_guarantee": "Iada hapoh ka DPDPA 2023",
+    "emergency_helpline": "24/7 Helpline: 112 | Tele-MANAS: 14416 | NHAA: 14566"
+  }
+}

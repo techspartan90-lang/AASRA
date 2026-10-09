@@ -33,19 +33,18 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                   if (!theme) {
                     var saved = localStorage.getItem('aasra_app_state_v1');
                     if (saved) {
-                      var parsed = JSON.parse(saved);
-                      if (parsed && parsed.theme) {
-                        theme = parsed.theme;
-                      }
+                      try {
+                        var parsed = JSON.parse(saved);
+                        if (parsed && parsed.theme) {
+                          theme = parsed.theme;
+                        }
+                      } catch(e) {}
                     }
                   }
-                  var isDark = false;
-                  if (theme === 'dark') {
-                    isDark = true;
-                  } else if (theme === 'light') {
+                  // Dark mode is the default for first-time visitors and new sessions
+                  var isDark = true;
+                  if (theme === 'light') {
                     isDark = false;
-                  } else {
-                    isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                   }
                   if (isDark) {
                     document.documentElement.classList.add('dark');
@@ -60,7 +59,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-white text-[#333333] antialiased dark:bg-[#151515] dark:text-[#FFFFFF] transition-colors duration-200 luxury-ambient-bg">
+      <body className="min-h-screen bg-[#F7F7F8] text-[#333333] antialiased dark:bg-[#151515] dark:text-[#FFFFFF] transition-colors duration-200 luxury-ambient-bg">
         {children}
       </body>
     </html>

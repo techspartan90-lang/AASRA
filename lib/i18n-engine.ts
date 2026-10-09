@@ -22,6 +22,14 @@ import orTranslations from '@/locales/or/translations.json';
 import guTranslations from '@/locales/gu/translations.json';
 import paTranslations from '@/locales/pa/translations.json';
 import urTranslations from '@/locales/ur/translations.json';
+import asTranslations from '@/locales/as/translations.json';
+import khaTranslations from '@/locales/kha/translations.json';
+import lusTranslations from '@/locales/lus/translations.json';
+import mniTranslations from '@/locales/mni/translations.json';
+import brxTranslations from '@/locales/brx/translations.json';
+import neTranslations from '@/locales/ne/translations.json';
+import { TRANSLATIONS } from '@/lib/i18n';
+import { LANDING_TRANSLATIONS } from '@/lib/landing-translations';
 
 export type LocaleCode =
   | 'en'
@@ -34,7 +42,13 @@ export type LocaleCode =
   | 'or'
   | 'gu'
   | 'pa'
-  | 'ur';
+  | 'ur'
+  | 'as'
+  | 'kha'
+  | 'lus'
+  | 'mni'
+  | 'brx'
+  | 'ne';
 
 export type TextDirection = 'ltr' | 'rtl';
 
@@ -62,7 +76,7 @@ export const SUPPORTED_LOCALES: LanguageMetadata[] = [
   { code: 'ur', name: 'Urdu', nativeName: 'اردو', direction: 'rtl', script: 'Nastaliq / Arabic', voiceCode: 'ur-IN', isRtl: true },
 ];
 
-export const TRANSLATION_CATALOG: Record<LocaleCode, any> = {
+export const TRANSLATION_CATALOG: Record<string, any> = {
   en: enTranslations,
   hi: hiTranslations,
   ta: taTranslations,
@@ -74,6 +88,12 @@ export const TRANSLATION_CATALOG: Record<LocaleCode, any> = {
   gu: guTranslations,
   pa: paTranslations,
   ur: urTranslations,
+  as: asTranslations,
+  kha: khaTranslations,
+  lus: lusTranslations,
+  mni: mniTranslations,
+  brx: brxTranslations,
+  ne: neTranslations,
 };
 
 /**
@@ -121,13 +141,33 @@ export function translate(
   params?: Record<string, string | number>,
   locale: LocaleCode = 'en'
 ): string {
-  // 1. Try selected locale
+  // 1. Try selected locale catalog via dot-path
   const catalog = TRANSLATION_CATALOG[locale];
   let text = resolvePath(catalog, key);
 
-  // 2. Fallback to English if not found
+  // 1b. Try flat key in TRANSLATIONS dictionary
+  if (text === undefined && (TRANSLATIONS as any)[locale]) {
+    text = (TRANSLATIONS as any)[locale][key];
+  }
+
+  // 1c. Try landing translations dictionary
+  if (text === undefined && (LANDING_TRANSLATIONS as any)[locale]) {
+    text = (LANDING_TRANSLATIONS as any)[locale][key];
+  }
+
+  // 2. Fallback to English dot-path if not found
   if (text === undefined && locale !== 'en') {
     text = resolvePath(TRANSLATION_CATALOG.en, key);
+  }
+
+  // 2b. Fallback to English flat key
+  if (text === undefined && TRANSLATIONS.en) {
+    text = TRANSLATIONS.en[key];
+  }
+
+  // 2c. Fallback to English landing key
+  if (text === undefined && LANDING_TRANSLATIONS.en) {
+    text = LANDING_TRANSLATIONS.en[key];
   }
 
   // 3. Fallback to key if still not found

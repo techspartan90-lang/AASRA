@@ -20,6 +20,7 @@ import {
   LogIn,
 } from 'lucide-react';
 import { UserRole } from '@/types';
+import { useTranslation } from '@/hooks/use-i18n';
 
 interface SidebarProps {
   currentView: string;
@@ -50,6 +51,8 @@ export function Sidebar({
     resetDemoData,
     setIsLoginModalOpen,
   } = useApp();
+
+  const { t } = useTranslation();
 
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
 
@@ -86,7 +89,7 @@ export function Sidebar({
       {/* =========================================================================
           TOP: BRAND & LUXURY MINIMAL EMBLEM
          ========================================================================= */}
-      <div className="flex flex-col border-b border-[#474747]/30 dark:border-white/10 px-3.5 py-4">
+      <div className="flex flex-col border-b border-[#D9D9DE] dark:border-white/10 px-3.5 py-4">
         <div className="flex items-center justify-between">
           <button
             type="button"
@@ -109,11 +112,11 @@ export function Sidebar({
             {!isCollapsed && (
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-sm tracking-tight text-white uppercase truncate">
+                  <span className="font-extrabold text-sm tracking-tight text-[#151515] dark:text-white uppercase truncate">
                     MANAS SURAKSHA
                   </span>
                 </div>
-                <div className="flex items-center justify-between gap-1 text-[11px] text-[#D6D6D6]">
+                <div className="flex items-center justify-between gap-1 text-[11px] text-[#474747] dark:text-[#D6D6D6]">
                   <span className="font-medium tracking-wide">Mind Protection</span>
                   <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded bg-[#FD1053]/15 text-[#FD1053] border border-[#FD1053]/30">
                     GOV CARE
@@ -128,7 +131,7 @@ export function Sidebar({
       {/* =========================================================================
           MIDDLE: NAVIGATION ITEMS (SCROLLABLE)
          ========================================================================= */}
-      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-4 scrollbar-thin scrollbar-thumb-white/15">
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-4 scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-white/15">
         {/* Core 8 Navigation Items */}
         <SidebarSection isCollapsed={isCollapsed}>
           {CORE_NAVIGATION_ITEMS.map(item => (
@@ -161,7 +164,7 @@ export function Sidebar({
       {/* =========================================================================
           BOTTOM: UTILITIES, THEME, DEMO MODE & COLLAPSE TRIGGER
          ========================================================================= */}
-      <div className="border-t border-[#474747]/30 dark:border-white/10 bg-[#252525]/60 p-2.5 space-y-2">
+      <div className="border-t border-[#D9D9DE] dark:border-white/10 bg-[#F0F0F2]/80 dark:bg-[#252525]/60 p-2.5 space-y-2">
         {/* Day / Night Theme Toggle */}
         <ThemeToggle isCollapsed={isCollapsed} />
 
@@ -171,18 +174,18 @@ export function Sidebar({
             <button
               type="button"
               onClick={() => setIsDemoModalOpen(true)}
-              className="flex flex-1 items-center justify-center gap-1.5 px-2.5 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold transition cursor-pointer"
+              className="flex flex-1 items-center justify-center gap-1.5 px-2.5 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-semibold transition cursor-pointer"
               title="Explore Guided Support Scenarios & Realistic Personas"
             >
-              <Sparkles className="h-3.5 w-3.5 text-amber-400 shrink-0" />
-              <span className="truncate">Support Scenarios</span>
+              <Sparkles className="h-3.5 w-3.5 text-amber-500 dark:text-amber-400 shrink-0" />
+              <span className="truncate">{t('sidebar.support_scenarios', 'Support Scenarios')}</span>
             </button>
 
             <button
               type="button"
               onClick={resetDemoData}
               title="Reset case information to default baseline"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-[#D6D6D6] hover:text-white border border-white/10 transition cursor-pointer"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-[#474747] dark:text-[#D6D6D6] hover:text-[#151515] dark:hover:text-white border border-black/10 dark:border-white/10 transition cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />
             </button>
@@ -192,10 +195,10 @@ export function Sidebar({
             <button
               type="button"
               onClick={() => setIsDemoModalOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition cursor-pointer"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30 transition cursor-pointer"
               title="Support Scenarios (6 Realistic Personas)"
             >
-              <Sparkles className="h-4 w-4 text-amber-400" />
+              <Sparkles className="h-4 w-4 text-amber-500 dark:text-amber-400" />
             </button>
           </div>
         )}
@@ -205,10 +208,10 @@ export function Sidebar({
           <button
             type="button"
             onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-            className={`flex w-full items-center rounded-xl border border-white/10 bg-white/5 p-1.5 transition hover:bg-white/10 hover:border-[#FD1053]/30 cursor-pointer ${
+            className={`flex w-full items-center rounded-xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-1.5 transition hover:bg-black/10 dark:hover:bg-white/10 hover:border-[#FD1053]/30 cursor-pointer ${
               isCollapsed ? 'justify-center' : 'justify-between'
             }`}
-            title={`Active Role: ${ROLE_LABELS[role]}`}
+            title={`Active Role: ${t('role.' + role, ROLE_LABELS[role])}`}
           >
             <div className="flex items-center gap-2 min-w-0">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FD1053]/15 text-[#FD1053] font-bold text-xs border border-[#FD1053]/30">
@@ -216,26 +219,26 @@ export function Sidebar({
               </div>
               {!isCollapsed && (
                 <div className="text-left min-w-0">
-                  <p className="text-[11px] font-semibold text-white truncate">
+                  <p className="text-[11px] font-semibold text-[#151515] dark:text-white truncate">
                     {currentUser?.name || 'Active User'}
                   </p>
-                  <p className="text-[10px] text-[#A3A3A3] truncate">
-                    {ROLE_LABELS[role]}
+                  <p className="text-[10px] text-[#474747] dark:text-[#A3A3A3] truncate">
+                    {t('role.' + role, ROLE_LABELS[role])}
                   </p>
                 </div>
               )}
             </div>
 
             {!isCollapsed && (
-              <ChevronDown className="h-3.5 w-3.5 text-white/50 shrink-0" />
+              <ChevronDown className="h-3.5 w-3.5 text-neutral-500 dark:text-white/50 shrink-0" />
             )}
           </button>
 
           {/* Quick Role Switcher Dropdown */}
           {isRoleDropdownOpen && (
-            <div className="absolute bottom-full left-0 mb-2 w-56 rounded-xl border border-white/15 bg-[#252525] p-1.5 shadow-2xl z-50">
-              <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#A3A3A3]">
-                Switch Active Persona
+            <div className="absolute bottom-full left-0 mb-2 w-56 rounded-xl border border-[#D9D9DE] dark:border-white/15 bg-white dark:bg-[#252525] p-1.5 shadow-2xl z-50">
+              <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#474747] dark:text-[#A3A3A3]">
+                {t('sidebar.switch_persona', 'Switch Active Persona')}
               </div>
               {(['victim', 'counsellor', 'district_officer', 'state_admin', 'national_admin'] as UserRole[]).map(
                 r => (
@@ -249,15 +252,15 @@ export function Sidebar({
                     className={`flex w-full items-center justify-between px-2.5 py-1.5 text-xs rounded-lg transition cursor-pointer ${
                       role === r
                         ? 'bg-[#FD1053]/15 text-[#FD1053] font-bold'
-                        : 'text-[#D6D6D6] hover:bg-white/10 hover:text-white'
+                        : 'text-[#333333] dark:text-[#D6D6D6] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#151515] dark:hover:text-white'
                     }`}
                   >
-                    <span>{ROLE_LABELS[r]}</span>
+                    <span>{t('role.' + r, ROLE_LABELS[r])}</span>
                     {role === r && <span className="h-1.5 w-1.5 rounded-full bg-[#FD1053] shadow-[0_0_6px_#FD1053]" />}
                   </button>
                 )
               )}
-              <div className="mt-1 pt-1 border-t border-white/10">
+              <div className="mt-1 pt-1 border-t border-[#D9D9DE] dark:border-white/10">
                 <button
                   type="button"
                   onClick={() => {
@@ -267,7 +270,7 @@ export function Sidebar({
                   className="flex w-full items-center gap-1.5 px-2.5 py-1.5 text-xs text-[#FD1053] font-semibold hover:bg-[#FD1053]/10 rounded-lg transition cursor-pointer"
                 >
                   <LogIn className="h-3.5 w-3.5" />
-                  <span>Secure Login Modal</span>
+                  <span>{t('landing.secure_login', 'Secure Login Modal')}</span>
                 </button>
               </div>
             </div>
@@ -279,7 +282,7 @@ export function Sidebar({
           type="button"
           onClick={onToggleCollapse}
           aria-label={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
-          className={`flex w-full items-center justify-center gap-2 rounded-xl py-2 px-3 text-xs font-semibold text-[#A3A3A3] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10 transition cursor-pointer ${
+          className={`flex w-full items-center justify-center gap-2 rounded-xl py-2 px-3 text-xs font-semibold text-[#474747] dark:text-[#A3A3A3] hover:text-[#151515] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 border border-transparent hover:border-black/10 dark:hover:border-white/10 transition cursor-pointer ${
             isCollapsed ? 'px-0' : ''
           }`}
           title={isCollapsed ? 'Expand navigation (Ctrl+[)' : 'Collapse navigation (Ctrl+[)'}
@@ -289,7 +292,7 @@ export function Sidebar({
           ) : (
             <>
               <PanelLeftClose className="h-4 w-4 shrink-0" />
-              <span className="truncate">Collapse Sidebar</span>
+              <span className="truncate">{t('sidebar.collapse', 'Collapse Sidebar')}</span>
             </>
           )}
         </button>

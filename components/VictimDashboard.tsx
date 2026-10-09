@@ -3,8 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '@/lib/store';
 import { SUPPORTED_LANGUAGES, TRANSLATIONS } from '@/lib/i18n';
+import { useTranslation } from '@/hooks/use-i18n';
 import { CheckInWizard } from '@/components/CheckInWizard';
 import { DynamicDistressDashboard } from '@/components/DynamicDistressDashboard';
+import {
+  voiceComfortService,
+  TRAUMA_INFORMED_MESSAGES,
+  VoiceMode,
+} from '@/lib/voice-comfort-service';
 import {
   GlassPanel,
   LuxuryCard,
@@ -38,6 +44,14 @@ import {
   Bell,
   Sliders,
   FileText,
+  Volume2,
+  VolumeX,
+  Radio,
+  Calendar,
+  RefreshCw,
+  CheckCheck,
+  Wifi,
+  WifiOff,
 } from 'lucide-react';
 
 interface TrendPoint {
@@ -70,7 +84,10 @@ export function VictimDashboard() {
     notifications,
     auditLogs,
     setIsOnboardingModalOpen,
+    setIsVoiceAssistantOpen,
   } = useApp();
+
+  const { t } = useTranslation();
 
   // Active victim case (CASE-002 or selectedCaseId)
   const victimCase =
@@ -84,6 +101,16 @@ export function VictimDashboard() {
   // Today mood state
   const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
   const [todayAcknowledged, setTodayAcknowledged] = useState(false);
+
+  // Familiar Voice Comfort State
+  const [isPlayingComfortVoice, setIsPlayingComfortVoice] = useState(false);
+  const [comfortConfig, setComfortConfig] = useState(voiceComfortService.getConfig());
+
+  // Check-In Reminders & Continuity State
+  const [reminderFrequency, setReminderFrequency] = useState<'daily' | 'threedays' | 'weekly'>('daily');
+  const [reminderChannel, setReminderChannel] = useState<'inapp' | 'sms' | 'whatsapp'>('inapp');
+  const [reminderSavedNotice, setReminderSavedNotice] = useState(false);
+  const [isOnline, setIsOnline] = useState(() => (typeof navigator !== 'undefined' ? navigator.onLine : true));
 
   // In-card Check-In form
   const [checkInText, setCheckInText] = useState('');
@@ -117,6 +144,20 @@ export function VictimDashboard() {
   // Breathing exercise modal state
   const [isBreathingOpen, setIsBreathingOpen] = useState(false);
   const [breathPhase, setBreathPhase] = useState<'Inhale' | 'Hold' | 'Exhale'>('Inhale');
+
+  // Network online/offline listener for resilient recovery
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleOnline = () => setIsOnline(true);
+      const handleOffline = () => setIsOnline(false);
+      window.addEventListener('online', handleOnline);
+      window.addEventListener('offline', handleOffline);
+      return () => {
+        window.removeEventListener('online', handleOnline);
+        window.removeEventListener('offline', handleOffline);
+      };
+    }
+  }, []);
 
   // Timer for voice note simulation
   useEffect(() => {
@@ -562,6 +603,311 @@ export function VictimDashboard() {
                 <Sparkles className="w-4 h-4 text-[#FD1053]" />
                 <span>Need a quiet moment? 1-Minute Guided Somatic Breathing</span>
               </button>
+            </div>
+          </div>
+        </GlassPanel>
+      )}
+
+      {/* =========================================================================
+          SECTION 1B: FAMILIAR VOICE COMFORT & GROUNDING
+          Consent-based trauma-informed voice experience with Web Speech & 432Hz chime
+          ========================================================================= */}
+      {(activeTab === 'today' || activeTab === 'checkin') && (
+        <GlassPanel
+          title="Familiar Voice Comfort & Grounding"
+          subtitle="Consent-based calming voice companion. Listen to reassuring affirmations from a familiar, comforting tone or run a sensory grounding exercise."
+          badge={
+            <PremiumBadge tone="live">
+              {comfortConfig.mode === 'personalized' && comfortConfig.personalizedConsent.status === 'verified_active'
+                ? `Familiar: ${comfortConfig.personalizedConsent.voiceOwnerName} (${comfortConfig.personalizedConsent.relationship})`
+                : comfortConfig.mode === 'curated'
+                ? 'Curated Calming Voice'
+                : comfortConfig.mode === 'text_only'
+                ? 'Text-Only Mode'
+                : 'Standard Gentle Guide'}
+            </PremiumBadge>
+          }
+          action={
+            <LuxuryButton
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsVoiceAssistantOpen(true)}
+            >
+              <Sliders className="w-3.5 h-3.5 mr-1 text-[#FD1053]" />
+              <span>Voice & Consent Settings</span>
+            </LuxuryButton>
+          }
+        >
+          <div className="space-y-5 pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Quick Play Trauma-Informed Voice Affirmation */}
+              <div className="p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#FD1053] flex items-center gap-1.5">
+                    <Heart className="w-3.5 h-3.5 fill-[#FD1053]" />
+                    Reassurance & Safety
+                  </span>
+                  {isPlayingComfortVoice && (
+                    <span className="flex h-2 w-2 relative">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FD1053] opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FD1053]" />
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-[#333333] dark:text-[#D6D6D6] italic mb-4">
+                  &ldquo;You are safe in this moment. Take your time, breathe gently, and remember you are not alone.&rdquo;
+                </p>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (isPlayingComfortVoice) {
+                      voiceComfortService.stop();
+                      setIsPlayingComfortVoice(false);
+                      return;
+                    }
+                    setIsPlayingComfortVoice(true);
+                    await voiceComfortService.speakMessage('msg_reassurance', language, () => {
+                      setIsPlayingComfortVoice(false);
+                    });
+                  }}
+                  className={`flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs font-bold transition cursor-pointer ${
+                    isPlayingComfortVoice
+                      ? 'bg-[#FD1053] text-white shadow-md shadow-[#FD1053]/30'
+                      : 'bg-[#FD1053]/15 text-[#FD1053] hover:bg-[#FD1053]/25 border border-[#FD1053]/30'
+                  }`}
+                >
+                  {isPlayingComfortVoice ? (
+                    <>
+                      <VolumeX className="w-4 h-4" />
+                      <span>Stop Voice Comfort</span>
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="w-4 h-4" />
+                      <span>Play Reassuring Voice</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* 432Hz Calming Ambient Harmonic Chime */}
+              <div className="p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    432Hz Calming Chime
+                  </span>
+                  <span className="text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
+                    Somatic Resonance
+                  </span>
+                </div>
+                <p className="text-xs text-[#333333] dark:text-[#D6D6D6] mb-4">
+                  A gentle, warm harmonic sine chord synthesized in your browser to help bring your nervous system back to baseline.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => voiceComfortService.playCalmingChime()}
+                  className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 hover:bg-amber-500/25 border border-amber-500/30 transition cursor-pointer"
+                >
+                  <Sparkles className="w-4 h-4 text-amber-500" />
+                  <span>Ring 432Hz Chime</span>
+                </button>
+              </div>
+
+              {/* Full Grounding Mode Sanctuary Trigger */}
+              <div className="p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                    <Radio className="w-3.5 h-3.5" />
+                    Interactive Grounding
+                  </span>
+                  <span className="text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
+                    4-7-8 &amp; 5-4-3-2-1
+                  </span>
+                </div>
+                <p className="text-xs text-[#333333] dark:text-[#D6D6D6] mb-4">
+                  Combine 4-7-8 somatic breathing pacing with a sensory 5-4-3-2-1 checklist to de-escalate anxiety.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsVoiceAssistantOpen(true)}
+                  className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-500/25 border border-indigo-500/30 transition cursor-pointer"
+                >
+                  <span>Open Grounding Sanctuary</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Ethical Transparency & Consent Notice */}
+            <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-start gap-2.5 text-xs text-[#474747] dark:text-[#A3A3A3]">
+              <Info className="w-4 h-4 text-[#FD1053] shrink-0 mt-0.5" />
+              <span>
+                <strong>Ethical Transparency:</strong> All voice features are strictly consent-governed under DPDPA 2023. Audio synthesis runs entirely in your browser with zero permanent voice retention. Synthetic voice comfort is an emotional support aid and never replaces professional casework or emergency services.
+              </span>
+            </div>
+          </div>
+        </GlassPanel>
+      )}
+
+      {/* =========================================================================
+          SECTION 1C: SUPPORT CONTINUITY & PERSONALIZED REMINDERS
+          Personalized preferences, check-in schedules, and offline resilience
+          ========================================================================= */}
+      {(activeTab === 'today' || activeTab === 'support') && (
+        <GlassPanel
+          title="Support Continuity & Care Plan"
+          subtitle="Your care journey is continuous. Manage personalized check-in reminders, caseworker contact windows, and offline data guarantees."
+          badge={<PremiumBadge tone="stable">Continuity Active</PremiumBadge>}
+        >
+          <div className="space-y-6 pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Personalized Check-In Reminder Preferences */}
+              <div className="p-5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-[#FD1053]" />
+                    <h3 className="text-sm font-bold text-[#151515] dark:text-white">
+                      Check-In Reminder Schedule
+                    </h3>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                    Active
+                  </span>
+                </div>
+                <p className="text-xs text-[#474747] dark:text-[#D6D6D6]">
+                  Receive a gentle, discreet nudge to record how you are feeling. Choose your preferred cadence and delivery channel.
+                </p>
+
+                {/* Cadence Selection */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-[#333333] dark:text-white">
+                    Reminder Frequency:
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['daily', 'threedays', 'weekly'] as const).map(freq => (
+                      <button
+                        key={freq}
+                        type="button"
+                        onClick={() => setReminderFrequency(freq)}
+                        className={`py-2 px-2.5 rounded-xl text-xs font-semibold text-center transition cursor-pointer border ${
+                          reminderFrequency === freq
+                            ? 'bg-[#FD1053]/15 text-[#FD1053] border-[#FD1053]/40'
+                            : 'bg-black/5 dark:bg-white/5 text-[#474747] dark:text-[#D6D6D6] border-transparent hover:border-black/10 dark:hover:border-white/10'
+                        }`}
+                      >
+                        {freq === 'daily' ? 'Daily Evening' : freq === 'threedays' ? 'Every 3 Days' : 'Weekly'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Channel Selection */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-[#333333] dark:text-white">
+                    Delivery Channel:
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['inapp', 'sms', 'whatsapp'] as const).map(ch => (
+                      <button
+                        key={ch}
+                        type="button"
+                        onClick={() => setReminderChannel(ch)}
+                        className={`py-2 px-2.5 rounded-xl text-xs font-semibold text-center transition cursor-pointer border ${
+                          reminderChannel === ch
+                            ? 'bg-[#FD1053]/15 text-[#FD1053] border-[#FD1053]/40'
+                            : 'bg-black/5 dark:bg-white/5 text-[#474747] dark:text-[#D6D6D6] border-transparent hover:border-black/10 dark:hover:border-white/10'
+                        }`}
+                      >
+                        {ch === 'inapp' ? 'In-App Only' : ch === 'sms' ? 'Discreet SMS' : 'WhatsApp'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Save confirmation */}
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setReminderSavedNotice(true);
+                      setTimeout(() => setReminderSavedNotice(false), 4000);
+                    }}
+                    className="py-2 px-4 rounded-xl bg-[#FD1053] hover:bg-[#e00b46] text-white text-xs font-bold transition cursor-pointer shadow-xs"
+                  >
+                    Save Preferences
+                  </button>
+
+                  {reminderSavedNotice && (
+                    <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                      <CheckCheck className="w-3.5 h-3.5" />
+                      Saved &amp; Protected
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Caseworker Continuity & Offline Resilience Status */}
+              <div className="p-5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 space-y-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <UserCheck className="w-4 h-4 text-[#FD1053]" />
+                      <h3 className="text-sm font-bold text-[#151515] dark:text-white">
+                        Assigned Care Team Continuity
+                      </h3>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30">
+                      Verified
+                    </span>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-white/70 dark:bg-[#1E1E1E] border border-black/10 dark:border-white/10 space-y-1 mb-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-[#151515] dark:text-white">
+                        Priya Sharma, MSW
+                      </span>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        Available
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#474747] dark:text-[#A3A3A3]">
+                      District Social Welfare Officer · Assigned under SC/ST PoA Act §15A
+                    </p>
+                    <div className="pt-1 text-[11px] text-[#333333] dark:text-[#D6D6D6] font-medium">
+                      Next Scheduled Interaction: <strong>Thursday, Oct 15 at 11:30 AM</strong>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-[#474747] dark:text-[#A3A3A3]">
+                    Your case notes and emotional trends remain confidential and accessible solely to your designated welfare officer.
+                  </p>
+                </div>
+
+                {/* Offline Resilient Status Indicator */}
+                <div className={`p-3 rounded-xl border flex items-center gap-2.5 text-xs ${
+                  isOnline
+                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-300'
+                    : 'bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-300'
+                }`}>
+                  {isOnline ? (
+                    <>
+                      <Wifi className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span>
+                        <strong>Online &amp; Synced:</strong> Encrypted channel to central welfare registry active.
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <WifiOff className="w-4 h-4 text-amber-500 shrink-0" />
+                      <span>
+                        <strong>Offline Mode Active:</strong> All inputs and check-ins are secured in your device&apos;s private local vault and will automatically sync once connectivity restores.
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </GlassPanel>

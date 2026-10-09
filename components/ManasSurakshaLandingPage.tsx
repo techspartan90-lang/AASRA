@@ -36,6 +36,7 @@ import {
   LuxuryButton,
   PremiumBadge,
 } from '@/components/design-system';
+import { useTranslation } from '@/hooks/use-i18n';
 
 interface ManasSurakshaLandingPageProps {
   onSelectAction: (view: string, roleTarget?: string) => void;
@@ -50,6 +51,8 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
     setIsLoginModalOpen,
     setIsOnboardingModalOpen,
   } = useApp();
+
+  const { t } = useTranslation();
 
   const [autonomyFrequency, setAutonomyFrequency] = useState<'weekly' | 'biweekly' | 'on_demand'>('weekly');
   const [allowVoiceAnalysis, setAllowVoiceAnalysis] = useState<boolean>(true);
@@ -68,13 +71,13 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
         aria-label="Trauma-Informed Emergency Banner"
         className="glass-card px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs border-[#FD1053]/25 bg-[#FD1053]/5 dark:bg-[#FD1053]/10 text-[#333333] dark:text-[#F5F5F5]"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="w-2 h-2 rounded-full bg-[#FD1053] animate-ping shrink-0" />
           <span className="font-bold text-[#FD1053]">
-            Confidential & Safe Space:
+            {t('landing.safe_space_label', 'Confidential & Safe Space:')}
           </span>
-          <span className="text-[#474747] dark:text-[#D6D6D6] hidden sm:inline">
-            Your privacy and dignity come first. Need to leave immediately?
+          <span className="text-[#474747] dark:text-[#D6D6D6]">
+            {t('landing.quick_exit_notice', 'Quick Exit protects screen privacy; it is not a substitute for emergency services.')}
           </span>
         </div>
         <div className="flex items-center gap-2 ml-auto">
@@ -82,18 +85,19 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
             type="button"
             onClick={() => setIsEmergencyModalOpen(true)}
             className="px-3 py-1.5 rounded-xl bg-[#FD1053] hover:bg-[#e00b46] text-white font-bold transition flex items-center gap-1.5 cursor-pointer shadow-[0_2px_8px_rgba(253,16,83,0.3)] text-xs"
+            title="Emergency 112 | NHAA Atrocities 14566 | Tele-MANAS 14416"
           >
             <PhoneCall className="w-3.5 h-3.5 fill-white" />
-            <span>24/7 Helpline: 14566</span>
+            <span>{t('landing.helplines_btn', 'Helplines: 112 / 14566')}</span>
           </button>
           <button
             type="button"
             onClick={handleQuickExit}
-            title="Quickly close this site and open Google"
+            title="Quickly close this site and open Google (Protects screen privacy)"
             className="px-3 py-1.5 rounded-xl bg-[#474747]/10 hover:bg-[#474747]/20 dark:bg-white/10 dark:hover:bg-white/15 text-[#333333] dark:text-white font-medium transition flex items-center gap-1 cursor-pointer text-xs"
           >
             <LogOut className="w-3.5 h-3.5 text-[#FD1053]" />
-            <span>Quick Exit</span>
+            <span>{t('landing.quick_exit_btn', 'Quick Exit')}</span>
           </button>
         </div>
       </aside>
@@ -111,18 +115,18 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
               <span className="font-bold text-[#FD1053]">MANAS SURAKSHA</span>
               <span className="text-[#6B7280] dark:text-[#A3A3A3]">·</span>
               <span className="text-[#474747] dark:text-[#D6D6D6] tracking-wider uppercase text-[10px]">
-                Private • Human-Centered • AI-Assisted
+                {t('landing.badge_statutory', 'Private • Human-Centered • AI-Assisted')}
               </span>
             </div>
 
             {/* Main Luxury Hero Heading */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#333333] dark:text-white leading-[1.12]">
-              Supporting mental well-being through every stage of the justice journey.
+              {t('landing.hero_title', 'Supporting mental well-being through every stage of the justice journey.')}
             </h1>
 
             {/* Subheading */}
             <p className="text-base sm:text-lg text-[#474747] dark:text-[#D6D6D6] max-w-2xl leading-relaxed font-normal">
-              Privacy-first, AI-assisted mental-health monitoring and early distress recognition designed around safety, dignity and survivor control.
+              {t('landing.hero_subtitle', 'Privacy-first, AI-assisted mental-health monitoring and early distress recognition designed around safety, dignity and survivor control.')}
             </p>
 
             {/* Hero CTAs */}
@@ -137,7 +141,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 leftIcon={<HeartPulse className="w-4 h-4" />}
                 rightIcon={<ArrowRight className="w-4 h-4" />}
               >
-                GET SUPPORT
+                {t('landing.get_support', 'GET SUPPORT')}
               </LuxuryButton>
 
               <LuxuryButton
@@ -149,7 +153,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 }}
                 leftIcon={<Compass className="w-4 h-4 text-[#FD1053]" />}
               >
-                HOW IT WORKS
+                {t('landing.how_it_works', 'HOW IT WORKS')}
               </LuxuryButton>
 
               <LuxuryButton
@@ -158,14 +162,14 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 onClick={() => setIsLoginModalOpen(true)}
                 leftIcon={<Lock className="w-4 h-4" />}
               >
-                Secure Login
+                {t('landing.secure_login', 'Secure Login')}
               </LuxuryButton>
             </div>
 
             {/* Institutional Guarantee Note */}
             <div className="pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-3 text-xs text-[#6B7280] dark:text-[#A3A3A3]">
               <ShieldCheck className="w-4 h-4 text-[#FD1053] shrink-0" />
-              <span>Statutory protection under SC/ST PoA Act §15A & DPDPA 2023 End-to-End Cryptography</span>
+              <span>{t('landing.statutory_guarantee', 'Statutory protection under SC/ST PoA Act §15A & DPDPA 2023 End-to-End Cryptography')}</span>
             </div>
           </div>
 
@@ -180,14 +184,14 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FD1053]" />
                 <span className="text-[10px] font-bold tracking-widest text-[#474747] dark:text-[#A3A3A3] uppercase">
-                  SAFETY · SUPPORT · WELL-BEING
+                  {t('landing.safety_support_wellbeing', 'SAFETY · SUPPORT · WELL-BEING')}
                 </span>
               </div>
               <p className="text-xs text-[#333333] dark:text-[#EDEDED] font-medium leading-relaxed">
-                Your well-being is calibrated through voluntary check-ins and support interactions.
+                {t('landing.hero_calibration_note', 'Your well-being is calibrated through voluntary check-ins and support interactions.')}
               </p>
               <p className="text-[11px] text-[#6B7280] dark:text-[#8E8E93] leading-relaxed">
-                Changes are reviewed with human support professionals when attention may be needed. No automated clinical diagnosis.
+                {t('landing.hero_human_review_note', 'Changes are reviewed with human support professionals when attention may be needed. No automated clinical diagnosis.')}
               </p>
             </div>
           </div>
@@ -200,9 +204,9 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-3">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h2 className="text-sm font-bold text-[#333333] dark:text-white">Survivor Support</h2>
+              <h2 className="text-sm font-bold text-[#333333] dark:text-white">{t('landing.pillar_survivor_title', 'Survivor Support')}</h2>
               <p className="text-xs text-[#474747] dark:text-[#A3A3A3] mt-1 leading-relaxed">
-                Dignified, trauma-informed guidance
+                {t('landing.pillar_survivor_desc', 'Dignified, trauma-informed guidance')}
               </p>
             </LuxuryCard>
 
@@ -210,9 +214,9 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-3">
                 <Lock className="w-6 h-6" />
               </div>
-              <h2 className="text-sm font-bold text-[#333333] dark:text-white">Secure Communication</h2>
+              <h2 className="text-sm font-bold text-[#333333] dark:text-white">{t('landing.pillar_comm_title', 'Secure Communication')}</h2>
               <p className="text-xs text-[#474747] dark:text-[#A3A3A3] mt-1 leading-relaxed">
-                Encrypted, multi-channel privacy
+                {t('landing.pillar_comm_desc', 'Encrypted, multi-channel privacy')}
               </p>
             </LuxuryCard>
 
@@ -220,9 +224,9 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-3">
                 <Activity className="w-6 h-6" />
               </div>
-              <h2 className="text-sm font-bold text-[#333333] dark:text-white">Well-Being Monitoring</h2>
+              <h2 className="text-sm font-bold text-[#333333] dark:text-white">{t('landing.pillar_monitoring_title', 'Well-Being Monitoring')}</h2>
               <p className="text-xs text-[#474747] dark:text-[#A3A3A3] mt-1 leading-relaxed">
-                Gentle longitudinal calibration
+                {t('landing.pillar_monitoring_desc', 'Gentle longitudinal calibration')}
               </p>
             </LuxuryCard>
 
@@ -230,9 +234,9 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-3">
                 <Users className="w-6 h-6" />
               </div>
-              <h2 className="text-sm font-bold text-[#333333] dark:text-white">Counsellor Connection</h2>
+              <h2 className="text-sm font-bold text-[#333333] dark:text-white">{t('landing.pillar_counsellor_title', 'Counsellor Connection')}</h2>
               <p className="text-xs text-[#474747] dark:text-[#A3A3A3] mt-1 leading-relaxed">
-                Human-in-the-loop care linkage
+                {t('landing.pillar_counsellor_desc', 'Human-in-the-loop care linkage')}
               </p>
             </LuxuryCard>
           </div>
@@ -245,13 +249,13 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
       <section id="how-it-works" className="max-w-6xl mx-auto px-4 scroll-mt-24">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <PremiumBadge tone="live" className="mb-3">
-            Operational Architecture
+            {t('landing.hiw_badge', 'Operational Architecture')}
           </PremiumBadge>
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#333333] dark:text-white">
-            How Manas Suraksha Works
+            {t('landing.hiw_title', 'How Manas Suraksha Works')}
           </h2>
           <p className="mt-3 text-sm sm:text-base text-[#474747] dark:text-[#D6D6D6]">
-            A continuous, multi-stage screening pathway ensuring no distress signal goes unrecognized while preserving total survivor sovereignty.
+            {t('landing.hiw_subtitle', 'A continuous, multi-stage screening pathway ensuring no distress signal goes unrecognized while preserving total survivor sovereignty.')}
           </p>
         </div>
 
@@ -260,24 +264,24 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
           <LuxuryCard className="p-6 flex flex-col justify-between" glowOnHover>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#FD1053] mb-1 block">
-                Stage 01
+                {t('landing.stage_01', 'Stage 01')}
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mb-4">
-                Detection
+                {t('landing.stage_01_cat', 'Detection')}
               </h3>
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-4">
                 <Radio className="w-6 h-6" />
               </div>
               <h4 className="text-sm font-bold text-[#333333] dark:text-white">
-                Multi-Channel Detection
+                {t('landing.stage_01_title', 'Multi-Channel Detection')}
               </h4>
               <p className="mt-2 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Chatbot, IVRS, SMS, mobile app, web portal, and NHAA 14566 integration.
+                {t('landing.stage_01_desc', 'Chatbot, IVRS, SMS, mobile app, web portal, and NHAA 14566 integration.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-1.5 text-[11px] font-medium text-[#474747] dark:text-[#D6D6D6]">
               <CheckCircle2 className="w-3.5 h-3.5 text-[#FD1053] shrink-0" />
-              <span>Low-bandwidth & offline enabled</span>
+              <span>{t('landing.stage_01_feat', 'Low-bandwidth & offline enabled')}</span>
             </div>
           </LuxuryCard>
 
@@ -285,24 +289,24 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
           <LuxuryCard className="p-6 flex flex-col justify-between" glowOnHover>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#FD1053] mb-1 block">
-                Stage 02
+                {t('landing.stage_02', 'Stage 02')}
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mb-4">
-                Recognition & Selection
+                {t('landing.stage_02_cat', 'Recognition & Selection')}
               </h3>
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-4">
                 <Sparkles className="w-6 h-6" />
               </div>
               <h4 className="text-sm font-bold text-[#333333] dark:text-white">
-                AI Distress Analysis
+                {t('landing.stage_02_title', 'AI Distress Analysis')}
               </h4>
               <p className="mt-2 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Text signals, voice characteristics, engagement patterns and case milestones.
+                {t('landing.stage_02_desc', 'Acoustic biomarker telemetry & subtle symptom detection without raw voice storage.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-1.5 text-[11px] font-medium text-[#474747] dark:text-[#D6D6D6]">
               <CheckCircle2 className="w-3.5 h-3.5 text-[#FD1053] shrink-0" />
-              <span>Explainable multi-signal feature extraction</span>
+              <span>{t('landing.stage_02_feat', 'Zero-retention voice analysis')}</span>
             </div>
           </LuxuryCard>
 
@@ -310,24 +314,24 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
           <LuxuryCard className="p-6 flex flex-col justify-between" glowOnHover>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#FD1053] mb-1 block">
-                Stage 03
+                {t('landing.stage_03', 'Stage 03')}
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mb-4">
-                Working Memory
+                {t('landing.stage_03_cat', 'Assessment & Projection')}
               </h3>
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-4">
                 <Activity className="w-6 h-6" />
               </div>
               <h4 className="text-sm font-bold text-[#333333] dark:text-white">
-                Dynamic Distress Assessment
+                {t('landing.stage_03_title', 'Predictive Risk Modeling')}
               </h4>
               <p className="mt-2 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Personalized 0–100 distress indicators and longitudinal risk modelling.
+                {t('landing.stage_03_desc', '7, 14, and 30-day distress trajectory projection relative to survivor baseline.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-1.5 text-[11px] font-medium text-[#474747] dark:text-[#D6D6D6]">
               <CheckCircle2 className="w-3.5 h-3.5 text-[#FD1053] shrink-0" />
-              <span>Zero fabricated baselines · Resting anchor 40</span>
+              <span>{t('landing.stage_03_feat', 'Dynamic baseline comparison')}</span>
             </div>
           </LuxuryCard>
 
@@ -335,24 +339,24 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
           <LuxuryCard className="p-6 flex flex-col justify-between" glowOnHover>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#FD1053] mb-1 block">
-                Stage 04
+                {t('landing.stage_04', 'Stage 04')}
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mb-4">
-                Consolidation
+                {t('landing.stage_04_cat', 'Intervention')}
               </h3>
               <div className="w-12 h-12 rounded-xl bg-[#474747]/10 dark:bg-white/5 border border-[#474747]/20 dark:border-white/10 flex items-center justify-center text-[#FD1053] mb-4">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h4 className="text-sm font-bold text-[#333333] dark:text-white">
-                Support & Intervention
+                {t('landing.stage_04_title', 'Counsellor Escalation')}
               </h4>
               <p className="mt-2 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Alerts, counselling workflows and role-based dashboards.
+                {t('landing.stage_04_desc', 'Human welfare caseworker notified for voluntary protective accompaniment & care.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-1.5 text-[11px] font-medium text-[#474747] dark:text-[#D6D6D6]">
               <CheckCircle2 className="w-3.5 h-3.5 text-[#FD1053] shrink-0" />
-              <span>Authorized caseworker triage & clinical hand-off</span>
+              <span>{t('landing.stage_04_feat', 'Strict human decision gate')}</span>
             </div>
           </LuxuryCard>
         </div>
@@ -364,13 +368,13 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
       <section className="max-w-6xl mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <PremiumBadge tone="stable" className="mb-3">
-            Civic Healthcare Engineering
+            {t('landing.diff_badge', 'Civic Healthcare Engineering')}
           </PremiumBadge>
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#333333] dark:text-white">
-            Core Differentiators
+            {t('landing.diff_title', 'Core Differentiators')}
           </h2>
           <p className="mt-3 text-sm sm:text-base text-[#474747] dark:text-[#D6D6D6]">
-            Engineered specifically for the real-world conditions of justice-involved survivors across urban and remote rural India.
+            {t('landing.diff_subtitle', 'Engineered specifically for the real-world conditions of justice-involved survivors across urban and remote rural India.')}
           </p>
         </div>
 
@@ -384,15 +388,15 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 01 · Resilient Reach
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mt-1">
-                Offline-Capable
+                {t('landing.diff1_title', 'Offline-Capable')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                SMS and IVRS support for limited-connectivity environments. Survivors can complete distress check-ins over 2G networks without internet access or data charges.
+                {t('landing.diff1_desc', 'SMS and IVRS support for limited-connectivity environments. Survivors can complete distress check-ins over 2G networks without internet access or data charges.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-2 text-xs font-semibold text-[#474747] dark:text-[#D6D6D6]">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span>Zero-data toll-free telephony protocol</span>
+              <span>{t('landing.diff1_feat', 'Zero-data toll-free telephony protocol')}</span>
             </div>
           </LuxuryCard>
 
@@ -405,15 +409,15 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 02 · Trauma-Informed Voice
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mt-1">
-                Trusted Voice Personalization
+                {t('landing.diff2_title', 'Trusted Voice Personalization')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Consent-based voice personalization for IVRS. Survivors select preferred comforting tones, dialect familiarity, and paced speech to minimize acoustic trigger anxiety.
+                {t('landing.diff2_desc', 'Consent-based voice personalization for IVRS. Survivors select preferred comforting tones, dialect familiarity, and paced speech to minimize acoustic trigger anxiety.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-2 text-xs font-semibold text-[#474747] dark:text-[#D6D6D6]">
               <span className="w-2 h-2 rounded-full bg-[#FD1053]" />
-              <span>Opt-in regional cadence calibration</span>
+              <span>{t('landing.diff2_feat', 'Opt-in regional cadence calibration')}</span>
             </div>
           </LuxuryCard>
 
@@ -426,15 +430,15 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 03 · Scalable Public Health
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mt-1">
-                Cost-Efficient Monitoring
+                {t('landing.diff3_title', 'Cost-Efficient Monitoring')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Continuous digital monitoring designed to expand access to support. Enables single district officers and NGO counsellors to monitor hundreds of vulnerable cases proactively.
+                {t('landing.diff3_desc', 'Continuous digital monitoring designed to expand access to support. Enables single district officers and NGO counsellors to monitor hundreds of vulnerable cases proactively.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-2 text-xs font-semibold text-[#474747] dark:text-[#D6D6D6]">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span>Prioritization triage prevents caseworker burnout</span>
+              <span>{t('landing.diff3_feat', 'Prioritization triage prevents caseworker burnout')}</span>
             </div>
           </LuxuryCard>
 
@@ -447,15 +451,15 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 04 · Linguistic Sovereignty
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mt-1">
-                Multilingual Support
+                {t('landing.diff4_title', 'Multilingual Support')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Support for 10+ Indian languages including Hindi, Bengali, Assamese, Khasi, Mizo, Manipuri, Bodo, Nepali, Tamil, and English with phonetic speech processing.
+                {t('landing.diff4_desc', 'Support for 10+ Indian languages including Hindi, Bengali, Assamese, Khasi, Mizo, Manipuri, Bodo, Nepali, Tamil, and English with phonetic speech processing.')}
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex items-center gap-2 text-xs font-semibold text-[#474747] dark:text-[#D6D6D6]">
               <span className="w-2 h-2 rounded-full bg-[#FD1053]" />
-              <span>10+ Official regional languages</span>
+              <span>{t('landing.diff4_feat', '10+ Official regional languages')}</span>
             </div>
           </LuxuryCard>
 
@@ -468,10 +472,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 05 · Zero Barrier Entry
               </span>
               <h3 className="text-base font-bold text-[#333333] dark:text-white mt-1">
-                Universal Hardware Spectrum
+                {t('landing.diff5_title', 'Universal Hardware Spectrum')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Seamless support across the entire hardware continuum: Feature phone (IVRS & SMS) → Smartphone (Accessible PWA with biometrics & offline cache) → Desktop (Caseworker & Administrator portal).
+                {t('landing.diff5_desc', 'Seamless support across the entire hardware continuum: Feature phone (IVRS & SMS) → Smartphone (Accessible PWA with biometrics & offline cache) → Desktop (Caseworker & Administrator portal).')}
               </p>
             </div>
 
@@ -503,13 +507,13 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
         <div className="p-8 sm:p-12 lg:p-16 rounded-3xl glass-panel relative overflow-hidden shadow-2xl border-[#474747]/20 dark:border-white/10">
           <div className="relative max-w-4xl mx-auto text-center space-y-4 mb-12">
             <PremiumBadge tone="elevated">
-              Survivor Autonomy & Dignity
+              {t('landing.trauma_badge', 'Survivor Autonomy & Dignity')}
             </PremiumBadge>
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#333333] dark:text-white">
-              Trauma-Informed Design Principles
+              {t('landing.trauma_title', 'Trauma-Informed Design Principles')}
             </h2>
             <p className="text-sm sm:text-base text-[#474747] dark:text-[#D6D6D6] max-w-2xl mx-auto leading-relaxed">
-              We reject predatory algorithmic surveillance. Every interaction in Manas Suraksha is designed around survivor pacing, psychological safety, and explicit personal control.
+              {t('landing.trauma_subtitle', 'We reject predatory algorithmic surveillance. Every interaction in Manas Suraksha is designed around survivor pacing, psychological safety, and explicit personal control.')}
             </p>
           </div>
 
@@ -519,10 +523,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-[#333333] dark:text-white">
-                &ldquo;No forced disclosure.&rdquo;
+                {t('landing.principle1_title', '“No forced disclosure.”')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Survivors are never pressured to recount traumatic details. Check-ins use gentle 5-point well-being scales, and every prompt includes an unpenalized &lsquo;Skip for now&rsquo; option.
+                {t('landing.principle1_desc', 'Survivors are never pressured to recount traumatic details. Check-ins use gentle 5-point well-being scales, and every prompt includes an unpenalized ‘Skip for now’ option.')}
               </p>
             </LuxuryCard>
 
@@ -531,10 +535,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 <Sliders className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-[#333333] dark:text-white">
-                &ldquo;Survivors control what is monitored.&rdquo;
+                {t('landing.principle2_title', '“Survivors control what is monitored.”')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Survivors decide which signals are active. Optional supplementary voice features can be paused with a single toggle at any time without forfeiting access to human counselling or support.
+                {t('landing.principle2_desc', 'Survivors decide which signals are active. Optional supplementary voice features can be paused with a single toggle at any time without forfeiting access to human counselling or support.')}
               </p>
             </LuxuryCard>
 
@@ -543,10 +547,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 <Clock className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-[#333333] dark:text-white">
-                &ldquo;Survivors control interaction cadence.&rdquo;
+                {t('landing.principle3_title', '“Survivors control interaction cadence.”')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Choose weekly, bi-weekly, post-court milestone, or strictly on-demand interactions. The system adapts to the survivor&rsquo;s personal emotional rhythm.
+                {t('landing.principle3_desc', 'Choose weekly, bi-weekly, post-court milestone, or strictly on-demand interactions. The system adapts to the survivor’s personal emotional rhythm.')}
               </p>
             </LuxuryCard>
 
@@ -555,10 +559,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 <Lock className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-[#333333] dark:text-white">
-                &ldquo;Survivors control information access.&rdquo;
+                {t('landing.principle4_title', '“Survivors control information access.”')}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                Strict cryptographic separation between health and judicial data. Police officers cannot view psychological notes; welfare officers see only anonymized eligibility status.
+                {t('landing.principle4_desc', 'Strict cryptographic separation between health and judicial data. Police officers cannot view psychological notes; welfare officers see only anonymized eligibility status.')}
               </p>
             </LuxuryCard>
           </div>
@@ -568,7 +572,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
             <div className="flex items-center justify-between pb-4 border-b border-[#474747]/15 dark:border-white/10">
               <span className="text-xs font-bold text-[#333333] dark:text-white uppercase tracking-wider flex items-center gap-2">
                 <Sliders className="w-3.5 h-3.5 text-[#FD1053]" />
-                <span>Interactive Survivor Autonomy Controls</span>
+                <span>{t('landing.autonomy_controls', 'Interactive Survivor Autonomy Controls')}</span>
               </span>
               <PremiumBadge tone="live" size="sm">
                 100% Survivor Owned
@@ -578,8 +582,8 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
             <div className="mt-4 space-y-4 text-xs">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="font-semibold text-[#333333] dark:text-white block">Preferred Contact Cadence</span>
-                  <span className="text-[#6B7280] dark:text-[#A3A3A3] text-[11px]">How often you wish to receive check-in prompts</span>
+                  <span className="font-semibold text-[#333333] dark:text-white block">{t('landing.preferred_cadence', 'Preferred Contact Cadence')}</span>
+                  <span className="text-[#6B7280] dark:text-[#A3A3A3] text-[11px]">{t('landing.cadence_desc', 'How often you wish to receive check-in prompts')}</span>
                 </div>
                 <div className="flex items-center gap-1 bg-[#474747]/10 dark:bg-white/10 p-1 rounded-xl">
                   {(['weekly', 'biweekly', 'on_demand'] as const).map(freq => (
@@ -601,8 +605,8 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
 
               <div className="flex items-center justify-between pt-2 border-t border-[#474747]/15 dark:border-white/10">
                 <div>
-                  <span className="font-semibold text-[#333333] dark:text-white block">Optional Voice Distress Analysis</span>
-                  <span className="text-[#6B7280] dark:text-[#A3A3A3] text-[11px]">Zero-retention acoustic feature telemetry</span>
+                  <span className="font-semibold text-[#333333] dark:text-white block">{t('landing.optional_voice_analysis', 'Optional Voice Distress Analysis')}</span>
+                  <span className="text-[#6B7280] dark:text-[#A3A3A3] text-[11px]">{t('landing.voice_telemetry_desc', 'Zero-retention acoustic feature telemetry')}</span>
                 </div>
                 <button
                   type="button"
@@ -617,8 +621,8 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
 
               <div className="flex items-center justify-between pt-2 border-t border-[#474747]/15 dark:border-white/10">
                 <div>
-                  <span className="font-semibold text-[#333333] dark:text-white block">Authorized Counsellor Direct Alerts</span>
-                  <span className="text-[#6B7280] dark:text-[#A3A3A3] text-[11px]">Notify welfare caseworker on acute distress spikes</span>
+                  <span className="font-semibold text-[#333333] dark:text-white block">{t('landing.counsellor_alerts', 'Authorized Counsellor Direct Alerts')}</span>
+                  <span className="text-[#6B7280] dark:text-[#A3A3A3] text-[11px]">{t('landing.counsellor_alerts_desc', 'Notify welfare caseworker on acute distress spikes')}</span>
                 </div>
                 <button
                   type="button"
@@ -633,7 +637,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
 
               <div className="mt-5 pt-4 border-t border-[#474747]/15 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <span className="text-[11px] text-[#6B7280] dark:text-[#A3A3A3]">
-                  Experience the complete 7-step trauma-informed onboarding workflow.
+                  {t('landing.onboarding_prompt', 'Experience the complete 7-step trauma-informed onboarding workflow.')}
                 </span>
                 <LuxuryButton
                   size="sm"
@@ -644,7 +648,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                   }}
                   leftIcon={<Sparkles className="w-3.5 h-3.5" />}
                 >
-                  Start 7-Step Onboarding
+                  {t('landing.start_onboarding', 'Start 7-Step Onboarding')}
                 </LuxuryButton>
               </div>
             </div>
@@ -657,9 +661,9 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
           ========================================================================= */}
       <section className="max-w-6xl mx-auto px-4">
         <GlassPanel
-          title="Privacy & Security Vault"
-          subtitle="DPDPA 2023 compliance, granular consent sovereignty & cryptographic audit ledger"
-          badge={<PremiumBadge tone="live">Hardware Enclave</PremiumBadge>}
+          title={t('landing.vault_title', 'Privacy & Security Vault')}
+          subtitle={t('landing.vault_subtitle', 'DPDPA 2023 compliance, granular consent sovereignty & cryptographic audit ledger')}
+          badge={<PremiumBadge tone="live">{t('landing.vault_badge', 'Hardware Enclave')}</PremiumBadge>}
           action={
             <LuxuryButton
               size="sm"
@@ -667,7 +671,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
               onClick={() => onSelectAction('privacy')}
               rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
             >
-              Explore Privacy Vault
+              {t('landing.vault_explore', 'Explore Privacy Vault')}
             </LuxuryButton>
           }
         >
@@ -691,10 +695,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                   <FileCheck className="w-4 h-4" />
                 </div>
                 <h4 className="text-xs font-bold text-[#333333] dark:text-white uppercase tracking-wider">
-                  Consent Management
+                  {t('landing.consent_mgmt', 'Consent Management')}
                 </h4>
                 <p className="mt-1 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                  Explicit, milestone-specific, and fully revocable at any stage.
+                  {t('landing.consent_mgmt_desc', 'Explicit, milestone-specific, and fully revocable at any stage.')}
                 </p>
               </LuxuryCard>
 
@@ -703,10 +707,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                   <ShieldCheck className="w-4 h-4" />
                 </div>
                 <h4 className="text-xs font-bold text-[#333333] dark:text-white uppercase tracking-wider">
-                  Data Minimization
+                  {t('landing.data_min', 'Data Minimization')}
                 </h4>
                 <p className="mt-1 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                  Only numeric distress vectors stored. Raw voice audio zero-retention guarantee.
+                  {t('landing.data_min_desc', 'Only numeric distress vectors stored. Raw voice audio zero-retention guarantee.')}
                 </p>
               </LuxuryCard>
 
@@ -715,10 +719,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                   <Lock className="w-4 h-4" />
                 </div>
                 <h4 className="text-xs font-bold text-[#333333] dark:text-white uppercase tracking-wider">
-                  End-to-End Encryption
+                  {t('landing.e2e_crypto', 'End-to-End Encryption')}
                 </h4>
                 <p className="mt-1 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                  TLS 1.3 in transit and AES-256 at rest with field-level cryptographic tokenization.
+                  {t('landing.e2e_crypto_desc', 'TLS 1.3 in transit and AES-256 at rest with field-level cryptographic tokenization.')}
                 </p>
               </LuxuryCard>
 
@@ -727,10 +731,10 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                   <Server className="w-4 h-4" />
                 </div>
                 <h4 className="text-xs font-bold text-[#333333] dark:text-white uppercase tracking-wider">
-                  Immutable Audit Ledger
+                  {t('landing.immutable_audit', 'Immutable Audit Ledger')}
                 </h4>
                 <p className="mt-1 text-xs text-[#474747] dark:text-[#D6D6D6] leading-relaxed">
-                  Every caseworker review logged cryptographically with actor attribution.
+                  {t('landing.immutable_audit_desc', 'Every caseworker review logged cryptographically with actor attribution.')}
                 </p>
               </LuxuryCard>
             </div>
@@ -745,15 +749,15 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
         <div className="rounded-3xl glass-panel p-8 sm:p-14 lg:p-16 text-center relative overflow-hidden shadow-2xl border-[#FD1053]/25">
           <div className="relative max-w-3xl mx-auto space-y-6">
             <PremiumBadge tone="live">
-              Immediate Confidential Assistance
+              {t('landing.cta_badge', 'Immediate Confidential Assistance')}
             </PremiumBadge>
 
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#333333] dark:text-white leading-tight">
-              Support should be accessible before distress becomes a crisis.
+              {t('landing.cta_title', 'Support should be accessible before distress becomes a crisis.')}
             </h2>
 
             <p className="text-sm sm:text-base text-[#474747] dark:text-[#D6D6D6] max-w-2xl mx-auto leading-relaxed">
-              Connect with empathetic counsellors, track personal well-being milestones safely, and ensure continuous mental health care throughout the legal process.
+              {t('landing.cta_subtitle', 'Connect with empathetic counsellors, track personal well-being milestones safely, and ensure continuous mental health care throughout the legal process.')}
             </p>
 
             <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
@@ -767,7 +771,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 leftIcon={<HeartPulse className="w-4 h-4" />}
                 rightIcon={<ArrowRight className="w-4 h-4" />}
               >
-                GET SUPPORT
+                {t('landing.cta_support_btn', 'GET SUPPORT')}
               </LuxuryButton>
 
               <LuxuryButton
@@ -776,7 +780,7 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 onClick={() => setIsLoginModalOpen(true)}
                 leftIcon={<Lock className="w-4 h-4 text-[#FD1053]" />}
               >
-                SIGN IN
+                {t('landing.cta_privacy_btn', 'SIGN IN')}
               </LuxuryButton>
 
               <LuxuryButton
@@ -785,41 +789,67 @@ export function ManasSurakshaLandingPage({ onSelectAction }: ManasSurakshaLandin
                 onClick={() => setIsDemoModalOpen(true)}
                 leftIcon={<Sparkles className="w-4 h-4 text-[#FD1053]" />}
               >
-                Explore Demo Scenarios
+                {t('landing.cta_demo_btn', 'Explore Demo Scenarios')}
               </LuxuryButton>
             </div>
 
             {/* Helpline Directory Footer */}
             <div className="pt-8 border-t border-[#474747]/15 dark:border-white/10 text-xs text-[#6B7280] dark:text-[#A3A3A3]">
-              <p className="font-semibold text-[#333333] dark:text-white mb-2">Emergency & Crisis Helplines (24x7 Toll-Free):</p>
-              <div className="flex flex-wrap items-center justify-center gap-4">
+              <p className="font-semibold text-[#333333] dark:text-white mb-2">{t('landing.verified_helplines', 'Verified Official Helplines (24x7 Toll-Free):')}</p>
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
                 <button
                   type="button"
                   onClick={() => setIsEmergencyModalOpen(true)}
                   className="hover:underline flex items-center gap-1.5 font-bold text-[#FD1053] cursor-pointer"
+                  title="Police / Fire / Ambulance (Ministry of Home Affairs)"
                 >
                   <PhoneCall className="w-3.5 h-3.5 fill-[#FD1053]" />
-                  <span>NHAA Toll-Free: 14566</span>
+                  <span>{t('landing.cta_emergency', 'Pan-India Emergency: 112')}</span>
                 </button>
                 <span>·</span>
                 <button
                   type="button"
                   onClick={() => setIsEmergencyModalOpen(true)}
-                  className="hover:underline flex items-center gap-1.5 font-bold text-[#333333] dark:text-white cursor-pointer"
+                  className="hover:underline flex items-center gap-1.5 font-bold text-[#FD1053] cursor-pointer"
+                  title="National Helpline Against Atrocities under SC/ST PoA Act (MoSJE)"
+                >
+                  <PhoneCall className="w-3.5 h-3.5 fill-[#FD1053]" />
+                  <span>{t('landing.cta_national', 'NHAA Atrocities: 14566')}</span>
+                </button>
+                <span>·</span>
+                <button
+                  type="button"
+                  onClick={() => setIsEmergencyModalOpen(true)}
+                  className="hover:underline flex items-center gap-1.5 font-semibold text-[#333333] dark:text-white cursor-pointer"
+                  title="Mental Health Crisis Tele-Counselling (MoHFW)"
                 >
                   <PhoneCall className="w-3.5 h-3.5" />
-                  <span>Tele-MANAS: 14416</span>
+                  <span>{t('landing.cta_telemanas', 'Tele-MANAS: 14416')}</span>
                 </button>
                 <span>·</span>
                 <button
                   type="button"
                   onClick={() => setIsEmergencyModalOpen(true)}
-                  className="hover:underline flex items-center gap-1.5 font-bold text-[#FD1053] cursor-pointer"
+                  className="hover:underline flex items-center gap-1.5 font-semibold text-[#333333] dark:text-white cursor-pointer"
+                  title="Women in Distress Helpline (MWCD)"
                 >
-                  <PhoneCall className="w-3.5 h-3.5 fill-[#FD1053]" />
-                  <span>National Emergency: 112</span>
+                  <PhoneCall className="w-3.5 h-3.5" />
+                  <span>{t('landing.cta_women', 'Women Helpline: 181')}</span>
+                </button>
+                <span>·</span>
+                <button
+                  type="button"
+                  onClick={() => setIsEmergencyModalOpen(true)}
+                  className="hover:underline flex items-center gap-1.5 font-semibold text-[#333333] dark:text-white cursor-pointer"
+                  title="Free Legal Services Support (National Legal Services Authority)"
+                >
+                  <PhoneCall className="w-3.5 h-3.5" />
+                  <span>{t('landing.cta_nalsa', 'NALSA Legal Aid: 15100')}</span>
                 </button>
               </div>
+              <p className="mt-3 text-[11px] text-[#6B7280] dark:text-[#A3A3A3]">
+                {t('landing.quick_exit_disclaimer', 'Quick Exit protects screen privacy; it is not a substitute for emergency services. In immediate physical danger, always dial 112.')}
+              </p>
             </div>
           </div>
         </div>

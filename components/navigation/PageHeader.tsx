@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { NotificationDropdown } from '@/components/NotificationDropdown';
 import { AccessibilitySettingsModal } from '@/components/AccessibilitySettingsModal';
+import { useTranslation } from '@/hooks/use-i18n';
 
 interface PageHeaderProps {
   currentView: string;
@@ -102,6 +103,7 @@ export function PageHeader({ currentView, onNavigate, onSelectCase }: PageHeader
     setIsReportModalOpen,
   } = useApp();
 
+  const { t } = useTranslation();
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [isA11yModalOpen, setIsA11yModalOpen] = useState(false);
@@ -110,20 +112,21 @@ export function PageHeader({ currentView, onNavigate, onSelectCase }: PageHeader
   const currentLangObj = SUPPORTED_LANGUAGES.find(l => l.code === language) || SUPPORTED_LANGUAGES[0];
 
   const viewMeta = VIEW_TITLES[currentView] || VIEW_TITLES.dashboard;
+  const translatedTitle = t(`page_titles.${currentView}`, viewMeta.title);
 
   return (
     <header className="sticky top-0 z-20 w-full glass-header transition-colors select-none">
       {/* Premium Synthetic Data Notice Bar */}
-      <div className="bg-[#333333]/5 dark:bg-[#1E1E1E]/80 text-[#333333] dark:text-[#D6D6D6] px-4 py-1.5 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-[#474747]/15 dark:border-white/10">
+      <div className="bg-[#333333]/5 dark:bg-[#1E1E1E]/80 text-[#333333] dark:text-[#D6D6D6] px-4 py-1.5 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-[#D9D9DE] dark:border-white/10">
         <div className="flex items-center gap-2">
           <span className="px-2 py-0.5 rounded-full bg-[#FD1053]/15 text-[#FD1053] border border-[#FD1053]/35 font-bold uppercase tracking-wider text-[9px] shadow-[0_0_8px_rgba(253,16,83,0.15)]">
-            DEMO / SYNTHETIC DATA
+            {t('landing.demo_notice', 'DEMO / SYNTHETIC DATA')}
           </span>
           <span className="font-semibold text-xs text-[#333333] dark:text-white">
-            Never enter real survivor PII.
+            {t('landing.demo_warning', 'Never enter real survivor PII.')}
           </span>
           <span className="text-[#6B7280] dark:text-[#A3A3A3] hidden xl:inline font-normal text-[11px]">
-            SC/ST PoA Act §15A & DPDPA 2023 compliant architecture with zero-retention raw audio guarantee.
+            {t('landing.demo_statutory', 'SC/ST PoA Act §15A & DPDPA 2023 compliant architecture with zero-retention raw audio guarantee.')}
           </span>
         </div>
 
@@ -134,7 +137,7 @@ export function PageHeader({ currentView, onNavigate, onSelectCase }: PageHeader
             className="flex items-center gap-1.5 text-[#474747] hover:text-[#FD1053] dark:text-[#D6D6D6] dark:hover:text-[#FD1053] font-medium transition cursor-pointer"
           >
             <FileSpreadsheet className="w-3.5 h-3.5" />
-            <span>Generate PDF Audit Report</span>
+            <span>{t('landing.audit_report', 'Generate PDF Audit Report')}</span>
           </button>
         </div>
       </div>
@@ -145,13 +148,13 @@ export function PageHeader({ currentView, onNavigate, onSelectCase }: PageHeader
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-xs text-[#6B7280] dark:text-[#A3A3A3]">
             <span className="font-semibold text-[#FD1053]">
-              {viewMeta.category}
+              {t(`category.${currentView}`, viewMeta.category)}
             </span>
             <span>/</span>
-            <span className="truncate">{viewMeta.title}</span>
+            <span className="truncate">{translatedTitle}</span>
           </div>
-          <h1 className="text-base sm:text-lg font-bold text-[#333333] dark:text-white tracking-tight truncate">
-            {viewMeta.title}
+          <h1 className="text-base sm:text-lg font-bold text-[#151515] dark:text-white tracking-tight truncate">
+            {translatedTitle}
           </h1>
         </div>
 
@@ -161,37 +164,37 @@ export function PageHeader({ currentView, onNavigate, onSelectCase }: PageHeader
           <button
             type="button"
             onClick={() => setIsCommandPaletteOpen(true)}
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs text-[#333333] dark:text-[#D6D6D6] bg-[#474747]/8 hover:bg-[#474747]/15 dark:bg-white/5 dark:hover:bg-white/10 rounded-xl border border-[#474747]/20 dark:border-white/10 transition cursor-pointer"
-            title="Search cases, survivor IDs, metrics"
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs text-[#333333] dark:text-[#D6D6D6] bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 rounded-xl border border-black/10 dark:border-white/10 transition cursor-pointer"
+            title="Search cases, survivor IDs, metrics (⌘K)"
           >
             <Search className="w-3.5 h-3.5 text-[#FD1053]" />
-            <span className="font-medium hidden md:inline">Search cases...</span>
-            <kbd className="font-mono text-[10px] bg-white dark:bg-[#151515] px-1.5 py-0.5 rounded border border-[#474747]/20 dark:border-white/15 text-[#6B7280] dark:text-[#A3A3A3] font-semibold">
+            <span className="font-medium hidden md:inline">{t('landing.search_placeholder', 'Search cases...')}</span>
+            <kbd className="font-mono text-[10px] bg-white dark:bg-[#151515] px-1.5 py-0.5 rounded border border-[#D9D9DE] dark:border-white/15 text-[#6B7280] dark:text-[#A3A3A3] font-semibold">
               ⌘K
             </kbd>
           </button>
 
-          {/* Trauma Voice Assistant Trigger */}
+          {/* Familiar Voice Comfort Trigger */}
           <button
             type="button"
             onClick={() => setIsVoiceAssistantOpen(true)}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#FD1053] bg-[#FD1053]/10 border border-[#FD1053]/25 rounded-xl hover:bg-[#FD1053]/15 transition cursor-pointer shadow-[0_0_10px_rgba(253,16,83,0.1)]"
-            title="Open Trauma-Informed Voice Assistant"
+            title="Open Familiar Voice Comfort & Grounding Assistant"
           >
             <Mic className="w-3.5 h-3.5 text-[#FD1053]" />
-            <span className="hidden lg:inline">Trauma Voice</span>
+            <span className="hidden lg:inline">{t('landing.voice_comfort', 'Voice Comfort')}</span>
           </button>
 
-          {/* 24/7 National Emergency (112) Helpline Button */}
+          {/* Helplines: Emergency 112 & NHAA Atrocities 14566 Button */}
           <button
             type="button"
             onClick={() => setIsEmergencyModalOpen(true)}
             className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-[#FD1053] hover:bg-[#e00b46] rounded-xl shadow-[0_2px_10px_rgba(253,16,83,0.35)] transition cursor-pointer"
-            title="Emergency 24/7 Police & Mental Health Helpline"
+            title="Helplines: Emergency (112) | NHAA Atrocities (14566) | Tele-MANAS (14416)"
           >
             <PhoneCall className="w-3.5 h-3.5 fill-white" />
-            <span className="hidden sm:inline">24/7 Helpline: 112</span>
-            <span className="sm:hidden">112</span>
+            <span className="hidden sm:inline">{t('landing.helplines_btn', 'Helplines: 112 / 14566')}</span>
+            <span className="sm:hidden">112 / 14566</span>
           </button>
 
           {/* Language Selector Dropdown */}
@@ -199,7 +202,7 @@ export function PageHeader({ currentView, onNavigate, onSelectCase }: PageHeader
             <button
               type="button"
               onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-xl border border-[#474747]/20 dark:border-white/10 bg-white/70 dark:bg-white/5 text-[#333333] dark:text-white hover:bg-white dark:hover:bg-white/10 transition cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 text-[#333333] dark:text-white hover:bg-neutral-100 dark:hover:bg-white/10 transition cursor-pointer shadow-xs"
               aria-label="Change Language"
             >
               <Globe2 className="w-3.5 h-3.5 text-[#6B7280] dark:text-[#A3A3A3]" />
@@ -209,7 +212,7 @@ export function PageHeader({ currentView, onNavigate, onSelectCase }: PageHeader
             </button>
 
             {isLangMenuOpen && (
-              <div className="absolute right-0 mt-1.5 w-48 rounded-xl border border-[#474747]/20 dark:border-white/15 bg-white dark:bg-[#1E1E1E] shadow-2xl z-50 p-1.5 max-h-60 overflow-y-auto">
+              <div className="absolute right-0 mt-1.5 w-52 rounded-xl border border-[#D9D9DE] dark:border-white/15 bg-white dark:bg-[#1E1E1E] shadow-2xl z-50 p-1.5 max-h-72 overflow-y-auto">
                 <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6B7280] dark:text-[#A3A3A3]">
                   Select Official Language
                 </div>

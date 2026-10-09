@@ -99,7 +99,7 @@ const STORAGE_KEY = 'aasra_app_state_v1';
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [role, setRoleState] = useState<UserRole>('victim');
   const [language, setLanguage] = useState<SupportedLanguage>('en');
-  const [theme, setThemeState] = useState<'light' | 'dark' | 'system'>('light');
+  const [theme, setThemeState] = useState<'light' | 'dark' | 'system'>('dark');
   const [fontSize, setFontSize] = useState<FontSizeOption>('normal');
   const [cases, setCases] = useState<CaseRecord[]>(INITIAL_CASES);
   const [alerts, setAlerts] = useState<RiskAlert[]>(INITIAL_ALERTS);
@@ -139,6 +139,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const handle = requestAnimationFrame(() => {
       try {
         const explicitTheme = localStorage.getItem('manas-suraksha-theme');
+        const explicitLang = localStorage.getItem('manas-suraksha-lang');
         const saved = localStorage.getItem(STORAGE_KEY);
         let parsed: any = null;
         if (saved) {
@@ -151,14 +152,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           setThemeState(explicitTheme);
         } else if (parsed?.theme) {
           setThemeState(parsed.theme);
-        } else if (typeof window !== 'undefined' && window.matchMedia) {
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          setThemeState(prefersDark ? 'dark' : 'light');
+        } else {
+          // Dark mode is the default for first-time visitors and new sessions
+          setThemeState('dark');
+        }
+
+        if (explicitLang) {
+          setLanguage(explicitLang as SupportedLanguage);
         }
 
         if (parsed) {
           if (parsed.role) setRoleState(parsed.role);
-          if (parsed.language) setLanguage(parsed.language);
+          if (!explicitLang && parsed.language) setLanguage(parsed.language);
           if (parsed.fontSize) setFontSize(parsed.fontSize);
           if (parsed.cases && Array.isArray(parsed.cases)) setCases(parsed.cases);
           if (parsed.alerts && Array.isArray(parsed.alerts)) setAlerts(parsed.alerts);
@@ -183,6 +188,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!isClientHydrated) return;
     try {
       localStorage.setItem('manas-suraksha-theme', theme === 'dark' ? 'dark' : 'light');
+      localStorage.setItem('manas-suraksha-lang', language);
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({

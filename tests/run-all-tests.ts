@@ -19,6 +19,7 @@ import { runNotificationSystemTests } from './notification-system.test';
 import { runUiUxRefinementTests } from './ui-ux-refinement.test';
 import { runDemonstrationModeTests } from './demonstration-mode.test';
 import { runFullSystemFlowTests } from './full-system-flow.test';
+import { runManasSurakshaCoreUpgradeTests } from './manas-suraksha-core-upgrades.test';
 
 export async function runAllAppletTests() {
   console.log('================================================================');
@@ -40,6 +41,7 @@ export async function runAllAppletTests() {
   runUiUxRefinementTests();
   runDemonstrationModeTests();
   await runFullSystemFlowTests();
+  runManasSurakshaCoreUpgradeTests();
 
   const allSuites = [unitResults, securityResults];
   let totalPassed = 0;

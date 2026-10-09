@@ -1,0 +1,71 @@
+{
+  "locale": "brx",
+  "direction": "ltr",
+  "name": "Bodo",
+  "nativeName": "बर’ राव",
+  "nav": {
+    "home": "न’",
+    "distress_score": "गिखांनायनि दिन्थिसिन",
+    "predictive_risk": "सिगांनि सुजुनाय",
+    "channels": "गुबुन गुबुन राह",
+    "checkin_wizard": "सानफ्रोमनि खौरां",
+    "support": "मदद आरो काउन्सिलर",
+    "privacy": "सिरिथि आरो रैखाथि",
+    "about": "प्लेटफर्मनि सोमोन्दै",
+    "counsellor_workspace": "काउन्सिलरनि हाबासालि",
+    "alert_center": "सांग्रांथि मिरु",
+    "prioritization": "फारिलाइ",
+    "administrative_map": "प्रसासनिक मेप",
+    "ai_models": "AI & ML मिरु",
+    "switch_language": "राव सोलाय"
+  },
+  "checkin": {
+    "title": "दिनै नोंथाङा माबोरै मोनदों?",
+    "subtitle": "नोंथांनि फिन्नाया सिरियै थागोन आरो काउन्सिलरनो मदद खालामनो थाखाय बाहायगोन।",
+    "calm": "शान्ति",
+    "okay": "मोजां / मोजाङैनो",
+    "worried": "गिखांनाय",
+    "overwhelmed": "जोबोद खस्थ",
+    "very_distressed": "गंसे आथिखालाव",
+    "step1_question": "बावहाय नोंथांनि गोसोआ माबोरै मोनदोंमोन?",
+    "step2_question": "नोंथांनि जायगायाव नोंथाङा बेसेबां रैखाथि मोनदों?",
+    "step3_question": "नोंथांनि उन्दुनाय आरो जिरायनाया माबोरै जादों?",
+    "step4_question": "नोंथाङा गोसोआव गिनाय मोनदों नामा?",
+    "step5_question": "नोंथाङा काउन्सिलरजों हरखाब रायलायनो सानो नामा?",
+    "speak_prompt": "रावजों फिन्नाय हो",
+    "read_aloud_prompt": "सोंनायखौ खोनासं",
+    "optional_note": "गुबुन खौरां फोरमायनो सानो नामा (गावनो बाहाय)",
+    "submit_checkin": "होगार",
+    "thank_you_title": "खौरां हरनायनि थाखाय साबायखर",
+    "thank_you_message": "नोंथांनि फिन्नाया सिरियै साबसिनै दोनथुमबाय।"
+  },
+  "alerts": {
+    "information": "खौरां",
+    "attention_required": "गोसो होनांगौ",
+    "urgent_review": "हरखाब नायदिं",
+    "critical_review": "गाहाय नायदिं",
+    "human_review_notice": "AI सिग्नोल — सुबुंनि नायदिंनाया गोनांथार।",
+    "acknowledge": "मानिना ला",
+    "assign": "बिबान हो",
+    "escalate": "गोजौ थाखोआव हर",
+    "resolve": "सामलाय",
+    "add_note": "लिरसन"
+  },
+  "a11y": {
+    "skip_to_content": "गाहाय बाथ्रायाव थां",
+    "select_language": "राव सायख’",
+    "close_dialog": "बन्द खालाम",
+    "toggle_menu": "मेनु खुलि/बन्द",
+    "distress_chart_description": "गोसोनि महरनि चार्ट",
+    "emergency_quick_exit": "हरखाब ओंखारलांनाय",
+    "increase_text_size": "हाखौ गेदेर खालाम",
+    "decrease_text_size": "हाखौ फिसा खालाम"
+  },
+  "common": {
+    "app_title": "मानास सुरक्षा",
+    "app_subtitle": "गोसोनि सावस्रि रैखाथि आरो मदद राहा",
+    "legal_notice": "SC/ST PoA Act सेक्सन 15A नि सिङाव मदद। देहा फाहामनाय नङा।",
+    "privacy_guarantee": "DPDPA 2023 नि सिङाव रैखाथि दं",
+    "emergency_helpline": "24/7 Helpline: 112 | Tele-MANAS: 14416 | NHAA: 14566"
+  }
+}

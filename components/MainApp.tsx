@@ -16,7 +16,7 @@ import { PrivacyCenter } from '@/components/PrivacyCenter';
 import { AiModelEvaluationHub } from '@/components/AiModelEvaluationHub';
 import { CaseProfileModal } from '@/components/CaseProfileModal';
 import { EmergencyModal } from '@/components/EmergencyModal';
-import { MultilingualVoiceModal } from '@/components/MultilingualVoiceModal';
+import { FamiliarVoiceComfortModal } from '@/components/FamiliarVoiceComfortModal';
 import { ReportModal } from '@/components/ReportModal';
 import { GuidedDemoModal } from '@/components/GuidedDemoModal';
 import { CommandPalette } from '@/components/CommandPalette';
@@ -297,7 +297,7 @@ export function MainApp() {
                 onClick={() => setIsEmergencyModalOpen(true)}
                 className="text-[#FD1053] hover:underline font-bold"
               >
-                24/7 National Emergency (112)
+                Emergency: 112 | NHAA Atrocities: 14566 | Tele-MANAS: 14416
               </button>
             </div>
           </div>
@@ -319,7 +319,7 @@ export function MainApp() {
       )}
 
       {isVoiceAssistantOpen && (
-        <MultilingualVoiceModal onClose={() => setIsVoiceAssistantOpen(false)} />
+        <FamiliarVoiceComfortModal onClose={() => setIsVoiceAssistantOpen(false)} />
       )}
 
       {isReportModalOpen && (

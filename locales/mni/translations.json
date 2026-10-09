@@ -1,0 +1,71 @@
+{
+  "locale": "mni",
+  "direction": "ltr",
+  "name": "Manipuri",
+  "nativeName": "মৈতৈলোন্",
+  "nav": {
+    "home": "য়ুম্ফম",
+    "distress_score": "ৱাখলগী অৱাবা মশক",
+    "predictive_risk": "মাংজৌননা খঙদোকপা",
+    "channels": "তোঙান-তোঙানবা চেনেলশিং",
+    "checkin_wizard": "নোংমগী ৱাফম",
+    "support": "তেংবাং অমসুং কাউন্সেলর",
+    "privacy": "লোন্নবা অমসুং শাফবা",
+    "about": "প্লেটফোর্মগী মরমদা",
+    "counsellor_workspace": "কাউন্সেলর থবক মফম",
+    "alert_center": "চেকশিন থৌরাং কেন্দ্র",
+    "prioritization": "হান্না লৌগদবা কাংলুপ",
+    "administrative_map": "লৈঙাক্কী মেপ",
+    "ai_models": "AI & ML হব",
+    "switch_language": "লোন ওনথোকপা"
+  },
+  "checkin": {
+    "title": "ঙসি অদোম করম তৌরি?",
+    "subtitle": "অদোমগী পাউখুমশিং অসি লোন্নবা অমসুং কাউন্সেলরনা মতম চানা তেংবাংনবগীদমকনি।",
+    "calm": "শান্তি ওইবা",
+    "okay": "অফবা / ফৈ",
+    "worried": "ৱাবা",
+    "overwhelmed": "ৱাখল তুকাতচবা",
+    "very_distressed": "য়াম্না অৱাবা তারবা",
+    "step1_question": "হৌখিবা নুমিৎ খরনি অসিদা অদোমগী ৱাখল করম তৌরি?",
+    "step2_question": "হৌজিক লৈরিবা মফম অসিদা অদোম করম্না শাফবা ফাওরি?",
+    "step3_question": "হন্দক্তা অদোমগী তুম্বা অমসুং পোথাবা করম তৌরি?",
+    "step4_question": "অদোম মতমগা চপ মান্নদনা কিবা নত্রগা ৱাবা ফাওব্রা?",
+    "step5_question": "অদোমগী কাউন্সেলরগা থুনা ৱারী শাবা পাম্ব্রা?",
+    "speak_prompt": "খোন্থোক্না পাউখুম পিয়ু",
+    "read_aloud_prompt": "ৱাহং অসি তাশিনবিয়ু",
+    "optional_note": "তেংবাংলুপকা অতোপ্পা ৱাফম শেয়ার তৌবা পাম্ব্রা (ঐচ্ছিক)",
+    "submit_checkin": "পাউখুম থাগৎলু",
+    "thank_you_title": "পাউ পীবগীদমক থাগৎচরি",
+    "thank_you_message": "অদোমগী পাউখুমশিং অসি লোন্ননা শাফনা থম্লে।"
+  },
+  "alerts": {
+    "information": "পাউ",
+    "attention_required": "মিৎয়েং চংবা মথৌ তাই",
+    "urgent_review": "থুনা য়েংশিনবা",
+    "critical_review": "য়াম্না মরুওইবা য়েংশিনবা",
+    "human_review_notice": "AI গাইড — মীওইবগী মিৎয়েং চংদনা থবক পায়খৎলোইদবনি।",
+    "acknowledge": "য়ানবা",
+    "assign": "দায়িত্ব শীন্নবা",
+    "escalate": "মথক্কী ওফিসারদা পুখৎপা",
+    "resolve": "লোইশিনবা",
+    "add_note": "নোট হাপচিনবা"
+  },
+  "a11y": {
+    "skip_to_content": "মরুওইবা মফমদা চৎলু",
+    "select_language": "লোন খল্লু",
+    "close_dialog": "থিংজিনলু",
+    "toggle_menu": "মেনু হাংদোক/থিংজিন",
+    "distress_chart_description": "ৱাখলগী অৱাবা মশক চার্ট",
+    "emergency_quick_exit": "থুনা থোকপা",
+    "increase_text_size": "ময়েক চাউথোকহনবা",
+    "decrease_text_size": "ময়েক পিকথোকহনবা"
+  },
+  "common": {
+    "app_title": "মানস সুরক্ষা",
+    "app_subtitle": "ৱাখলগী হকশেল য়েংশিনবা অমসুং শাফনা থম্বগী সিস্তেম",
+    "legal_notice": "SC/ST PoA Act সেকশন 15A গী মখাদা তেংবাং। লাইয়েং নত্তে।",
+    "privacy_guarantee": "DPDPA 2023 গী মখাদা শাফনা থম্লি",
+    "emergency_helpline": "24/7 Helpline: 112 | Tele-MANAS: 14416 | NHAA: 14566"
+  }
+}
